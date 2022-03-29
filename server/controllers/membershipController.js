@@ -11,6 +11,19 @@ const getAllMemberships = async (req, res) => {
   res.status(StatusCodes.OK).json({ data: memberships });
 };
 
+const getProjectMemberships = async (req, res) => {
+  const { userId } = req.user;
+  const { projectId } = req.params;
+
+  const memberships = await Membership.find({ project: projectId });
+  const isUserProject = memberships.some((m) => m.user.toString() === userId);
+  if (!isUserProject) {
+    throw new Error("Invalid Credentials");
+  }
+
+  res.status(StatusCodes.OK).json({ data: memberships });
+};
+
 const getSingleMembership = async (req, res) => {
   const { userId } = req.user;
   const { id: membershipId } = req.params;
@@ -28,14 +41,9 @@ const getSingleMembership = async (req, res) => {
 };
 
 const createMembership = async (req, res) => {
-  const {
-    overallPoint,
-    desiredReward,
-    upperBoundary,
-    lowerBoundary,
-    userId,
-    projectId,
-  } = req.body;
+  const { projectId } = req.params;
+  const { overallPoint, desiredReward, upperBoundary, lowerBoundary, userId } =
+    req.body;
 
   // check for valid user
   const targetUser = await User.findOne({ _id: userId });
@@ -106,6 +114,7 @@ const deleteMembership = async (req, res) => {
 module.exports = {
   getAllMemberships,
   getSingleMembership,
+  getProjectMemberships,
   createMembership,
   updateMembership,
   deleteMembership,

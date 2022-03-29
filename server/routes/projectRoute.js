@@ -8,6 +8,11 @@ const {
   deleteProject,
 } = require("../controllers/projectController");
 
+const {
+  createMembership,
+  getProjectMemberships,
+} = require("../controllers/membershipController");
+
 const authenticateUser = require("../middleware/authentication");
 
 // TODO: search
@@ -17,5 +22,9 @@ router
   .get(authenticateUser, getSingleProject)
   .patch(authenticateUser, updateProject)
   .delete(authenticateUser, deleteProject);
+router
+  .route("/:projectId/memberships")
+  .get(authenticateUser, getProjectMemberships)
+  .post(authenticateUser, createMembership);
 
 module.exports = router;

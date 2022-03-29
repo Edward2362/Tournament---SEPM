@@ -21,7 +21,6 @@ const ProjectSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-// TODO: pre .remove
 ProjectSchema.pre("remove", async function () {
   await this.model("Membership").deleteMany({ project: this._id });
 });

@@ -6,7 +6,7 @@ const {
   createMembership,
   updateMembership,
   deleteMembership,
-} = require("../controllers/projectController");
+} = require("../controllers/membershipController");
 
 const authenticateUser = require("../middleware/authentication");
 
