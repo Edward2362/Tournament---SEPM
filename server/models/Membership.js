@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const MemberSchema = mongoose.Schema(
+const MembershipSchema = mongoose.Schema(
   {
     overallPoint: {
       type: Number,
@@ -18,6 +18,11 @@ const MemberSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    role: {
+      type: String,
+      enum: ["admin", "member"],
+      default: "member",
+    },
     user: {
       type: mongoose.Types.ObjectId,
       ref: "User",
@@ -34,4 +39,4 @@ const MemberSchema = mongoose.Schema(
 
 // TODO: pre .remove
 
-module.exports = mongoose.model("Member", MemberSchema);
+module.exports = mongoose.model("Membership", MembershipSchema);

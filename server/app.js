@@ -14,6 +14,7 @@ const morgan = require("morgan");
 // routers
 const authRouter = require("./routes/authRoute");
 const userRouter = require("./routes/userRoute");
+const projectRouter = require("./routes/projectRoute");
 
 // not found and errors
 const notFound = require("./middleware/notFound");
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/projects", projectRouter);
 
 app.use(notFound);
 // TODO: handle status code
