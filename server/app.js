@@ -8,14 +8,19 @@ const mongoose = require("mongoose");
 
 // middleware
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const morgan = require("morgan");
 
 // routers
 const authRouter = require("./routes/authRoute");
+const userRouter = require("./routes/userRoute");
 
 // not found and errors
 const notFound = require("./middleware/notFound");
 const errorHandler = require("./middleware/errorHandler");
 
+app.use(morgan("tiny"));
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 
@@ -24,8 +29,10 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/users", userRouter);
 
 app.use(notFound);
+// TODO: handle status code
 app.use(errorHandler);
 
 // start server

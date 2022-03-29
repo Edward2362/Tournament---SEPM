@@ -1,6 +1,15 @@
 const jwt = require("jsonwebtoken");
 const dayjs = require("dayjs");
 
+const createTokenPayload = (user) => {
+  return {
+    userId: user._id,
+    username: user.username,
+    email: user.email,
+    role: user.role,
+  };
+};
+
 const createToken = (user) => {
   const token = jwt.sign(user, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_LIFETIME,
@@ -8,7 +17,9 @@ const createToken = (user) => {
   return token;
 };
 
-const validateToken = (token) => jwt.verify(token, process.env.JWT_SECRET);
+const validateToken = (token) => {
+  return jwt.verify(token, process.env.JWT_SECRET);
+};
 
 const responseWithToken = (res, user) => {
   const token = createToken(user);
@@ -25,4 +36,5 @@ module.exports = {
   createToken,
   validateToken,
   responseWithToken,
+  createTokenPayload,
 };

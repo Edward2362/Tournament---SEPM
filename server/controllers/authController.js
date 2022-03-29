@@ -2,10 +2,10 @@ const { StatusCodes } = require("http-status-codes");
 
 const User = require("../models/User");
 const validatePassword = require("../utils/validatePassword");
-const { responseWithToken } = require("../utils/jwt");
+const { responseWithToken, createTokenPayload } = require("../utils/jwt");
 
 const register = async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { username, email, password } = req.body;
 
   // check if email is duplicated
   const isEmailDuplicated = await User.findOne({ email });
@@ -13,21 +13,20 @@ const register = async (req, res) => {
     throw new Error("Email already exists");
   }
 
-  // automatically assign admin for the first account
-  // anyone has access to the database can change this later
+  // if this is the first account, make it an admin
   const isFirstAccount = (await User.countDocuments({})) === 0;
   const role = isFirstAccount ? "admin" : "user";
 
+  // create user
   const user = await User.create({
-    firstName,
-    lastName,
+    username,
     email,
     password,
     role,
   });
 
   // add cookies to response
-  const tokenUser = { firstName, lastName, email, role };
+  const tokenUser = createTokenPayload(user);
   responseWithToken(res, tokenUser);
 
   res.status(StatusCodes.CREATED).json({ data: tokenUser });
@@ -53,16 +52,11 @@ const login = async (req, res) => {
     toValidate: password,
   });
   if (!isPasswordMatch) {
-    throw new Error("Invalid Credentials Pass");
+    throw new Error("Invalid Credentials");
   }
 
   // add cookies to response
-  const tokenUser = {
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    role: user.role,
-  };
+  const tokenUser = createTokenPayload(user);
   responseWithToken(res, tokenUser);
 
   res.status(StatusCodes.OK).json({ data: tokenUser });
