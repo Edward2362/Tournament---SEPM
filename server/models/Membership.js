@@ -8,7 +8,8 @@ const MembershipSchema = mongoose.Schema(
     },
     desiredReward: {
       type: String,
-      default: "Air and happiness",
+      maxlength: [100, "Cannot be longer than 100 characters"],
+      default: "",
     },
     upperBoundary: {
       type: Number,

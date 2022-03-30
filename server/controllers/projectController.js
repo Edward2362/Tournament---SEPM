@@ -5,7 +5,7 @@ const Project = require("../models/Project");
 const Membership = require("../models/Membership");
 const generateSearchQuery = require("../utils/generateSearchQuery");
 
-const getAllProjects = async (req, res) => {
+const getUserProjects = async (req, res) => {
   const { userId } = req.user;
   const { name, sort, fields, page, limit } = req.query;
 
@@ -126,7 +126,7 @@ const deleteProject = async (req, res) => {
 };
 
 module.exports = {
-  getAllProjects,
+  getUserProjects,
   getSingleProject,
   createProject,
   updateProject,

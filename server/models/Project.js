@@ -8,6 +8,7 @@ const ProjectSchema = mongoose.Schema(
       required: [true, "Please provide name"],
       minLength: [4, "Name cannot be shorter than 4 characters"],
       maxLength: [50, "Name cannot be longer than 50 characters"],
+      trim: true,
     },
     trelloBoardId: {
       type: String,

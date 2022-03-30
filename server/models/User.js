@@ -8,6 +8,8 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide username"],
       minlength: [4, "Name cannot be shorter than 4 characters"],
+      maxlength: [50, "Name cannot be longer than 50 characters"],
+      trim: true,
     },
     email: {
       type: String,
@@ -22,10 +24,20 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide password"],
       minlength: [8, "Password cannot be shorter than 8 characters"],
+      maxlength: [64, "Password cannot be longer than 64 characters"],
     },
-    avatar: String,
-    trelloToken: String,
-    trelloId: String,
+    avatar: {
+      type: String,
+      default: "",
+    },
+    trelloToken: {
+      type: String,
+      default: "",
+    },
+    trelloId: {
+      type: String,
+      default: "",
+    },
     role: {
       type: String,
       enum: ["admin", "user"],

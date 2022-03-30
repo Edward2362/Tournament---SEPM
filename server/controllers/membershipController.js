@@ -4,7 +4,7 @@ const User = require("../models/User");
 const Project = require("../models/Project");
 const Membership = require("../models/Membership");
 
-const getAllMemberships = async (req, res) => {
+const getUserMemberships = async (req, res) => {
   const { userId } = req.user;
 
   const memberships = await Membership.find({ user: userId });
@@ -112,7 +112,7 @@ const deleteMembership = async (req, res) => {
 };
 
 module.exports = {
-  getAllMemberships,
+  getUserMemberships,
   getSingleMembership,
   getProjectMemberships,
   createMembership,

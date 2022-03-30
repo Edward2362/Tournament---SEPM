@@ -6,7 +6,16 @@ const { responseWithToken, createTokenPayload } = require("../utils/jwt");
 const validatePassword = require("../utils/validatePassword");
 
 const getAllUsers = async (req, res) => {
-  const users = await User.find({}).select("-password -role");
+  const role = req?.user?.role;
+
+  let users = User.find({});
+
+  if (role !== "admin") {
+    users = users.select("-password -role -trelloToken -trelloId");
+  }
+
+  users = await users;
+
   res.status(StatusCodes.OK).json({ data: users });
 };
 
