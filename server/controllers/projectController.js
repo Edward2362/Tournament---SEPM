@@ -3,43 +3,29 @@ const { StatusCodes } = require("http-status-codes");
 
 const Project = require("../models/Project");
 const Membership = require("../models/Membership");
+const generateSearchQuery = require("../utils/generateSearchQuery");
 
 const getAllProjects = async (req, res) => {
   const { userId } = req.user;
-  const { name, sort, fields, page: pageQuery, limit: limitQuery } = req.query;
+  const { name, sort, fields, page, limit } = req.query;
 
   const memberships = await Membership.find({ user: userId }).select("project");
   const membershipIDs = memberships.map((m) => m.project);
 
   const queryObject = { _id: { $in: membershipIDs } };
 
-  if (name) {
-    queryObject.name = { $regex: name, $options: "i" };
-  }
+  const result = generateSearchQuery({
+    queryObject,
+    model: Project,
+    objectAttributes: [{ name: "name", type: "regex", value: name }],
+    sort,
+    fields,
+    page,
+    limit,
+    sortDefault: "-lastAccessed",
+  });
 
-  let projects = Project.find(queryObject);
-
-  if (sort) {
-    const sortList = sort.split(",").join(" ");
-    projects = projects.sort(sortList);
-  } else {
-    projects = projects.sort("-lastAccessed");
-  }
-
-  if (fields) {
-    const fieldList = fields.split(",").join(" ");
-    projects = projects.select(fieldList);
-  }
-
-  // default on first page
-  const page = parseInt(pageQuery) || 1;
-  // default 10 items each page
-  const limit = parseInt(limitQuery) || 10;
-  const skip = (page - 1) * limit;
-
-  projects = projects.skip(skip).limit(limit);
-
-  projects = await projects;
+  const projects = await result;
 
   res.status(StatusCodes.OK).json({ data: projects });
 };
@@ -58,7 +44,6 @@ const getSingleProject = async (req, res) => {
   const membership = await Membership.findOne({
     project: projectId,
     user: userId,
-    role: "admin",
   });
   if (!membership) {
     throw new Error("Invalid Credentials");

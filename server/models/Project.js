@@ -13,6 +13,7 @@ const ProjectSchema = mongoose.Schema(
       type: String,
       required: [true, "Please provide the ID of your trello board"],
     },
+    // TODO: redesign in membership
     lastAccessed: {
       type: Date,
       default: dayjs().toDate(),
