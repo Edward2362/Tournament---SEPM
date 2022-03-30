@@ -1,3 +1,4 @@
+const dayjs = require("dayjs");
 const { StatusCodes } = require("http-status-codes");
 
 const User = require("../models/User");
@@ -61,6 +62,13 @@ const deleteUser = async (req, res) => {
   const user = await User.findOne({ _id: userId });
 
   await user.remove();
+
+  res.cookie("token", "", {
+    httpOnly: true,
+    expires: dayjs().toDate(),
+    secure: process.env.NODE_ENV === "production",
+    signed: true,
+  });
 
   res.status(StatusCodes.OK).json({ message: "User deleted" });
 };
