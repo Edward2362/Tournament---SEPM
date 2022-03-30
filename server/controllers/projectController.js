@@ -48,9 +48,20 @@ const getSingleProject = async (req, res) => {
   const { userId } = req.user;
   const { id: projectId } = req.params;
 
-  const project = await Project.findOne({ user: userId, project: projectId });
+  // check for valid project
+  const project = await Project.findOne({ _id: projectId });
   if (!project) {
     throw new Error("Project not found");
+  }
+
+  // authorize user
+  const membership = await Membership.findOne({
+    project: projectId,
+    user: userId,
+    role: "admin",
+  });
+  if (!membership) {
+    throw new Error("Invalid Credentials");
   }
 
   project.lastAccessed = dayjs().toDate();
