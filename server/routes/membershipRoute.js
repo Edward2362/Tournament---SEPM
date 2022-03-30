@@ -6,12 +6,19 @@ const {
   createMembership,
   updateMembership,
   deleteMembership,
+  getALlMemberships,
 } = require("../controllers/membershipController");
 
-const authenticateUser = require("../middleware/authentication");
+const {
+  authenticateUser,
+  authorizeUser,
+} = require("../middleware/authentication");
 
 // TODO: search
-router.route("/").post(authenticateUser, createMembership);
+router
+  .route("/")
+  .get(authenticateUser, authorizeUser, getALlMemberships)
+  .post(authenticateUser, createMembership);
 router
   .route("/:id")
   .get(authenticateUser, getSingleMembership)

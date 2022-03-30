@@ -1,3 +1,5 @@
+// run: node populate.js
+
 require("dotenv").config();
 const dayjs = require("dayjs");
 

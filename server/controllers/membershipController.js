@@ -4,6 +4,11 @@ const User = require("../models/User");
 const Project = require("../models/Project");
 const Membership = require("../models/Membership");
 
+const getALlMemberships = async (req, res) => {
+  const memberships = await Membership.find({});
+  res.status(StatusCodes.OK).json({ data: memberships });
+};
+
 const getUserMemberships = async (req, res) => {
   const { userId } = req.user;
 
@@ -118,4 +123,5 @@ module.exports = {
   createMembership,
   updateMembership,
   deleteMembership,
+  getALlMemberships,
 };

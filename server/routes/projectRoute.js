@@ -6,6 +6,7 @@ const {
   createProject,
   updateProject,
   deleteProject,
+  getAllProjects,
 } = require("../controllers/projectController");
 
 const {
@@ -13,10 +14,16 @@ const {
   getProjectMemberships,
 } = require("../controllers/membershipController");
 
-const authenticateUser = require("../middleware/authentication");
+const {
+  authenticateUser,
+  authorizeUser,
+} = require("../middleware/authentication");
 
 // TODO: search
-router.route("/").post(authenticateUser, createProject);
+router
+  .route("/")
+  .get(authenticateUser, authorizeUser, getAllProjects)
+  .post(authenticateUser, createProject);
 router
   .route("/:id")
   .get(authenticateUser, getSingleProject)

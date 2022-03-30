@@ -8,12 +8,22 @@ const authenticateUser = (req, res, next) => {
   }
 
   try {
-    const { username, email, userId } = validateToken(token);
-    req.user = { username, email, userId };
+    const { username, email, userId, role } = validateToken(token);
+    req.user = { username, email, userId, role };
     next();
   } catch (error) {
     throw new Error("Invalid Credentials");
   }
 };
 
-module.exports = authenticateUser;
+const authorizeUser = (req, res, next) => {
+  const { role } = req.user;
+
+  if (role !== "admin") {
+    throw new Error("Invalid Credentials");
+  }
+
+  next();
+};
+
+module.exports = { authenticateUser, authorizeUser };
