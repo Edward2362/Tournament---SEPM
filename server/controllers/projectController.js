@@ -27,7 +27,6 @@ const getUserProjects = async (req, res) => {
     fields,
     page,
     limit,
-    sortDefault: "-lastAccessed",
   });
 
   const projects = await result;
@@ -79,7 +78,7 @@ const createProject = async (req, res) => {
 const updateProject = async (req, res) => {
   const { userId } = req.user;
   const { id: projectId } = req.params;
-  const { name, trelloBoardId } = req.body;
+  const { name, trelloBoardId, finished } = req.body;
 
   // check for valid project
   const project = await Project.findOne({ _id: projectId });
@@ -99,6 +98,7 @@ const updateProject = async (req, res) => {
 
   project.name = name || project.name;
   project.trelloBoardId = trelloBoardId || project.trelloBoardId;
+  project.finished = finished || project.finished;
 
   await project.save();
 

@@ -26,6 +26,7 @@ const UserSchema = new mongoose.Schema(
       minlength: [8, "Password cannot be shorter than 8 characters"],
       maxlength: [64, "Password cannot be longer than 64 characters"],
     },
+    // ? ...
     avatar: {
       type: String,
       default: "",
