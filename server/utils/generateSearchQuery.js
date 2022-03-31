@@ -10,9 +10,10 @@ const generateSearchQuery = ({
   sort,
   sortDefault,
   fields,
+  fieldsDefault = "",
   page,
-  limit,
   pageDefault = 1,
+  limit,
   limitDefault = 10,
 }) => {
   objectAttributes.forEach((a) => {
@@ -35,18 +36,19 @@ const generateSearchQuery = ({
     result = result.sort("-createdAt");
   }
 
-  if (fields) {
-    const fieldList = fields.split(",").join(" ");
+  if (fields || fieldsDefault) {
+    let fieldList = fieldsDefault;
+    if (fields) {
+      fieldList = fieldsDefault + " " + fields.split(",").join(" ");
+    }
     result = result.select(fieldList);
   }
 
-  // default on first page
   const pageTemp = parseInt(page) || pageDefault;
-  // default 10 items each page
   const limitTemp = parseInt(limit) || limitDefault;
   const skip = (pageTemp - 1) * limitTemp;
 
-  result = result.skip(skip).limit(limit);
+  result = result.skip(skip).limit(limitTemp);
 
   return result;
 };

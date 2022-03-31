@@ -2,19 +2,30 @@ const dayjs = require("dayjs");
 const { StatusCodes } = require("http-status-codes");
 
 const User = require("../models/User");
+const generateSearchQuery = require("../utils/generateSearchQuery");
 const { responseWithToken, createTokenPayload } = require("../utils/jwt");
 const validatePassword = require("../utils/validatePassword");
 
 const getAllUsers = async (req, res) => {
-  const role = req?.user?.role;
+  const { username, email, sort, fields, page, limit } = req.query;
 
-  let users = User.find({});
+  const queryObject = {};
 
-  if (role !== "admin") {
-    users = users.select("-password -role -trelloToken -trelloId");
-  }
+  const result = generateSearchQuery({
+    queryObject,
+    model: User,
+    objectAttributes: [
+      { name: "username", type: "regex", value: username },
+      { name: "email", type: "regex", value: email },
+    ],
+    sort,
+    fields,
+    fieldsDefault: "-password -role -trelloToken -trelloId",
+    page,
+    limit,
+  });
 
-  users = await users;
+  const users = await result;
 
   res.status(StatusCodes.OK).json({ data: users });
 };
