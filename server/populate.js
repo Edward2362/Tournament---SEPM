@@ -1,9 +1,6 @@
 // run: node populate.js
 
 require("dotenv").config();
-const dayjs = require("dayjs");
-
-const time1 = dayjs();
 
 const mongoose = require("mongoose");
 
@@ -50,10 +47,7 @@ const start = async () => {
     await populateProject();
     await populateMembership();
 
-    const time2 = dayjs();
-    const diff = time2.diff(time1, "second");
-    console.log("Done. " + diff + " seconds");
-
+    console.log("Done.");
     process.exit(0);
   } catch (error) {
     console.log(error);
