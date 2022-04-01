@@ -2,7 +2,7 @@ const BOOLEAN = "boolean";
 const REGEX = "regex";
 
 // objectAttributes: array with objects below
-// { name: "name of the attribute", type: "regex, boolean", value: "value of the attribute"}
+// { name: "name of the attribute", type: "regex/boolean", value: "value of the attribute"}
 const generateSearchQuery = ({
   queryObject,
   objectAttributes,
@@ -12,7 +12,6 @@ const generateSearchQuery = ({
   fields,
   fieldsDefault = "",
   page,
-  pageDefault = 1,
   limit,
   limitDefault = 10,
 }) => {
@@ -44,7 +43,7 @@ const generateSearchQuery = ({
     result = result.select(fieldList);
   }
 
-  const pageTemp = parseInt(page) || pageDefault;
+  const pageTemp = parseInt(page) || 1;
   const limitTemp = parseInt(limit) || limitDefault;
   const skip = (pageTemp - 1) * limitTemp;
 

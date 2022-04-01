@@ -2,6 +2,7 @@ const dayjs = require("dayjs");
 const { StatusCodes } = require("http-status-codes");
 
 const User = require("../models/User");
+
 const generateSearchQuery = require("../utils/generateSearchQuery");
 const { responseWithToken, createTokenPayload } = require("../utils/jwt");
 const validatePassword = require("../utils/validatePassword");

@@ -4,23 +4,76 @@ const User = require("../models/User");
 const Project = require("../models/Project");
 const Membership = require("../models/Membership");
 
+const generateSearchQuery = require("../utils/generateSearchQuery");
+
 const getALlMemberships = async (req, res) => {
-  const memberships = await Membership.find({});
+  const { role, desiredReward, sort, fields, page, limit } = req.query;
+
+  const queryObject = {};
+
+  const result = generateSearchQuery({
+    queryObject,
+    model: Membership,
+    objectAttributes: [
+      { name: "role", value: role, type: "regex" },
+      { name: "desiredReward", value: desiredReward, type: "regex" },
+    ],
+    sort,
+    fields,
+    page,
+    limit,
+  });
+
+  const memberships = await result;
+
   res.status(StatusCodes.OK).json({ data: memberships });
 };
 
 const getUserMemberships = async (req, res) => {
   const { userId } = req.user;
+  const { role, desiredReward, sort, fields, page, limit } = req.query;
 
-  const memberships = await Membership.find({ user: userId });
+  const queryObject = { user: userId };
+
+  const result = generateSearchQuery({
+    queryObject,
+    model: Membership,
+    objectAttributes: [
+      { name: "role", value: role, type: "regex" },
+      { name: "desiredReward", value: desiredReward, type: "regex" },
+    ],
+    sort,
+    fields,
+    page,
+    limit,
+  });
+
+  const memberships = await result;
+
   res.status(StatusCodes.OK).json({ data: memberships });
 };
 
 const getProjectMemberships = async (req, res) => {
   const { userId } = req.user;
   const { projectId } = req.params;
+  const { role, desiredReward, sort, fields, page, limit } = req.query;
 
-  const memberships = await Membership.find({ project: projectId });
+  const queryObject = { project: projectId };
+
+  const result = generateSearchQuery({
+    queryObject,
+    model: Membership,
+    objectAttributes: [
+      { name: "role", value: role, type: "regex" },
+      { name: "desiredReward", value: desiredReward, type: "regex" },
+    ],
+    sort,
+    fields,
+    page,
+    limit,
+  });
+
+  const memberships = await result;
   const isUserProject = memberships.some((m) => m.user.toString() === userId);
   if (!isUserProject) {
     throw new Error("Invalid Credentials");

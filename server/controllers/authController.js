@@ -1,6 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 
 const User = require("../models/User");
+
 const validatePassword = require("../utils/validatePassword");
 const { responseWithToken, createTokenPayload } = require("../utils/jwt");
 

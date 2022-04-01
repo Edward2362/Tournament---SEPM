@@ -3,10 +3,26 @@ const { StatusCodes } = require("http-status-codes");
 
 const Project = require("../models/Project");
 const Membership = require("../models/Membership");
+
 const generateSearchQuery = require("../utils/generateSearchQuery");
 
 const getAllProjects = async (req, res) => {
-  const projects = await Project.find({});
+  const { name, sort, fields, page, limit } = req.query;
+
+  const queryObject = {};
+
+  const result = generateSearchQuery({
+    queryObject,
+    model: Project,
+    objectAttributes: [{ name: "name", value: name, type: "regex" }],
+    sort,
+    fields,
+    page,
+    limit,
+  });
+
+  const projects = await result;
+
   res.status(StatusCodes.OK).json({ data: projects });
 };
 
@@ -22,7 +38,7 @@ const getUserProjects = async (req, res) => {
   const result = generateSearchQuery({
     queryObject,
     model: Project,
-    objectAttributes: [{ name: "name", type: "regex", value: name }],
+    objectAttributes: [{ name: "name", value: name, type: "regex" }],
     sort,
     fields,
     page,
