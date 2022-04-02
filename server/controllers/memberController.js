@@ -2,18 +2,18 @@ const { StatusCodes } = require("http-status-codes");
 
 const User = require("../models/User");
 const Project = require("../models/Project");
-const Membership = require("../models/Membership");
+const Member = require("../models/Member");
 
 const generateSearchQuery = require("../utils/generateSearchQuery");
 
-const getALlMemberships = async (req, res) => {
+const getALlMembers = async (req, res) => {
   const { role, desiredReward, sort, fields, page, limit } = req.query;
 
   const queryObject = {};
 
   const result = generateSearchQuery({
     queryObject,
-    model: Membership,
+    model: Member,
     objectAttributes: [
       { name: "role", value: role, type: "regex" },
       { name: "desiredReward", value: desiredReward, type: "regex" },
@@ -24,12 +24,12 @@ const getALlMemberships = async (req, res) => {
     limit,
   });
 
-  const memberships = await result;
+  const members = await result;
 
-  res.status(StatusCodes.OK).json({ data: memberships });
+  res.status(StatusCodes.OK).json({ data: members });
 };
 
-const getUserMemberships = async (req, res) => {
+const getUserMembers = async (req, res) => {
   const { userId } = req.user;
   const { role, desiredReward, sort, fields, page, limit } = req.query;
 
@@ -37,7 +37,7 @@ const getUserMemberships = async (req, res) => {
 
   const result = generateSearchQuery({
     queryObject,
-    model: Membership,
+    model: Member,
     objectAttributes: [
       { name: "role", value: role, type: "regex" },
       { name: "desiredReward", value: desiredReward, type: "regex" },
@@ -48,12 +48,12 @@ const getUserMemberships = async (req, res) => {
     limit,
   });
 
-  const memberships = await result;
+  const members = await result;
 
-  res.status(StatusCodes.OK).json({ data: memberships });
+  res.status(StatusCodes.OK).json({ data: members });
 };
 
-const getProjectMemberships = async (req, res) => {
+const getProjectMembers = async (req, res) => {
   const { userId } = req.user;
   const { projectId } = req.params;
   const { role, desiredReward, sort, fields, page, limit } = req.query;
@@ -62,7 +62,7 @@ const getProjectMemberships = async (req, res) => {
 
   const result = generateSearchQuery({
     queryObject,
-    model: Membership,
+    model: Member,
     objectAttributes: [
       { name: "role", value: role, type: "regex" },
       { name: "desiredReward", value: desiredReward, type: "regex" },
@@ -73,32 +73,32 @@ const getProjectMemberships = async (req, res) => {
     limit,
   });
 
-  const memberships = await result;
-  const isUserProject = memberships.some((m) => m.user.toString() === userId);
+  const members = await result;
+  const isUserProject = members.some((m) => m.user.toString() === userId);
   if (!isUserProject) {
     throw new Error("Invalid Credentials");
   }
 
-  res.status(StatusCodes.OK).json({ data: memberships });
+  res.status(StatusCodes.OK).json({ data: members });
 };
 
-const getSingleMembership = async (req, res) => {
+const getSingleMember = async (req, res) => {
   const { userId } = req.user;
-  const { id: membershipId } = req.params;
+  const { id: memberId } = req.params;
 
-  const membership = await Membership.findOne({
-    _id: membershipId,
+  const member = await Member.findOne({
+    _id: memberId,
     user: userId,
   });
 
-  if (!membership) {
-    throw new Error("Membership not found");
+  if (!member) {
+    throw new Error("Member not found");
   }
 
-  res.status(StatusCodes.OK).json({ data: membership });
+  res.status(StatusCodes.OK).json({ data: member });
 };
 
-const createMembership = async (req, res) => {
+const createMember = async (req, res) => {
   const { projectId } = req.params;
   const { overallPoint, desiredReward, upperBoundary, lowerBoundary, userId } =
     req.body;
@@ -115,7 +115,7 @@ const createMembership = async (req, res) => {
     throw new Error("Project not found");
   }
 
-  const membership = await Membership.create({
+  const member = await Member.create({
     overallPoint,
     desiredReward,
     upperBoundary,
@@ -124,57 +124,57 @@ const createMembership = async (req, res) => {
     project: targetProject._id,
   });
 
-  res.status(StatusCodes.CREATED).json({ data: membership });
+  res.status(StatusCodes.CREATED).json({ data: member });
 };
 
-const updateMembership = async (req, res) => {
+const updateMember = async (req, res) => {
   const { userId } = req.user;
-  const { id: membershipId } = req.params;
+  const { id: memberId } = req.params;
   const { overallPoint, desiredReward, upperBoundary, lowerBoundary } =
     req.body;
 
   // TODO: project admin?
-  const membership = await Membership.findOne({
-    _id: membershipId,
+  const member = await Member.findOne({
+    _id: memberId,
     user: userId,
   });
-  if (!membership) {
+  if (!member) {
     throw new Error("Invalid Credentials");
   }
 
-  membership.overallPoint = overallPoint || membership.overallPoint;
-  membership.desiredReward = desiredReward || membership.desiredReward;
-  membership.upperBoundary = upperBoundary || membership.upperBoundary;
-  membership.lowerBoundary = lowerBoundary || membership.lowerBoundary;
+  member.overallPoint = overallPoint || member.overallPoint;
+  member.desiredReward = desiredReward || member.desiredReward;
+  member.upperBoundary = upperBoundary || member.upperBoundary;
+  member.lowerBoundary = lowerBoundary || member.lowerBoundary;
 
-  await membership.save();
+  await member.save();
 
-  res.status(StatusCodes.OK).json({ data: membership });
+  res.status(StatusCodes.OK).json({ data: member });
 };
 
-const deleteMembership = async (req, res) => {
+const deleteMember = async (req, res) => {
   const { userId } = req.user;
-  const { id: membershipId } = req.params;
+  const { id: memberId } = req.params;
 
-  const membership = await Membership.findOne({
-    _id: membershipId,
+  const member = await Member.findOne({
+    _id: memberId,
     user: userId,
   });
-  if (!membership) {
-    throw new Error("Membership not found");
+  if (!member) {
+    throw new Error("Member not found");
   }
 
-  await membership.remove();
+  await member.remove();
 
-  res.status(StatusCodes.OK).json({ message: "Membership deleted" });
+  res.status(StatusCodes.OK).json({ message: "Member deleted" });
 };
 
 module.exports = {
-  getUserMemberships,
-  getSingleMembership,
-  getProjectMemberships,
-  createMembership,
-  updateMembership,
-  deleteMembership,
-  getALlMemberships,
+  getUserMembers,
+  getSingleMember,
+  getProjectMembers,
+  createMember,
+  updateMember,
+  deleteMember,
+  getALlMembers,
 };

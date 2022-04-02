@@ -10,9 +10,9 @@ const {
 } = require("../controllers/projectController");
 
 const {
-  createMembership,
-  getProjectMemberships,
-} = require("../controllers/membershipController");
+  createMember,
+  getProjectMembers,
+} = require("../controllers/memberController");
 
 const {
   authenticateUser,
@@ -30,8 +30,8 @@ router
   .patch(authenticateUser, updateProject)
   .delete(authenticateUser, deleteProject);
 router
-  .route("/:projectId/memberships")
-  .get(authenticateUser, getProjectMemberships)
-  .post(authenticateUser, createMembership);
+  .route("/:projectId/members")
+  .get(authenticateUser, getProjectMembers)
+  .post(authenticateUser, createMember);
 
 module.exports = router;

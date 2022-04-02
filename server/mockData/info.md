@@ -32,17 +32,17 @@ Site: https://json-generator.com/
 ];
 ```
 
-# Membership
+# Member
 
 ```js
 [
-  "{{repeat(500)}}",
+  "{{repeat(2000)}}",
   {
     overallPoint: "{{integer(80,100)}}",
     desiredReward: '{{lorem(2, "words")}}',
     upperBoundary: "{{integer(80,100)}}",
     lowerBoundary: "{{integer(10,30)}}",
-    role: "{{bool()}}",
+    role: "{{random('admin', 'member', 'member')}}",
     user: "{{integer(1,499)}}",
     project: "{{integer(0,999)}}",
   },

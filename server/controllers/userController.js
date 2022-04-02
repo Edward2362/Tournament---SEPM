@@ -21,7 +21,7 @@ const getAllUsers = async (req, res) => {
     ],
     sort,
     fields,
-    fieldsDefault: "-password -role -trelloToken -trelloId",
+    fieldsDefault: "_id username email avatar createdAt updatedAt",
     page,
     limit,
   });

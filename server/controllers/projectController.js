@@ -2,7 +2,7 @@ const dayjs = require("dayjs");
 const { StatusCodes } = require("http-status-codes");
 
 const Project = require("../models/Project");
-const Membership = require("../models/Membership");
+const Member = require("../models/Member");
 
 const generateSearchQuery = require("../utils/generateSearchQuery");
 
@@ -30,10 +30,10 @@ const getUserProjects = async (req, res) => {
   const { userId } = req.user;
   const { name, sort, fields, page, limit } = req.query;
 
-  const memberships = await Membership.find({ user: userId }).select("project");
-  const membershipIDs = memberships.map((m) => m.project);
+  const members = await Member.find({ user: userId }).select("project");
+  const memberIDs = members.map((m) => m.project);
 
-  const queryObject = { _id: { $in: membershipIDs } };
+  const queryObject = { _id: { $in: memberIDs } };
 
   const result = generateSearchQuery({
     queryObject,
@@ -61,11 +61,11 @@ const getSingleProject = async (req, res) => {
   }
 
   // authorize user
-  const membership = await Membership.findOne({
+  const member = await Member.findOne({
     project: projectId,
     user: userId,
   });
-  if (!membership) {
+  if (!member) {
     throw new Error("Invalid Credentials");
   }
 
@@ -82,7 +82,7 @@ const createProject = async (req, res) => {
 
   const project = await Project.create({ name, trelloBoardId });
   // create the admin for the project
-  await Membership.create({
+  await Member.create({
     user: userId,
     project: project._id,
     role: "admin",
@@ -103,12 +103,12 @@ const updateProject = async (req, res) => {
   }
 
   // authorize user
-  const membership = await Membership.findOne({
+  const member = await Member.findOne({
     project: projectId,
     user: userId,
     role: "admin",
   });
-  if (!membership) {
+  if (!member) {
     throw new Error("Invalid Credentials");
   }
 
@@ -132,12 +132,12 @@ const deleteProject = async (req, res) => {
   }
 
   // authorize user
-  const membership = await Membership.findOne({
+  const member = await Member.findOne({
     project: projectId,
     user: userId,
     role: "admin",
   });
-  if (!membership) {
+  if (!member) {
     throw new Error("Invalid Credentials");
   }
 

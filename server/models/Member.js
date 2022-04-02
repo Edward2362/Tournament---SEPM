@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const MembershipSchema = mongoose.Schema(
+const MemberSchema = mongoose.Schema(
   {
     overallPoint: {
       type: Number,
@@ -40,4 +40,4 @@ const MembershipSchema = mongoose.Schema(
 
 // TODO: pre .remove
 
-module.exports = mongoose.model("Membership", MembershipSchema);
+module.exports = mongoose.model("Member", MemberSchema);

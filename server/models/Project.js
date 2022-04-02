@@ -14,7 +14,7 @@ const ProjectSchema = mongoose.Schema(
       type: String,
       required: [true, "Please provide the ID of your trello board"],
     },
-    // ! redesign in membership
+    // ! redesign in member
     lastAccessed: {
       type: Date,
       default: dayjs().toDate(),
@@ -28,7 +28,7 @@ const ProjectSchema = mongoose.Schema(
 );
 
 ProjectSchema.pre("remove", async function () {
-  await this.model("Membership").deleteMany({ project: this._id });
+  await this.model("Member").deleteMany({ project: this._id });
 });
 
 module.exports = mongoose.model("Project", ProjectSchema);

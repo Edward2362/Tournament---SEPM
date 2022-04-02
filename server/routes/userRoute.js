@@ -11,14 +11,14 @@ const {
 
 const { getUserProjects } = require("../controllers/projectController");
 
-const { getUserMemberships } = require("../controllers/membershipController");
+const { getUserMembers } = require("../controllers/memberController");
 
 const { authenticateUser } = require("../middleware/authentication");
 
 // TODO: search
 router.route("/").get(getAllUsers);
 router.route("/me/projects").get(authenticateUser, getUserProjects);
-router.route("/me/memberships").get(authenticateUser, getUserMemberships);
+router.route("/me/members").get(authenticateUser, getUserMembers);
 router
   .route("/me")
   .get(authenticateUser, getCurrentUser)
