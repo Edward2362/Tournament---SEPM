@@ -4,7 +4,7 @@ Site: https://json-generator.com/
 
 ```js
 [
-  "{{repeat(500)}}",
+  "{{repeat(100)}}",
   {
     username:
       "{{firstName().toLowerCase()}}{{surname().toLowerCase()}}{{integer(100,999)}}",
@@ -22,7 +22,7 @@ Site: https://json-generator.com/
 
 ```js
 [
-  "{{repeat(1000)}}",
+  "{{repeat(200)}}",
   {
     name: "{{firstName()}} {{surname()}} {{lorem(1, 'words').toLowerCase()}} {{company()}}",
     trelloBoardId: "{{guid()}}",
@@ -36,15 +36,14 @@ Site: https://json-generator.com/
 
 ```js
 [
-  "{{repeat(2000)}}",
+  "{{repeat(1000)}}",
   {
     overallPoint: "{{integer(80,100)}}",
     desiredReward: '{{lorem(2, "words")}}',
     upperBoundary: "{{integer(80,100)}}",
     lowerBoundary: "{{integer(10,30)}}",
-    role: "{{random('admin', 'member', 'member')}}",
-    user: "{{integer(1,499)}}",
-    project: "{{integer(0,999)}}",
+    user: "{{integer(1,99)}}",
+    project: "{{integer(0,199)}}",
   },
 ];
 ```

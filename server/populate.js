@@ -39,9 +39,17 @@ const createMembers = async () => {
   const projects = await Project.find({}).select("_id");
   const projectIDs = projects.map((e) => e._id.toString());
 
+  const passed = {};
+
   memberJson.map((e) => {
     e.user = userIDs[e.user];
     e.project = projectIDs[e.project];
+    if (passed[e.project]) {
+      e.role = "member";
+    } else {
+      e.role = "admin";
+      passed[e.project] = 1;
+    }
     return e;
   });
 
