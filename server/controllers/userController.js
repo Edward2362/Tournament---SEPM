@@ -16,12 +16,12 @@ const getAllUsers = async (req, res) => {
     queryObject,
     model: User,
     objectAttributes: [
-      { name: "username", type: "regex", value: username },
-      { name: "email", type: "regex", value: email },
+      { name: "username", value: username, type: "regex" },
+      { name: "email", value: email, type: "regex" },
     ],
     sort,
     fields,
-    fieldsDefault: "_id username email avatar createdAt updatedAt",
+    fieldsDefault: "-password -role -trelloId -trelloToken",
     page,
     limit,
   });
