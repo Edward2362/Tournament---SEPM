@@ -104,15 +104,24 @@ const createMember = async (req, res) => {
     req.body;
 
   // check for valid user
-  const targetUser = await User.findOne({ _id: userId });
+  const targetUser = await User.findOne({ _id: userId }).select("_id");
   if (!targetUser) {
     throw new Error("User not found");
   }
 
   // check for valid project
-  const targetProject = await Project.findOne({ _id: projectId });
+  const targetProject = await Project.findOne({ _id: projectId }).select("_id");
   if (!targetProject) {
     throw new Error("Project not found");
+  }
+
+  // check for joining same project with same user multiple times
+  const isAlreadyMember = await Member.findOne({
+    project: projectId,
+    user: userId,
+  });
+  if (isAlreadyMember) {
+    throw new Error("User already in project");
   }
 
   const member = await Member.create({
