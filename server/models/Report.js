@@ -11,9 +11,12 @@ const ReportSchema = mongoose.schema({
         require: true,
         default: 1,
     },
-    taskName: {
+    tasks: {
         type: mongoose.Types.ObjectId,
         ref: "Task",
+    },
+    end: {
+        type: boolean,
     },
 });
 
