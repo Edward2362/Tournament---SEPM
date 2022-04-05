@@ -3,6 +3,7 @@ const router = express.Router();
 
 const {
   getAllUsers,
+  getSingleUser,
   getCurrentUser,
   updatePassword,
   updateUser,
@@ -15,7 +16,6 @@ const { getUserMembers } = require("../controllers/memberController");
 
 const { authenticateUser } = require("../middleware/authentication");
 
-// TODO: search
 router.route("/").get(getAllUsers);
 router.route("/me/projects").get(authenticateUser, getUserProjects);
 router.route("/me/members").get(authenticateUser, getUserMembers);
@@ -25,5 +25,6 @@ router
   .patch(authenticateUser, updateUser)
   .delete(authenticateUser, deleteUser);
 router.route("/me/password").patch(authenticateUser, updatePassword);
+router.route("/:id").get(getSingleUser);
 
 module.exports = router;

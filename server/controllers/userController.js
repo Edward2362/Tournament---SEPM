@@ -31,6 +31,16 @@ const getAllUsers = async (req, res) => {
   res.status(StatusCodes.OK).json({ data: users });
 };
 
+const getSingleUser = async (req, res) => {
+  const { id: studentId } = req.params;
+
+  const user = await User.findOne({ _id: studentId }).select(
+    "-password -role -trelloId -trelloToken"
+  );
+
+  res.status(StatusCodes.OK).json({ data: user });
+};
+
 const getCurrentUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ data: req.user });
 };
@@ -96,6 +106,7 @@ const deleteUser = async (req, res) => {
 
 module.exports = {
   getAllUsers,
+  getSingleUser,
   getCurrentUser,
   updatePassword,
   updateUser,
