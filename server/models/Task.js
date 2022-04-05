@@ -18,8 +18,28 @@ const TaskSchema = mongoose.schema({
         type: String,
     },
     subTask: {
+        trelloProjectId: {
         type: mongoose.Types.ObjectId,
-        ref: "SubTask",
+        ref: "Project",
+        },
+        trelloTaskId: {
+            type: String,
+        },
+        taskName: {
+            type: String,
+            default: "",
+        },
+        memberIncharged: {
+            type: String,
+        },
+            percentage: {
+            type: number,
+            default: 0,
+        },
+        finished: {
+            type: Boolean,
+            default: false,
+        },
     },
     percentage: {
         type: number,
@@ -33,9 +53,6 @@ const TaskSchema = mongoose.schema({
 
 ProjectSchema.pre("remove", async function () {
     await this.deleteOne({ trelloTaskId: this._id });
-    await this.model("SubTask").deleteMany({
-        trelloTaskId: this._trelloTaskId,
-    });
 });
 
 module.exports = mongoose.model("Task", TaskSchema);
