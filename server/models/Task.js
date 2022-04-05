@@ -17,7 +17,7 @@ const TaskSchema = mongoose.schema({
     memberIncharged: {
         type: String,
     },
-    subTask: {
+    subTask: [{
         trelloProjectId: {
         type: mongoose.Types.ObjectId,
         ref: "Project",
@@ -40,7 +40,7 @@ const TaskSchema = mongoose.schema({
             type: Boolean,
             default: false,
         },
-    },
+    }],
     percentage: {
         type: number,
         default: 0,
