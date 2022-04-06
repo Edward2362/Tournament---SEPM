@@ -42,8 +42,6 @@ Site: https://json-generator.com/
     desiredReward: '{{lorem(2, "words")}}',
     upperBoundary: "{{integer(80,100)}}",
     lowerBoundary: "{{integer(10,30)}}",
-    user: "{{integer(1,99)}}",
-    project: "{{integer(0,199)}}",
   },
 ];
 ```
