@@ -75,20 +75,24 @@ const createMembers = async () => {
     do {
       // random again if user already in project
       userIndex = crypto.randomInt(startUserIndex, maxUserIndex);
-    } while (passed?.[projectIndex]?.userIndex !== undefined);
+
+      if (!(projectIndex in passed) || !(userIndex in passed[projectIndex])) {
+        break;
+      }
+    } while (true);
 
     e.user = userIDs[userIndex];
     e.project = projectIDs[projectIndex];
 
     // if there is no one in the project, make the person admin
-    if (passed[projectIndex]) {
+    if (projectIndex in passed) {
       e.role = "member";
     } else {
       e.role = "admin";
     }
 
     // put user in project
-    passed[projectIndex] = { ...passed[projectIndex], [userIndex]: 1 };
+    passed[projectIndex] = { ...passed[projectIndex], [userIndex]: true };
     return e;
   });
 
