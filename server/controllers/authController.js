@@ -5,13 +5,15 @@ const User = require("../models/User");
 const validatePassword = require("../utils/validatePassword");
 const { responseWithToken, createTokenPayload } = require("../utils/jwt");
 
+const { BadRequestError, UnauthenticatedError } = require("../errors");
+
 const register = async (req, res) => {
   const { username, email, password } = req.body;
 
   // check if email is duplicated
   const isEmailDuplicated = await User.findOne({ email });
   if (isEmailDuplicated) {
-    throw new Error("Email already exists");
+    throw new BadRequestError("Email already exists");
   }
 
   // if this is the first account, make it an admin
@@ -38,13 +40,13 @@ const login = async (req, res) => {
 
   // check for bad request
   if (!email || !password) {
-    throw new Error("Please provide email and password");
+    throw new BadRequestError("Please provide email and password");
   }
 
   // check if email exists
   const user = await User.findOne({ email });
   if (!user) {
-    throw new Error("Invalid Credentials");
+    throw new UnauthenticatedError();
   }
 
   // check if password matches
@@ -53,7 +55,7 @@ const login = async (req, res) => {
     toValidate: password,
   });
   if (!isPasswordMatch) {
-    throw new Error("Invalid Credentials");
+    throw new UnauthenticatedError();
   }
 
   // add cookies to response

@@ -6,6 +6,8 @@ const Member = require("../models/Member");
 
 const generateSearchQuery = require("../utils/generateSearchQuery");
 
+const { NotFoundError, BadRequestError } = require("../errors");
+
 const getALlMembers = async (req, res) => {
   const { role, desiredReward, sort, fields, page, limit } = req.query;
 
@@ -76,7 +78,7 @@ const getProjectMembers = async (req, res) => {
   const members = await result;
   const isUserProject = members.some((m) => m.user.toString() === userId);
   if (!isUserProject) {
-    throw new Error("Invalid Credentials");
+    throw new NotFoundError("Member");
   }
 
   res.status(StatusCodes.OK).json({ data: members });
@@ -92,7 +94,7 @@ const getSingleMember = async (req, res) => {
   });
 
   if (!member) {
-    throw new Error("Member not found");
+    throw new NotFoundError("Member");
   }
 
   res.status(StatusCodes.OK).json({ data: member });
@@ -106,13 +108,13 @@ const createMember = async (req, res) => {
   // check for valid user
   const targetUser = await User.findOne({ _id: userId }).select("_id");
   if (!targetUser) {
-    throw new Error("User not found");
+    throw new NotFoundError("User");
   }
 
   // check for valid project
   const targetProject = await Project.findOne({ _id: projectId }).select("_id");
   if (!targetProject) {
-    throw new Error("Project not found");
+    throw new NotFoundError("Project");
   }
 
   // check for joining same project with same user multiple times
@@ -121,7 +123,7 @@ const createMember = async (req, res) => {
     user: userId,
   });
   if (isAlreadyMember) {
-    throw new Error("User already in project");
+    throw new BadRequestError("User already in project");
   }
 
   const member = await Member.create({
@@ -148,7 +150,7 @@ const updateMember = async (req, res) => {
     user: userId,
   });
   if (!member) {
-    throw new Error("Invalid Credentials");
+    throw new NotFoundError("Member");
   }
 
   member.overallPoint = overallPoint || member.overallPoint;
@@ -170,7 +172,7 @@ const deleteMember = async (req, res) => {
     user: userId,
   });
   if (!member) {
-    throw new Error("Member not found");
+    throw new NotFoundError("Member");
   }
 
   await member.remove();

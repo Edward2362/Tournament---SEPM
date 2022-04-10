@@ -7,6 +7,12 @@ const generateSearchQuery = require("../utils/generateSearchQuery");
 const { responseWithToken, createTokenPayload } = require("../utils/jwt");
 const validatePassword = require("../utils/validatePassword");
 
+const {
+  BadRequestError,
+  UnauthenticatedError,
+  NotFoundError,
+} = require("../errors");
+
 const getAllUsers = async (req, res) => {
   const { username, email, sort, fields, page, limit } = req.query;
 
@@ -38,6 +44,10 @@ const getSingleUser = async (req, res) => {
     "-password -role -trelloId -trelloToken"
   );
 
+  if (!user) {
+    throw new NotFoundError("User");
+  }
+
   res.status(StatusCodes.OK).json({ data: user });
 };
 
@@ -67,7 +77,9 @@ const updatePassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
 
   if (!oldPassword || !newPassword) {
-    throw new Error("Please provide both old password and new password");
+    throw new BadRequestError(
+      "Please provide both old password and new password"
+    );
   }
 
   const user = await User.findOne({ _id: userId });
@@ -77,7 +89,7 @@ const updatePassword = async (req, res) => {
     toValidate: oldPassword,
   });
   if (!isPasswordMatch) {
-    throw new Error("Invalid Credentials");
+    throw new UnauthenticatedError();
   }
 
   user.password = newPassword;

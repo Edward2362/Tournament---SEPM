@@ -6,6 +6,8 @@ const Member = require("../models/Member");
 
 const generateSearchQuery = require("../utils/generateSearchQuery");
 
+const { NotFoundError } = require("../errors");
+
 const getAllProjects = async (req, res) => {
   const { name, sort, fields, page, limit } = req.query;
 
@@ -57,7 +59,7 @@ const getSingleProject = async (req, res) => {
   // check for valid project
   const project = await Project.findOne({ _id: projectId });
   if (!project) {
-    throw new Error("Project not found");
+    throw new NotFoundError("Project");
   }
 
   // authorize user
@@ -66,7 +68,7 @@ const getSingleProject = async (req, res) => {
     user: userId,
   });
   if (!member) {
-    throw new Error("Invalid Credentials");
+    throw new NotFoundError("Project");
   }
 
   project.lastAccessed = dayjs().toDate();
@@ -99,7 +101,7 @@ const updateProject = async (req, res) => {
   // check for valid project
   const project = await Project.findOne({ _id: projectId });
   if (!project) {
-    throw new Error("Project not found");
+    throw new NotFoundError("Project");
   }
 
   // authorize user
@@ -109,7 +111,7 @@ const updateProject = async (req, res) => {
     role: "admin",
   });
   if (!member) {
-    throw new Error("Invalid Credentials");
+    throw new NotFoundError("Project");
   }
 
   project.name = name || project.name;
@@ -128,7 +130,7 @@ const deleteProject = async (req, res) => {
   // check for valid project
   const project = await Project.findOne({ _id: projectId });
   if (!project) {
-    throw new Error("Project not found");
+    throw new NotFoundError("Project");
   }
 
   // authorize user
@@ -138,7 +140,7 @@ const deleteProject = async (req, res) => {
     role: "admin",
   });
   if (!member) {
-    throw new Error("Invalid Credentials");
+    throw new NotFoundError("Project");
   }
 
   await project.remove();
