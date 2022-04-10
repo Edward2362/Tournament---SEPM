@@ -1,4 +1,10 @@
 {
+  "AppHeader": {
+    "description": "Auto imported from components/AppHeader.vue"
+  },
+  "Input": {
+    "description": "Auto imported from components/Input.vue"
+  },
   "NuxtLogo": {
     "description": "Auto imported from components/NuxtLogo.vue"
   },
