@@ -1,16 +1,17 @@
 <template>
-  <div class="container">Hi this is layout</div>
+  <nuxt/>
 </template>
 
 <script>
-import NuxtLogo from "../components/NuxtLogo.vue";
+import AppHeader from "../components/AppHeader";
 
 export default {
   components: {
-    NuxtLogo,
-  },
+    AppHeader
+  }
 };
 </script>
+
 
 <style>
 * {
@@ -18,19 +19,23 @@ export default {
   margin: 0;
   padding: 0;
 }
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  background: #f4f4f4;
+background: #234C87;
 }
+
 a {
   color: #666;
   text-decoration: none;
 }
+
 ul {
   list-style: none;
 }
+
 .container {
   max-width: 800px;
   margin: 2rem auto;
