@@ -32,11 +32,12 @@ const register = async (req, res) => {
   const tokenUser = createTokenPayload(user);
   responseWithToken(res, tokenUser);
 
-  res.status(StatusCodes.CREATED).json({ data: tokenUser });
+
+    res.status(StatusCodes.CREATED).json({ data: tokenUser });
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+    const { email, password } = req.body;
 
   // check for bad request
   if (!email || !password) {
@@ -61,11 +62,15 @@ const login = async (req, res) => {
   // add cookies to response
   const tokenUser = createTokenPayload(user);
   responseWithToken(res, tokenUser);
-
-  res.status(StatusCodes.OK).json({ data: tokenUser });
+    res.status(StatusCodes.OK).json({ data: tokenUser });
 };
 
 module.exports = {
-  register,
-  login,
+    register,
+    login,
+};
+
+module.exports.logout = (req, res) => {
+    res.cookie("tokenUser", "", { maxAge: 1 });
+    res.redirect("/");
 };
