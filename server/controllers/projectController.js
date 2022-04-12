@@ -71,8 +71,6 @@ const getSingleProject = async (req, res) => {
     throw new NotFoundError("Project");
   }
 
-  project.lastAccessed = dayjs().toDate();
-
   await project.save();
 
   res.status(StatusCodes.OK).json({ data: project });

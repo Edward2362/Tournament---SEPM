@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const dayjs = require("dayjs");
 
 const ProjectSchema = mongoose.Schema(
   {
@@ -13,11 +12,6 @@ const ProjectSchema = mongoose.Schema(
     trelloBoardId: {
       type: String,
       required: [true, "Please provide the ID of your trello board"],
-    },
-    // ! redesign in member
-    lastAccessed: {
-      type: Date,
-      default: dayjs().toDate(),
     },
     finished: {
       type: Boolean,
