@@ -37,7 +37,6 @@ app.use("/v1/projects", projectRouter);
 app.use("/v1/members", memberRouter);
 
 app.use(notFound);
-// TODO: handle status code
 app.use(errorHandler);
 
 // start server

@@ -6,7 +6,7 @@ const Member = require("../models/Member");
 
 const generateSearchQuery = require("../utils/generateSearchQuery");
 
-const { NotFoundError, BadRequestError } = require("../errors");
+const { NotFoundError } = require("../errors");
 
 const getALlMembers = async (req, res) => {
   const { role, desiredReward, sort, fields, page, limit } = req.query;
@@ -117,15 +117,6 @@ const createMember = async (req, res) => {
     throw new NotFoundError("Project");
   }
 
-  // check for joining same project with same user multiple times
-  const isAlreadyMember = await Member.findOne({
-    project: projectId,
-    user: userId,
-  });
-  if (isAlreadyMember) {
-    throw new BadRequestError("User already in project");
-  }
-
   const member = await Member.create({
     overallPoint,
     desiredReward,
@@ -145,20 +136,18 @@ const updateMember = async (req, res) => {
     req.body;
 
   // TODO: project admin?
-  const member = await Member.findOne({
-    _id: memberId,
-    user: userId,
-  });
+  const member = await Member.findOneAndUpdate(
+    {
+      _id: memberId,
+      user: userId,
+    },
+    { overallPoint, desiredReward, upperBoundary, lowerBoundary },
+    { new: true, runValidators: true }
+  );
+
   if (!member) {
     throw new NotFoundError("Member");
   }
-
-  member.overallPoint = overallPoint || member.overallPoint;
-  member.desiredReward = desiredReward || member.desiredReward;
-  member.upperBoundary = upperBoundary || member.upperBoundary;
-  member.lowerBoundary = lowerBoundary || member.lowerBoundary;
-
-  await member.save();
 
   res.status(StatusCodes.OK).json({ data: member });
 };

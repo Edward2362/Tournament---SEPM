@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { BadRequestError } = require("../errors");
 
 const MemberSchema = mongoose.Schema(
   {
@@ -37,6 +38,17 @@ const MemberSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+MemberSchema.pre("save", async function () {
+  // check for joining same project with same user multiple times
+  const isAlreadyMember = await this.model("Member").findOne({
+    project: this.project,
+    user: this.user,
+  });
+  if (isAlreadyMember) {
+    throw new BadRequestError("User already in project");
+  }
+});
 
 // TODO: pre .remove
 
