@@ -6,7 +6,7 @@ const Member = require("../models/Member");
 
 const generateSearchQuery = require("../utils/generateSearchQuery");
 
-const { NotFoundError } = require("../errors");
+const { NotFoundError, UnauthorizedError } = require("../errors");
 
 const getAllProjects = async (req, res) => {
   const { name, sort, fields, page, limit } = req.query;
@@ -96,12 +96,6 @@ const updateProject = async (req, res) => {
   const { id: projectId } = req.params;
   const { name, trelloBoardId, finished } = req.body;
 
-  // check for valid project
-  const project = await Project.findOne({ _id: projectId });
-  if (!project) {
-    throw new NotFoundError("Project");
-  }
-
   // authorize user
   const member = await Member.findOne({
     project: projectId,
@@ -109,14 +103,18 @@ const updateProject = async (req, res) => {
     role: "admin",
   });
   if (!member) {
-    throw new NotFoundError("Project");
+    throw new UnauthorizedError();
   }
 
-  project.name = name || project.name;
-  project.trelloBoardId = trelloBoardId || project.trelloBoardId;
-  project.finished = finished || project.finished;
-
-  await project.save();
+  // check for valid project
+  const project = await Project.findOneAndUpdate(
+    { _id: projectId },
+    { name, trelloBoardId, finished },
+    { new: true, runValidators: true }
+  );
+  if (!project) {
+    throw new NotFoundError("Project");
+  }
 
   res.status(StatusCodes.OK).json({ data: project });
 };
