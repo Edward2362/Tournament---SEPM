@@ -7,6 +7,7 @@ const createTokenPayload = (user) => {
     username: user.username,
     email: user.email,
     role: user.role,
+    avatarUrl: user.avatar,
   };
 };
 

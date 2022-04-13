@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
-const { BadRequestError } = require("../errors");
+
+const {
+  BadRequestError,
+  UnauthorizedError,
+  NotFoundError,
+} = require("../errors");
 
 const MemberSchema = mongoose.Schema(
   {
@@ -50,6 +55,39 @@ MemberSchema.pre("save", async function () {
   }
 });
 
+MemberSchema.statics.findUserIsAdmin = async function (userId, projectId) {
+  // authorize user
+  const member = await this.model("Member").findOne({
+    project: projectId,
+    user: userId,
+    role: "admin",
+  });
+  if (!member) {
+    throw new UnauthorizedError();
+  }
+  return member;
+};
+
 // TODO: pre .remove
+
+MemberSchema.statics.findUserIsMember = async function (userId, projectId) {
+  // authorize user
+  const member = await this.model("Member").findOne({
+    project: projectId,
+    user: userId,
+  });
+  if (!member) {
+    throw new NotFoundError();
+  }
+  return member;
+};
+
+MemberSchema.statics.findOneExist = async function (queryObject) {
+  const member = await this.model("Member").findOne(queryObject);
+  if (!member) {
+    throw new NotFoundError();
+  }
+  return member;
+};
 
 module.exports = mongoose.model("Member", MemberSchema);

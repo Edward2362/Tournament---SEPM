@@ -3,9 +3,12 @@ const { StatusCodes } = require("http-status-codes");
 
 const User = require("../models/User");
 
-const generateSearchQuery = require("../utils/generateSearchQuery");
-const { responseWithToken, createTokenPayload } = require("../utils/jwt");
-const validatePassword = require("../utils/validatePassword");
+const {
+  responseWithToken,
+  createTokenPayload,
+  generateSearchQuery,
+  validatePassword,
+} = require("../utils");
 
 const {
   BadRequestError,
@@ -38,9 +41,9 @@ const getAllUsers = async (req, res) => {
 };
 
 const getSingleUser = async (req, res) => {
-  const { id: studentId } = req.params;
+  const { id: userId } = req.params;
 
-  const user = await User.findOne({ _id: studentId }).select(
+  const user = await User.findOne({ _id: userId }).select(
     "-password -role -trelloId -trelloToken"
   );
 
@@ -52,14 +55,14 @@ const getSingleUser = async (req, res) => {
 };
 
 const getCurrentUser = async (req, res) => {
-  res.status(StatusCodes.OK).json({ data: req.user });
+  const { user } = req.user;
+  const tokenUser = createTokenPayload(user);
+  res.status(StatusCodes.OK).json({ data: tokenUser });
 };
 
 const updateUser = async (req, res) => {
-  const { userId } = req.user;
+  const { user } = req.user;
   const { email, username } = req.body;
-
-  const user = await User.findOne({ _id: userId });
 
   user.email = email || user.email;
   user.username = username || user.username;
@@ -73,7 +76,7 @@ const updateUser = async (req, res) => {
 };
 
 const updatePassword = async (req, res) => {
-  const { userId } = req.user;
+  const { user } = req.user;
   const { oldPassword, newPassword } = req.body;
 
   if (!oldPassword || !newPassword) {
@@ -81,8 +84,6 @@ const updatePassword = async (req, res) => {
       "Please provide both old password and new password"
     );
   }
-
-  const user = await User.findOne({ _id: userId });
 
   const isPasswordMatch = await validatePassword({
     saved: user.password,
@@ -100,9 +101,7 @@ const updatePassword = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  const { userId } = req.user;
-
-  const user = await User.findOne({ _id: userId });
+  const { user } = req.user;
 
   await user.remove();
 

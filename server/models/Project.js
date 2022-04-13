@@ -25,4 +25,12 @@ ProjectSchema.pre("remove", async function () {
   await this.model("Member").deleteMany({ project: this._id });
 });
 
+ProjectSchema.statics.findOneExist = async function (queryObject) {
+  const project = await this.model("Project").findOne(queryObject);
+  if (!project) {
+    throw new NotFoundError();
+  }
+  return project;
+};
+
 module.exports = mongoose.model("Project", ProjectSchema);

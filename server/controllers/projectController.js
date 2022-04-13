@@ -1,12 +1,11 @@
-const dayjs = require("dayjs");
 const { StatusCodes } = require("http-status-codes");
 
 const Project = require("../models/Project");
 const Member = require("../models/Member");
 
-const generateSearchQuery = require("../utils/generateSearchQuery");
+const { generateSearchQuery } = require("../utils");
 
-const { NotFoundError, UnauthorizedError } = require("../errors");
+const { NotFoundError } = require("../errors");
 
 const getAllProjects = async (req, res) => {
   const { name, sort, fields, page, limit } = req.query;
@@ -56,20 +55,11 @@ const getSingleProject = async (req, res) => {
   const { userId } = req.user;
   const { id: projectId } = req.params;
 
-  // check for valid project
-  const project = await Project.findOne({ _id: projectId });
-  if (!project) {
-    throw new NotFoundError("Project");
-  }
-
   // authorize user
-  const member = await Member.findOne({
-    project: projectId,
-    user: userId,
-  });
-  if (!member) {
-    throw new NotFoundError("Project");
-  }
+  await Member.findUserIsMember(userId, projectId);
+
+  // check for valid project
+  const project = await Project.findOneExist({ _id: projectId });
 
   await project.save();
 
@@ -97,16 +87,9 @@ const updateProject = async (req, res) => {
   const { name, trelloBoardId, finished } = req.body;
 
   // authorize user
-  const member = await Member.findOne({
-    project: projectId,
-    user: userId,
-    role: "admin",
-  });
-  if (!member) {
-    throw new UnauthorizedError();
-  }
+  await Member.findUserIsAdmin(userId, projectId);
 
-  // check for valid project
+  // update project
   const project = await Project.findOneAndUpdate(
     { _id: projectId },
     { name, trelloBoardId, finished },
@@ -123,22 +106,11 @@ const deleteProject = async (req, res) => {
   const { userId } = req.user;
   const { id: projectId } = req.params;
 
-  // check for valid project
-  const project = await Project.findOne({ _id: projectId });
-  if (!project) {
-    throw new NotFoundError("Project");
-  }
-
   // authorize user
-  const member = await Member.findOne({
-    project: projectId,
-    user: userId,
-    role: "admin",
-  });
-  if (!member) {
-    throw new NotFoundError("Project");
-  }
+  await Member.findUserIsAdmin(userId, projectId);
 
+  // check for valid project
+  const project = await Project.findOneExist({ _id: projectId });
   await project.remove();
 
   res.status(StatusCodes.OK).json({ message: "Project deleted" });
