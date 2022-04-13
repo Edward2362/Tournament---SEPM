@@ -13,12 +13,6 @@ const { BadRequestError, UnauthenticatedError } = require("../errors");
 const register = async (req, res) => {
   const { username, email, password } = req.body;
 
-  // check if email is duplicated
-  const isEmailDuplicated = await User.findOne({ email });
-  if (isEmailDuplicated) {
-    throw new BadRequestError("Email already exists");
-  }
-
   // if this is the first account, make it an admin
   const isFirstAccount = (await User.countDocuments({})) === 0;
   const role = isFirstAccount ? "admin" : "user";
