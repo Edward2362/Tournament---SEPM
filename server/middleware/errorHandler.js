@@ -24,11 +24,14 @@ const errorHandler = (err, req, res, next) => {
 
   // id related errors
   if (err.name === "CastError") {
-    customError.message = "Resource not found";
-    customError.statusCode = StatusCodes.NOT_FOUND;
+    if (err.kind === "ObjectId") {
+      customError.message = `Resource with id ${err.value} not found`;
+      customError.statusCode = StatusCodes.NOT_FOUND;
+    } else {
+      customError.message = `Wrong value type ${err.valueType} for ${err.path}, should be ${err.kind}`;
+      customError.statusCode = StatusCodes.BAD_REQUEST;
+    }
   }
-
-  console.log(err);
 
   res.status(customError.statusCode).json({ message: customError.message });
 };
