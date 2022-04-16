@@ -31,10 +31,10 @@ app.get("/", (req, res) => {
 });
 
 // ? invitation
-app.use("/v1/auth", authRouter);
-app.use("/v1/users", userRouter);
-app.use("/v1/projects", projectRouter);
-app.use("/v1/members", memberRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/projects", projectRouter);
+app.use("/api/v1/members", memberRouter);
 
 app.use(notFound);
 app.use(errorHandler);
