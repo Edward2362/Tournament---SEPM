@@ -7,7 +7,7 @@ const { generateSearchQuery } = require("../utils");
 
 const { NotFoundError } = require("../errors");
 
-const getALlMembers = async (req, res) => {
+const getAllMembers = async (req, res) => {
   const { role, desiredReward, sort, fields, page, limit } = req.query;
 
   const queryObject = {};
@@ -69,10 +69,11 @@ const getSingleMember = async (req, res) => {
   const { userId } = req.user;
   const { id: memberId } = req.params;
 
-  const member = await Member.findOneExist({
-    _id: memberId,
-    user: userId,
-  });
+  // find member in database
+  const member = await Member.findOneExist({ _id: memberId });
+
+  // make sure the current user is in the same project with the member requested
+  await Member.findUserIsMember(userId, member.project);
 
   res.status(StatusCodes.OK).json({ data: member });
 };
@@ -88,10 +89,13 @@ const createMember = async (req, res) => {
     userId: userIdBody,
   } = req.body;
 
-  await User.findOneExist({ _id: userIdBody });
-
+  // make sure the current user is an admin of the project
   await Member.findUserIsAdmin(userId, projectId);
 
+  // check valid user
+  await User.findOneExist({ _id: userIdBody });
+
+  // create member/ add member to project
   const member = await Member.create({
     overallPoint,
     desiredReward,
@@ -148,5 +152,5 @@ module.exports = {
   createMember,
   updateMember,
   deleteMember,
-  getALlMembers,
+  getAllMembers,
 };

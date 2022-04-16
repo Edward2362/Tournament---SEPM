@@ -1,6 +1,6 @@
 const User = require("../models/User");
 
-const { validateToken } = require("../utils");
+const { validateToken, createTokenPayload } = require("../utils");
 
 const { UnauthenticatedError, UnauthorizedError } = require("../errors");
 
@@ -12,11 +12,11 @@ const authenticateUser = async (req, res, next) => {
   }
 
   try {
-    const { username, email, userId, role } = validateToken(token);
+    const { userId } = validateToken(token);
 
     const user = await User.findOneExist({ _id: userId });
 
-    req.user = { username, email, userId, role, user };
+    req.user = { ...createTokenPayload(user), user };
     next();
   } catch (error) {
     throw new UnauthenticatedError();

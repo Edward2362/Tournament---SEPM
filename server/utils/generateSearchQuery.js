@@ -35,6 +35,10 @@ const generateSearchQuery = ({
     result = result.sort("-createdAt");
   }
 
+  const pageTemp = parseInt(page) || 1;
+  const limitTemp = parseInt(limit) || limitDefault;
+  const skip = (pageTemp - 1) * limitTemp;
+
   if (fields || fieldsDefault) {
     let fieldList = fieldsDefault;
     if (fields) {
@@ -42,10 +46,6 @@ const generateSearchQuery = ({
     }
     result = result.select(fieldList);
   }
-
-  const pageTemp = parseInt(page) || 1;
-  const limitTemp = parseInt(limit) || limitDefault;
-  const skip = (pageTemp - 1) * limitTemp;
 
   result = result.skip(skip).limit(limitTemp);
 

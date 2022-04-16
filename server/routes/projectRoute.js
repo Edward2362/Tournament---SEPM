@@ -19,19 +19,14 @@ const {
   authorizeUser,
 } = require("../middleware/authentication");
 
-// TODO: search
-router
-  .route("/")
-  .get(authenticateUser, authorizeUser, getAllProjects)
-  .post(authenticateUser, createProject);
+router.use(authenticateUser);
+
+router.route("/").get(authorizeUser, getAllProjects).post(createProject);
 router
   .route("/:id")
-  .get(authenticateUser, getSingleProject)
-  .patch(authenticateUser, updateProject)
-  .delete(authenticateUser, deleteProject);
-router
-  .route("/:projectId/members")
-  .get(authenticateUser, getProjectMembers)
-  .post(authenticateUser, createMember);
+  .get(getSingleProject)
+  .patch(updateProject)
+  .delete(deleteProject);
+router.route("/:projectId/members").get(getProjectMembers).post(createMember);
 
 module.exports = router;
