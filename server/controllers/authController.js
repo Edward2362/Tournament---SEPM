@@ -13,16 +13,13 @@ const { BadRequestError, UnauthenticatedError } = require("../errors");
 const register = async (req, res) => {
   const { username, email, password } = req.body;
 
-  // if this is the first account, make it an admin
-  const isFirstAccount = (await User.countDocuments({})) === 0;
-  const role = isFirstAccount ? "admin" : "user";
+  // email duplication checking is in errorhandler when request fails the unique validation
 
   // create user
   const user = await User.create({
     username,
     email,
     password,
-    role,
   });
 
   // add cookies to response
@@ -47,10 +44,7 @@ const login = async (req, res) => {
   }
 
   // check if password matches
-  const isPasswordMatch = await validatePassword({
-    saved: user.password,
-    toValidate: password,
-  });
+  const isPasswordMatch = await validatePassword(user.password, password);
   if (!isPasswordMatch) {
     throw new UnauthenticatedError();
   }
@@ -58,6 +52,7 @@ const login = async (req, res) => {
   // add cookies to response
   const tokenUser = createTokenPayload(user);
   responseWithToken(res, tokenUser);
+
   res.status(StatusCodes.OK).json({ data: tokenUser });
 };
 
