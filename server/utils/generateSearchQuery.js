@@ -1,21 +1,30 @@
 const BOOLEAN = "boolean";
 const REGEX = "regex";
 
-// objectAttributes: array with objects below
-// { name: "name of the attribute", type: "regex/boolean", value: "value of the attribute"}
-const generateSearchQuery = ({
-  queryObject,
-  objectAttributes,
+/**
+ * Attach search query to mongoose request
+ * @param {Model} model model to attach search queries
+ * @param {Object} queryObject object to put in find()
+ * @param {Object} object query options
+ * searchProps: an array of object like following:
+ * { name: "prop's name", value: "prop's value", type: "regex/boolean"}
+ * @returns
+ */
+const generateSearchQuery = (
   model,
-  sort,
-  sortDefault,
-  fields,
-  fieldsDefault = "",
-  page,
-  limit,
-  limitDefault = 10,
-}) => {
-  objectAttributes.forEach((a) => {
+  queryObject,
+  {
+    searchProps,
+    sort,
+    sortDefault,
+    fields,
+    fieldsDefault = "",
+    page,
+    limit,
+    limitDefault = 10,
+  }
+) => {
+  searchProps.forEach((a) => {
     if (a.value) {
       if (a.type === BOOLEAN) {
         queryObject[a.name] = a.value === "true" ? true : false;
@@ -26,6 +35,7 @@ const generateSearchQuery = ({
 
   let result = model.find(queryObject);
 
+  // sorting
   if (sort) {
     const sortList = sort.split(",").join(" ");
     result = result.sort(sortList);
@@ -35,10 +45,14 @@ const generateSearchQuery = ({
     result = result.sort("-createdAt");
   }
 
+  // pagination
   const pageTemp = parseInt(page) || 1;
   const limitTemp = parseInt(limit) || limitDefault;
   const skip = (pageTemp - 1) * limitTemp;
 
+  result = result.skip(skip);
+
+  // fields selection
   if (fields || fieldsDefault) {
     let fieldList = fieldsDefault;
     if (fields) {
@@ -47,7 +61,7 @@ const generateSearchQuery = ({
     result = result.select(fieldList);
   }
 
-  result = result.skip(skip).limit(limitTemp);
+  result = result.limit(limitTemp);
 
   return result;
 };

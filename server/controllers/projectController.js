@@ -12,9 +12,7 @@ const getAllProjects = async (req, res) => {
 
   const queryObject = {};
 
-  const result = generateSearchQuery({
-    queryObject,
-    model: Project,
+  const result = generateSearchQuery(Project, queryObject, {
     objectAttributes: [{ name: "name", value: name, type: "regex" }],
     sort,
     fields,
@@ -36,9 +34,7 @@ const getUserProjects = async (req, res) => {
 
   const queryObject = { _id: { $in: memberIDs } };
 
-  const result = generateSearchQuery({
-    queryObject,
-    model: Project,
+  const result = generateSearchQuery(Project, queryObject, {
     objectAttributes: [{ name: "name", value: name, type: "regex" }],
     sort,
     fields,
