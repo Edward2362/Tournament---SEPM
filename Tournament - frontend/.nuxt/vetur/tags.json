@@ -2,13 +2,19 @@
   "AppHeader": {
     "description": "Auto imported from components/AppHeader.vue"
   },
-  "Input": {
-    "description": "Auto imported from components/Input.vue"
+  "LoginForm": {
+    "description": "Auto imported from components/LoginForm.vue"
   },
-  "NuxtLogo": {
-    "description": "Auto imported from components/NuxtLogo.vue"
+  "ProjectCard": {
+    "description": "Auto imported from components/ProjectCard.vue"
   },
-  "Tutorial": {
-    "description": "Auto imported from components/Tutorial.vue"
+  "RegisterForm": {
+    "description": "Auto imported from components/RegisterForm.vue"
+  },
+  "SearchBar": {
+    "description": "Auto imported from components/SearchBar.vue"
+  },
+  "User": {
+    "description": "Auto imported from components/User.vue"
   }
 }

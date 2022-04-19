@@ -1,7 +1,9 @@
 export { default as AppHeader } from '../..\\components\\AppHeader.vue'
-export { default as Input } from '../..\\components\\Input.vue'
-export { default as NuxtLogo } from '../..\\components\\NuxtLogo.vue'
-export { default as Tutorial } from '../..\\components\\Tutorial.vue'
+export { default as LoginForm } from '../..\\components\\LoginForm.vue'
+export { default as ProjectCard } from '../..\\components\\ProjectCard.vue'
+export { default as RegisterForm } from '../..\\components\\RegisterForm.vue'
+export { default as SearchBar } from '../..\\components\\SearchBar.vue'
+export { default as User } from '../..\\components\\User.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {

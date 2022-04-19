@@ -1,0 +1,247 @@
+.authentication-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #234C87;
+}
+
+.authentication-body {
+    height: 80vh;
+    width: 65vw;
+    background-color: #FAFCFF;
+    border-radius: 10px;
+    display: flex;
+}
+
+.authentication-section {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vertical-line {
+    margin: auto 0;
+    border: 0.225vh solid #234C87;
+    height: 80%;
+    left: 50%;
+    background-color: #234C87;
+    border-radius: 1000px;
+}
+
+.authentication-content {
+    height: 80%;
+    width: 78%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tournament-intro {
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    width: 100%;
+}
+
+.tournament-logo {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tournament-logo svg {
+    width: 75%;
+    height: auto;
+    margin-bottom: 10%;
+}
+
+.tournament-slogan {
+    width: 100%;
+    justify-content: center;
+    font-size: 110%;
+    text-align: center;
+}
+
+.tournament-slogan p {
+    width: 100%;
+    color: #234C87;
+    font-weight: 300;
+}
+
+.authentication-forms {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+.wrapper {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    z-index: 99;
+    display: block;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.hide-sign-in {
+    transform: translateX(-100%);
+    opacity: 0;
+    z-index: -1;
+    width: 0;
+}
+
+.hide-sign-up {
+    transform: translateX(100%);
+    opacity: 0;
+    z-index: -1;
+    width: 0;
+}
+
+.sign-in {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign-in h1 {
+    font-weight: 700;
+}
+
+.form {
+    width: 100%;
+    height: 60%;
+    /* margin: auto; */
+}
+
+.form-name {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10%;
+    color: #234C87
+}
+
+.form-input {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 16%;
+    margin: 4% 0;
+}
+
+.form-input-body {
+    width: 80%;
+    background-color: #FAFCFF;
+    display: flex;
+    align-items: center;
+    padding: 5%;
+    box-shadow: #234d8769 0px 1px 4px;
+    border-radius: 50px;
+}
+
+.form-input-body input {
+    border: none;
+    width: 100%;
+    background-color: #FAFCFF;
+}
+
+.input-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: auto;
+    margin-right: 5%;
+}
+
+.form-submit {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    height: 16%;
+    margin: auto;
+    margin-top: 16%;
+    padding: 1% 0;
+    background-color: #FF5C72;
+    border-radius: 50px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    z-index: 1;
+}
+
+.form-submit:hover {
+    transition: all 0.5s;
+
+}
+
+.form-submit::before {
+    transition: 0.3s all ease-in-out;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    opacity: 0;
+    content: "";
+    border-radius: 50px;
+    background-color: #ff7184;
+}
+
+.form-submit:hover::before {
+    transition: 0.3s all ease-in-out;
+    left: 0;
+    right: 0;
+    opacity: 1;
+    z-index: -1;
+}
+
+.form-submit input {
+    background-color: transparent;
+    border: none;
+    color: #FAFCFF;
+    cursor: pointer;
+    height: 100%;
+    width: fit-content;
+    font-size: 120%;
+    font-weight: 700;
+    z-index: 2;
+}
+
+.authentication-nav {
+    width: 100%;
+    height: 10%;
+    display: flex;
+}
+
+.login {
+    justify-content: left;
+    align-items: flex-end;
+}
+
+.register {
+    justify-content: right;
+    align-items: flex-end;
+}
+
+.authentication-nav svg {
+    cursor: pointer;
+}
+
+
+.sign-up {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+}
+
+.sign-up h1 {
+    font-weight: 700;
+}

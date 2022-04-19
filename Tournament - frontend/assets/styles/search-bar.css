@@ -1,0 +1,41 @@
+.input-holder {
+    display: flex;
+    background-color: #FAFCFF;
+    padding: 1% 3%;
+    border-radius: 50px;
+    align-items: center;
+    height: 100%;
+    box-shadow: #234d8769 0px 1px 4px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.input-icon {
+    display: flex;
+    align-items: center;
+    margin-right: 4%;
+    margin-left: 3%;
+    height: 100%;
+}
+
+.input-icon svg {
+    width: auto;
+    height: 65%;
+}
+
+.input-holder input {
+    width: 80%;
+    height: 100%;
+    background-color: #FAFCFF;
+}
+
+.input-holder input::placeholder {
+    color: #234C87;
+    font-size: 120%;
+    font-weight: 700;
+}
+
+.input-holder input:focus {
+    font-weight: 700;
+    color: #234C87;
+}

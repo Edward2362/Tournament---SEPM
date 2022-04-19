@@ -1,0 +1,71 @@
+.workspace {
+    margin: 0 17.5%;
+}
+
+.head {
+    margin: 4vh 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2.25%;
+}
+
+.head p {
+    font-size: 200%;
+    font-weight: 300;
+    color: #234C87;
+}
+
+.categories {
+    display: flex;
+    justify-content: right;
+    width: 50%;
+}
+
+.categories div {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: #FAFCFF;
+    border: 2px solid #FF5C72;
+    margin-left: 3%;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.active {
+    background-color: #FF5C72 !important;
+}
+
+.active path {
+    fill: #FAFCFF;
+}
+
+.body {
+    width: 100%;
+}
+
+.section {
+    padding: 0 2.25% 2vh 2.25%;
+    margin: 4vh 0;
+    box-shadow: #234d8769 0px 1px 4px;
+    border-radius: 10px;
+    background-color: #FAFCFF;
+}
+
+.section h1 {
+    font-size: 100%;
+    font-weight: 700;
+    color: #234C87;
+    padding: 1vh 0;
+}
+
+.projects {
+    display: grid;
+    grid-template-columns: 22% 22% 22% 22%;
+    place-items: center;
+    column-gap: 4%;
+}

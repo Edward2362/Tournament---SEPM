@@ -2,25 +2,25 @@
   {
     "name": "about",
     "path": "/about",
-    "component": "E:\\\\SEPM\\\\Assignment\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\about.vue",
+    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\about.vue",
     "chunkName": "pages/about"
   },
   {
-    "name": "Login",
-    "path": "/Login",
-    "component": "E:\\\\SEPM\\\\Assignment\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\Login\\\\index.vue",
-    "chunkName": "pages/Login/index"
+    "name": "authentication",
+    "path": "/authentication",
+    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\authentication.vue",
+    "chunkName": "pages/authentication"
   },
   {
-    "name": "Signup",
-    "path": "/Signup",
-    "component": "E:\\\\SEPM\\\\Assignment\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\Signup\\\\index.vue",
-    "chunkName": "pages/Signup/index"
+    "name": "workspace-id",
+    "path": "/workspace/:id?",
+    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\workspace\\\\_id.vue",
+    "chunkName": "pages/workspace/_id"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "E:\\\\SEPM\\\\Assignment\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\index.vue",
+    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\index.vue",
     "chunkName": "pages/index"
   }
 ]

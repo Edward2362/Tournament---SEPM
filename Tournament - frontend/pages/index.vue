@@ -1,7 +1,6 @@
-
 <template>
   <div>
-    <h2>Welcome to the best corny dad jokes app on the web</h2>
+    <h2>Tournament</h2>
   </div>
 </template>
 
@@ -14,10 +13,10 @@ export default {
         {
           hid: "description",
           name: "description",
-          content: "Best place for corny dad jokes"
-        }
-      ]
+          content: "Best place for corny dad jokes",
+        },
+      ],
     };
-  }
+  },
 };
 </script>

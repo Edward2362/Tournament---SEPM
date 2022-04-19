@@ -1,0 +1,13 @@
+#profile {
+    width: 40px;
+    height: 40px;
+}
+
+#profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #234C87;
+    object-fit: cover;
+    object-position: center;
+}
