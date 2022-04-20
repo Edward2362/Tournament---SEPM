@@ -37,7 +37,7 @@ const getUserMembers = async (req, res) => {
   const queryObject = { user: userId };
 
   const result = generateSearchQuery(Member, queryObject, {
-    objectAttributes: [
+    searchProps: [
       { name: "role", value: role, type: "regex" },
       { name: "desiredReward", value: desiredReward, type: "regex" },
     ],

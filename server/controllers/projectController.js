@@ -35,7 +35,7 @@ const getUserProjects = async (req, res) => {
   const queryObject = { _id: { $in: memberIDs } };
 
   const result = generateSearchQuery(Project, queryObject, {
-    objectAttributes: [{ name: "name", value: name, type: "regex" }],
+    searchProps: [{ name: "name", value: name, type: "regex" }],
     sort,
     fields,
     page,

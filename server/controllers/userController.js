@@ -22,7 +22,7 @@ const getAllUsers = async (req, res) => {
   const queryObject = {};
 
   const result = generateSearchQuery(User, queryObject, {
-    objectAttributes: [
+    searchProps: [
       { name: "username", value: username, type: "regex" },
       { name: "email", value: email, type: "regex" },
     ],

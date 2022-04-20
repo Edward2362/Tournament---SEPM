@@ -24,14 +24,15 @@ const generateSearchQuery = (
     limitDefault = 10,
   }
 ) => {
-  searchProps.forEach((a) => {
-    if (a.value) {
-      if (a.type === BOOLEAN) {
-        queryObject[a.name] = a.value === "true" ? true : false;
-      } else if (a.type === REGEX)
-        queryObject[a.name] = { $regex: a.value, $options: "i" };
-    }
-  });
+  searchProps &&
+    searchProps.forEach((a) => {
+      if (a.value) {
+        if (a.type === BOOLEAN) {
+          queryObject[a.name] = a.value === "true";
+        } else if (a.type === REGEX)
+          queryObject[a.name] = { $regex: a.value, $options: "i" };
+      }
+    });
 
   let result = model.find(queryObject);
 
