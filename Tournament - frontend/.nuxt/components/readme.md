@@ -7,6 +7,9 @@ You can directly use them in pages and other components without the need to impo
 **Tip:** If a component is conditionally rendered with `v-if` and is big, it is better to use `Lazy` or `lazy-` prefix to lazy load.
 
 - `<AppHeader>` | `<app-header>` (components/AppHeader.vue)
+- `<ChooseTask>` | `<choose-task>` (components/ChooseTask.vue)
+- `<Cover>` | `<cover>` (components/Cover.vue)
+- `<CreatePopUp>` | `<create-pop-up>` (components/CreatePopUp.vue)
 - `<LoginForm>` | `<login-form>` (components/LoginForm.vue)
 - `<ProjectCard>` | `<project-card>` (components/ProjectCard.vue)
 - `<RegisterForm>` | `<register-form>` (components/RegisterForm.vue)

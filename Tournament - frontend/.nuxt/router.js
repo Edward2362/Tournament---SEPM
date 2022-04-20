@@ -4,10 +4,15 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _36921214 = () => interopDefault(import('..\\pages\\about.vue' /* webpackChunkName: "pages/about" */))
-const _49b71b81 = () => interopDefault(import('..\\pages\\authentication.vue' /* webpackChunkName: "pages/authentication" */))
-const _32b0ad64 = () => interopDefault(import('..\\pages\\workspace\\_id.vue' /* webpackChunkName: "pages/workspace/_id" */))
-const _5649ecd9 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
+const _b7fc4b86 = () => interopDefault(import('..\\pages\\about.vue' /* webpackChunkName: "pages/about" */))
+const _094b7178 = () => interopDefault(import('..\\pages\\authentication.vue' /* webpackChunkName: "pages/authentication" */))
+const _b3c3f57a = () => interopDefault(import('..\\pages\\Test_popup\\index.vue' /* webpackChunkName: "pages/Test_popup/index" */))
+const _d7845976 = () => interopDefault(import('..\\pages\\workspace.vue' /* webpackChunkName: "pages/workspace" */))
+const _50fd5026 = () => interopDefault(import('..\\pages\\dashboard\\_id.vue' /* webpackChunkName: "pages/dashboard/_id" */))
+const _f7e4515c = () => interopDefault(import('..\\pages\\projects\\_id\\index.vue' /* webpackChunkName: "pages/projects/_id/index" */))
+const _885d6fd8 = () => interopDefault(import('..\\pages\\projects\\_id\\history.vue' /* webpackChunkName: "pages/projects/_id/history" */))
+const _d0a3c928 = () => interopDefault(import('..\\pages\\projects\\_id\\office.vue' /* webpackChunkName: "pages/projects/_id/office" */))
+const _c0e59860 = () => interopDefault(import('..\\pages\\projects\\_id\\setting.vue' /* webpackChunkName: "pages/projects/_id/setting" */))
 
 const emptyFn = () => {}
 
@@ -22,20 +27,40 @@ export const routerOptions = {
 
   routes: [{
     path: "/about",
-    component: _36921214,
+    component: _b7fc4b86,
     name: "about"
   }, {
     path: "/authentication",
-    component: _49b71b81,
+    component: _094b7178,
     name: "authentication"
   }, {
-    path: "/workspace/:id?",
-    component: _32b0ad64,
-    name: "workspace-id"
+    path: "/Test_popup",
+    component: _b3c3f57a,
+    name: "Test_popup"
   }, {
-    path: "/",
-    component: _5649ecd9,
-    name: "index"
+    path: "/workspace",
+    component: _d7845976,
+    name: "workspace"
+  }, {
+    path: "/dashboard/:id?",
+    component: _50fd5026,
+    name: "dashboard-id"
+  }, {
+    path: "/projects/:id",
+    component: _f7e4515c,
+    name: "projects-id"
+  }, {
+    path: "/projects/:id?/history",
+    component: _885d6fd8,
+    name: "projects-id-history"
+  }, {
+    path: "/projects/:id?/office",
+    component: _d0a3c928,
+    name: "projects-id-office"
+  }, {
+    path: "/projects/:id?/setting",
+    component: _c0e59860,
+    name: "projects-id-setting"
   }],
 
   fallback: false

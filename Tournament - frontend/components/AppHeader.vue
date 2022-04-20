@@ -1,6 +1,6 @@
 <template>
   <header>
-    <a href="/">
+    <nuxt-link :to="'/'">
       <svg
         width="312"
         height="85"
@@ -38,7 +38,7 @@
           stroke-width="9"
           stroke-linecap="round"
         /></svg
-    ></a>
+    ></nuxt-link>
     <div class="nav-bar">
       <div class="nav-holder">
         <div class="recent">Recent</div>

@@ -116,12 +116,12 @@ export default {
   methods: {
     authorizeTrello() {
       var authenticationSuccess = function () {
-        // Trello.deauthorize();
+        Trello.deauthorize();
         console.log("Successful authentication");
       };
 
       var authenticationFailure = function () {
-        // Trello.deauthorize();
+        Trello.deauthorize();
         console.log("Failed authentication");
       };
 
