@@ -2,30 +2,30 @@ const { StatusCodes } = require("http-status-codes");
 
 const User = require("../models/User");
 const Member = require("../models/Member");
+const Project = require("../models/Project");
 
-const { generateSearchQuery } = require("../utils");
+const { chainSF, createQueryObject } = require("../utils");
 
 const { NotFoundError } = require("../errors");
 
 const getAllMembers = async (req, res) => {
   const { role, desiredReward, sort, fields, page, limit } = req.query;
 
-  const queryObject = {};
+  const queryObject = createQueryObject({}, [
+    { name: "role", value: role, type: "regex" },
+    { name: "desiredReward", value: desiredReward, type: "regex" },
+  ]);
 
-  const result = generateSearchQuery({
-    queryObject,
-    model: Member,
-    objectAttributes: [
-      { name: "role", value: role, type: "regex" },
-      { name: "desiredReward", value: desiredReward, type: "regex" },
-    ],
+  let members = Member.find(queryObject);
+
+  members = chainSF(members, {
     sort,
     fields,
     page,
     limit,
   });
 
-  const members = await result;
+  members = await members;
 
   res.status(StatusCodes.OK).json({ data: members });
 };
@@ -34,20 +34,21 @@ const getUserMembers = async (req, res) => {
   const { userId } = req.user;
   const { role, desiredReward, sort, fields, page, limit } = req.query;
 
-  const queryObject = { user: userId };
+  const queryObject = createQueryObject({ user: userId }, [
+    { name: "role", value: role, type: "regex" },
+    { name: "desiredReward", value: desiredReward, type: "regex" },
+  ]);
 
-  const result = generateSearchQuery(Member, queryObject, {
-    searchProps: [
-      { name: "role", value: role, type: "regex" },
-      { name: "desiredReward", value: desiredReward, type: "regex" },
-    ],
+  let members = Member.find(queryObject);
+
+  members = chainSF(members, {
     sort,
     fields,
     page,
     limit,
   });
 
-  const members = await result;
+  members = await members;
 
   res.status(StatusCodes.OK).json({ data: members });
 };
@@ -102,6 +103,11 @@ const createMember = async (req, res) => {
     user: userIdBody,
     project: projectId,
   });
+
+  await Project.updateOne(
+    { _id: projectId },
+    { $push: { lastAccessed: { user: userIdBody } } }
+  );
 
   res.status(StatusCodes.CREATED).json({ data: member });
 };

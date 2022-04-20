@@ -6,8 +6,9 @@ const User = require("../models/User");
 const {
   responseWithToken,
   createTokenPayload,
-  generateSearchQuery,
   validatePassword,
+  chainSF,
+  createQueryObject,
 } = require("../utils");
 
 const {
@@ -19,13 +20,14 @@ const {
 const getAllUsers = async (req, res) => {
   const { username, email, sort, fields, page, limit } = req.query;
 
-  const queryObject = {};
+  const queryObject = createQueryObject({}, [
+    { name: "username", value: username, type: "regex" },
+    { name: "email", value: email, type: "regex" },
+  ]);
 
-  const result = generateSearchQuery(User, queryObject, {
-    searchProps: [
-      { name: "username", value: username, type: "regex" },
-      { name: "email", value: email, type: "regex" },
-    ],
+  let users = User.find(queryObject);
+
+  users = chainSF(users, {
     sort,
     fields,
     fieldsDefault: "-password -role -trelloId -trelloToken",
@@ -33,7 +35,7 @@ const getAllUsers = async (req, res) => {
     limit,
   });
 
-  const users = await result;
+  users = await users;
 
   res.status(StatusCodes.OK).json({ data: users });
 };

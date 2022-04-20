@@ -1,4 +1,17 @@
+const dayjs = require("dayjs");
 const mongoose = require("mongoose");
+
+const LastAccessSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+    required: [true, "Please provide user ID"],
+  },
+  date: {
+    type: Date,
+    default: dayjs().toDate(),
+  },
+});
 
 const ProjectSchema = mongoose.Schema(
   {
@@ -17,6 +30,7 @@ const ProjectSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    lastAccessed: [LastAccessSchema],
   },
   { timestamps: true }
 );

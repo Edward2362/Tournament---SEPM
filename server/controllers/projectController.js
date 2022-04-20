@@ -3,24 +3,28 @@ const { StatusCodes } = require("http-status-codes");
 const Project = require("../models/Project");
 const Member = require("../models/Member");
 
-const { generateSearchQuery } = require("../utils");
+const { createQueryObject, chainSF } = require("../utils");
 
 const { NotFoundError } = require("../errors");
+const dayjs = require("dayjs");
 
 const getAllProjects = async (req, res) => {
   const { name, sort, fields, page, limit } = req.query;
 
-  const queryObject = {};
+  const queryObject = createQueryObject({}, [
+    { name: "name", value: name, type: "regex" },
+  ]);
 
-  const result = generateSearchQuery(Project, queryObject, {
-    objectAttributes: [{ name: "name", value: name, type: "regex" }],
+  let projects = Project.find(queryObject);
+
+  projects = chainSF(projects, {
     sort,
     fields,
     page,
     limit,
   });
 
-  const projects = await result;
+  projects = await projects;
 
   res.status(StatusCodes.OK).json({ data: projects });
 };
@@ -29,20 +33,23 @@ const getUserProjects = async (req, res) => {
   const { userId } = req.user;
   const { name, sort, fields, page, limit } = req.query;
 
-  const members = await Member.find({ user: userId }).select("project");
-  const memberIDs = members.map((m) => m.project);
+  const queryObject = createQueryObject({ "lastAccessed.user": userId }, [
+    { name: "name", value: name, type: "regex" },
+  ]);
 
-  const queryObject = { _id: { $in: memberIDs } };
+  let projects = Project.aggregate()
+    .unwind("lastAccessed")
+    .match(queryObject)
+    .addFields({ lastAccessed: "$lastAccessed.date" });
 
-  const result = generateSearchQuery(Project, queryObject, {
-    searchProps: [{ name: "name", value: name, type: "regex" }],
+  projects = chainSF(projects, {
     sort,
     fields,
     page,
     limit,
   });
 
-  const projects = await result;
+  projects = await projects;
 
   res.status(StatusCodes.OK).json({ data: projects });
 };
@@ -54,19 +61,39 @@ const getSingleProject = async (req, res) => {
   // authorize user
   await Member.findUserIsMember(userId, projectId);
 
-  // check for valid project
-  const project = await Project.findOneExist({ _id: projectId });
+  // update date of current user
+  const project = await Project.findOneAndUpdate(
+    { _id: projectId, "lastAccessed.user": userId },
+    {
+      $set: {
+        "lastAccessed.$.date": dayjs().toDate(),
+      },
+    },
+    { new: true, runValidators: true }
+  );
 
-  await project.save();
+  if (!project) {
+    throw new NotFoundError();
+  }
 
-  res.status(StatusCodes.OK).json({ data: project });
+  // take only value of the current user
+  const result = project.toObject();
+  result.lastAccessed = result.lastAccessed.find(
+    (e) => e.user.toString() === userId.toString()
+  ).date;
+
+  res.status(StatusCodes.OK).json({ data: result });
 };
 
 const createProject = async (req, res) => {
   const { userId } = req.user;
   const { name, trelloBoardId } = req.body;
 
-  const project = await Project.create({ name, trelloBoardId });
+  const project = await Project.create({
+    name,
+    trelloBoardId,
+    lastAccessed: [{ user: userId }],
+  });
   // create the admin for the project
   await Member.create({
     user: userId,

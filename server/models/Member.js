@@ -68,7 +68,7 @@ MemberSchema.statics.findUserIsAdmin = async function (userId, projectId) {
   return member;
 };
 
-// TODO: pre .remove
+// TODO: pre .remove project.lastAccessed
 
 MemberSchema.statics.findUserIsMember = async function (userId, projectId) {
   // authorize user

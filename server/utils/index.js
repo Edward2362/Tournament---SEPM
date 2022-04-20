@@ -4,7 +4,7 @@ const {
   responseWithToken,
   createTokenPayload,
 } = require("./jwt");
-const generateSearchQuery = require("./generateSearchQuery");
+const { chainSF, createQueryObject } = require("./createSearch");
 const validatePassword = require("./validatePassword");
 
 module.exports = {
@@ -12,6 +12,7 @@ module.exports = {
   validateToken,
   responseWithToken,
   createTokenPayload,
-  generateSearchQuery,
+  chainSF,
+  createQueryObject,
   validatePassword,
 };

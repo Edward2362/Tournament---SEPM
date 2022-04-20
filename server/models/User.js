@@ -45,6 +45,7 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// TODO: project.lastAccessed
 UserSchema.pre("remove", async function () {
   await this.model("Member").deleteMany({ user: this._id });
 });
