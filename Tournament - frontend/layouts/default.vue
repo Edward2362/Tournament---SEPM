@@ -1,5 +1,9 @@
 <template>
-  <nuxt/>
+  <div>
+      <AppHeader/>
+
+      <nuxt/>
+  </div>
 </template>
 
 <script>
@@ -24,7 +28,9 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-background: #234C87;
+/* background: #234C87; */
+background: white;
+
 }
 
 a {

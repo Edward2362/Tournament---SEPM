@@ -2,8 +2,8 @@
     <div class="login_container">
         <div class = "box logobox" style = "vertical-align:bottom; border-right: 2px black solid; margin: 5rem 0;">
             <div class = "Logo_container">
-                <img src = "../../store/logo.png" alt ="Tournament logo" class = "Logo">
-                <img src = "../../store/ournament.png" alt ="Tournament logo" class = "ournament">
+                <img src = "../../static/logo.png" alt ="Tournament logo" class = "Logo">
+                <img src = "../../static/ournament.png" alt ="Tournament logo" class = "ournament">
             </div>
             <div class = "introduction">
                 <p>With contributions come rewards</p>
@@ -15,14 +15,18 @@
                 <p>Sign in</p>
             </div>
             <div class = "login_form">
-                <form class = "form" id= "login" method = "GET">
+                <form class = "form" id= "login" ref="loginform">
                     <div>
-                        <input type="text" class="icon" value placeholder="Email" >
+                        <input type="text" class="icon" value placeholder="Email" v-model="email" >
                     </div>
                     <div>
-                        <input type="text" class="icon" value placeholder="Password">
+                        <input type="text" class="icon" value placeholder="Password" v-model="password">
                     </div>                    
-                    <input type = "submit" class = "submit_button" form = "login" placeholder="Submit">
+                    <input type = "submit" class = "submit_button" form = "login" placeholder="Submit" v-on:click="Signin">
+                    <div>
+                        {{errormessage}}
+                    </div>
+
                 </form>
             </div>
             <div style = "text-align: end">
@@ -30,7 +34,7 @@
                     <p>
                         Register
                     </p>
-                    <img src = "../../store/Signup_arrow.png" alt = "Go to register arrow">
+                    <img src = "../../static/Signup_arrow.png" alt = "Go to register arrow">
                 </button>
             </div>
             <div class = "link_to_register">
@@ -40,9 +44,46 @@
     </div>
 </template>
 <script>
+import Input from './../../components/Input.vue'
+import axios from 'axios'
 export default {
-    
+    name :'Login',
+    components: {
+    Input,
+    },
+    data(){
+        return{
+            password: "",
+            email: "",
+            errormessage: ""
+        }
+    },
+    methods:
+    {
+        async Signin(e){
+            e.preventDefault();
+            console.log("đã run")
+            axios.post('v1/auth/login', {
+            email: this.email,
+            password: this.password,
+            },                
+            )
+            .then(function (response) {
+                console.log(response);
+                window.location.replace("Workspace") 
+            })
+            .catch((error)=> {
+                console.log(error);
+                this.errormessage = error.response.data.message
+        
+            });     
+
+            this.$refs.loginform.reset();
+        },
+    },
+
 }
+
 </script>
 <style>
 .login_container{
@@ -94,7 +135,7 @@ font-weight: 400;
 text-align: center;
 }
 .icon {
-  background: url('../../store/password.png') no-repeat left;
+  background: url('../../static/password.png') no-repeat left;
 background-position: 10%;
   background-size: 20px;
   margin-bottom: 1rem;

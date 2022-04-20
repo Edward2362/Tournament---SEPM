@@ -1,4 +1,7 @@
 export { default as AppHeader } from '../..\\components\\AppHeader.vue'
+export { default as Choosetask } from '../..\\components\\Choosetask.vue'
+export { default as Cover } from '../..\\components\\Cover.vue'
+export { default as Createpopup } from '../..\\components\\Createpopup.vue'
 export { default as Input } from '../..\\components\\Input.vue'
 export { default as NuxtLogo } from '../..\\components\\NuxtLogo.vue'
 export { default as Tutorial } from '../..\\components\\Tutorial.vue'

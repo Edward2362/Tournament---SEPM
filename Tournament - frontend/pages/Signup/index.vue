@@ -2,8 +2,8 @@
     <div class="login_container">
         <div class = "box logobox" style = "vertical-align:bottom; border-right: 2px black solid; margin: 5rem 0;">
             <div class = "Logo_container">
-                <img src = "../../store/logo.png" alt ="Tournament logo" class = "Logo">
-                <img src = "../../store/ournament.png" alt ="Tournament logo" class = "ournament">
+                <img src = "../../static/logo.png" alt ="Tournament logo" class = "Logo">
+                <img src = "../../static/ournament.png" alt ="Tournament logo" class = "ournament">
             </div>
             <div class = "introduction">
                 <p>With contributions come rewards</p>
@@ -15,28 +15,35 @@
                 <p>Sign up</p>
             </div>
             <div class = "login_form">
-                <form class = "form" id = "Signup">
-                    <Input class_name="icon" form_id="Signup" id="email" placeholder_name="Email" type_name="text" image_link="url('../../store/email.png') no-repeat left"/>
+                <form class = "form" id = "Signup" ref= "signupform">
                     <div>
-                        <input type="text" class="icon" value placeholder="Password" id = "password">
+                        <input type="text" class="icon" value placeholder="Email" id = "email" v-model="email">
+                    </div> 
+                    <div>
+                        <input type="text" class="icon" value placeholder="Password" id = "password" v-model="password">
                     </div>                    
                     <div>
-                        <input type="text" class="icon" value placeholder="Retype Password" id = "retypepassword">
+                        <input type="text" class="icon" value placeholder="Retype Password" id = "retypepassword" v-model="retypepassword">
                     </div>                    
                     <div>
-                        <input type="text" class="icon" value placeholder="Username" id = "username">
+                        <input type="text" class="icon" value placeholder="Username" id = "username" v-model="username">
+                    </div>
+                    <div id = "response">
+                        <p class="error">{{ errormessage}}</p>
+
                     </div>
                     <div>
-                        <input type = "submit" class = "submit_button" placeholder="Submit">
+                        <input type = "submit" class = "submit_button" placeholder="Submit" id = "submit" v-on:click="Signup">
                     </div>
                 </form>
             </div>
+
             <div style = "text-align: start">
                 <button class = "button">
                     <p>
                         Login
                     </p>
-                    <img src = "../../store/arrow.png" alt = "back to login arrow">
+                    <img src = "../../static/arrow.png" alt = "back to login arrow">
                 </button>
             </div>
             <div class = "link_to_register">
@@ -47,7 +54,7 @@
 </template>
 <script>
 import Input from './../../components/Input.vue'
-
+import axios from 'axios'
 export default {
     name :'Signup',
     components: {
@@ -55,16 +62,36 @@ export default {
     },
     data(){
         return{
-            new_account: []
+            password: "",
+            retypepassword: "",
+            email: "",
+            username: "",
+            errormessage: ""
         }
     },
     methods:
     {
-        async Signup(new_account){
-            if(new_account["password"] == new_account["retypepassword"]){
+        async Signup(e){
+            e.preventDefault();
+            if( this.password== this.retypepassword){
+                axios.post('v1/auth/register', {
+                username: this.username,
+                email: this.email,
+                password: this.password
+                }
+                )
+                .then(function (response) {
+                    console.log(response);
+                    window.location.replace("Workspace") 
+                })
+                .catch((error)=> {
+                    console.log(error);
+                    this.errormessage = error.response.data.message
+                });
+                }
+            this.$refs.signupform.reset();
 
             }
-        }
     }
 }
 </script>
@@ -118,9 +145,8 @@ font-weight: 400;
 text-align: center;
 }
 .icon {
-      background: url('../../store/email.png') no-repeat left;
-
-background-position: 10%;
+      background: url('../../static/email.png') no-repeat left;
+    background-position: 10%;
   background-size: 20px;
   margin-bottom: 1rem;
   border-radius: 50px;

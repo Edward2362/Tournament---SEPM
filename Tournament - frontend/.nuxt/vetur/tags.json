@@ -2,6 +2,15 @@
   "AppHeader": {
     "description": "Auto imported from components/AppHeader.vue"
   },
+  "Choosetask": {
+    "description": "Auto imported from components/Choosetask.vue"
+  },
+  "Cover": {
+    "description": "Auto imported from components/Cover.vue"
+  },
+  "Createpopup": {
+    "description": "Auto imported from components/Createpopup.vue"
+  },
   "Input": {
     "description": "Auto imported from components/Input.vue"
   },

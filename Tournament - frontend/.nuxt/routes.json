@@ -3,24 +3,63 @@
     "name": "about",
     "path": "/about",
     "component": "E:\\\\SEPM\\\\Assignment\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\about.vue",
-    "chunkName": "pages/about"
+    "chunkName": "pages/about",
+    "_name": "_0ef91231"
+  },
+  {
+    "name": "Dashboard",
+    "path": "/Dashboard",
+    "component": "E:\\\\SEPM\\\\Assignment\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\Dashboard\\\\index.vue",
+    "chunkName": "pages/Dashboard/index",
+    "_name": "_b1cbdc2c"
   },
   {
     "name": "Login",
     "path": "/Login",
     "component": "E:\\\\SEPM\\\\Assignment\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\Login\\\\index.vue",
-    "chunkName": "pages/Login/index"
+    "chunkName": "pages/Login/index",
+    "_name": "_346b4ff5"
   },
   {
     "name": "Signup",
     "path": "/Signup",
     "component": "E:\\\\SEPM\\\\Assignment\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\Signup\\\\index.vue",
-    "chunkName": "pages/Signup/index"
+    "chunkName": "pages/Signup/index",
+    "_name": "_3d5e353e"
+  },
+  {
+    "name": "test",
+    "path": "/test",
+    "component": "E:\\\\SEPM\\\\Assignment\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\test.vue",
+    "chunkName": "pages/test",
+    "_name": "_4b07121e"
+  },
+  {
+    "name": "Test_popup",
+    "path": "/Test_popup",
+    "component": "E:\\\\SEPM\\\\Assignment\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\Test_popup\\\\index.vue",
+    "chunkName": "pages/Test_popup/index",
+    "_name": "_5c462192"
+  },
+  {
+    "name": "Workspace",
+    "path": "/Workspace",
+    "component": "E:\\\\SEPM\\\\Assignment\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\Workspace\\\\index.vue",
+    "chunkName": "pages/Workspace/index",
+    "_name": "_b12d156e"
+  },
+  {
+    "name": "projects-id",
+    "path": "/projects/:id?",
+    "component": "E:\\\\SEPM\\\\Assignment\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id.vue",
+    "chunkName": "pages/projects/_id",
+    "_name": "_59e10b24"
   },
   {
     "name": "index",
     "path": "/",
     "component": "E:\\\\SEPM\\\\Assignment\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_2eb0ecf6"
   }
 ]
