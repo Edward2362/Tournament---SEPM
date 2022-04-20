@@ -98,7 +98,7 @@
           <input type="text" class="icon" value placeholder="Username" />
         </div>
       </div>
-      <div class="form-submit">
+      <div class="form-submit" @click="authorizeTrello">
         <input
           type="submit"
           class="submit_button"
@@ -113,6 +113,31 @@
 <script>
 export default {
   name: "RegisterForm",
+  methods: {
+    authorizeTrello() {
+      var authenticationSuccess = function () {
+        // Trello.deauthorize();
+        console.log("Successful authentication");
+      };
+
+      var authenticationFailure = function () {
+        // Trello.deauthorize();
+        console.log("Failed authentication");
+      };
+
+      Trello.authorize({
+        type: "popup",
+        name: "Getting Started Application",
+        scope: {
+          read: "true",
+          write: "true",
+        },
+        expiration: "never",
+        success: authenticationSuccess,
+        error: authenticationFailure,
+      });
+    },
+  },
 };
 </script>
 

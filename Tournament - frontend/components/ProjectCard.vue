@@ -1,7 +1,7 @@
 <template>
-  <nuxt-link :to="`/projects/23`" class="card">
-    <h2>Tournament</h2>
-    <div class="owner">
+  <nuxt-link :to="`/projects/${project.id}`" class="card">
+    <h2>{{ project.title }}</h2>
+    <div class="owner" :class="{ disappear: !(userId === project.admin) }">
       <svg
         width="99"
         height="106"
@@ -21,8 +21,12 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "ProjectCard",
+  props: ["project"],
+  computed: { ...mapGetters({ userId: "user/getUserId" }) },
 };
 </script>
 

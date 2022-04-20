@@ -20,8 +20,16 @@ input:focus {
     outline: none;
 }
 
+a {
+    text-decoration: none;
+}
+
 .container {
     padding-top: 9vh;
     width: 100vw;
     /* max-width: 100%; */
+}
+
+.disappear {
+    display: none !important;
 }

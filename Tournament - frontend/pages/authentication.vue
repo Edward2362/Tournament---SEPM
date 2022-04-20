@@ -101,7 +101,6 @@
             </div>
           </div>
         </div>
-        <!-- <button @click="test">tét</button> -->
       </div>
     </div>
   </div>
@@ -128,29 +127,6 @@ export default {
     },
     changeForm() {
       this.login_active = !this.login_active;
-    },
-    test() {
-      var authenticationSuccess = function () {
-        Trello.deauthorize();
-        console.log("Successful authentication");
-      };
-
-      var authenticationFailure = function () {
-        Trello.deauthorize();
-        console.log("Failed authentication");
-      };
-
-      Trello.authorize({
-        type: "popup",
-        name: "Getting Started Application",
-        scope: {
-          read: "true",
-          write: "true",
-        },
-        expiration: "never",
-        success: authenticationSuccess,
-        error: authenticationFailure,
-      });
     },
   },
 };

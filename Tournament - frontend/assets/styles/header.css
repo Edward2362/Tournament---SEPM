@@ -3,7 +3,7 @@ header {
     position: fixed;
     z-index: 999;
     font-size: 18px;
-    background-color: #FAFCFF;
+    background-color: #fafcfffa;
     width: 100vw;
     display: grid;
     grid-template-columns: 17.5% 65% 17.5%;

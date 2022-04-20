@@ -44,6 +44,10 @@
     fill: #FAFCFF;
 }
 
+.categories div:hover {
+    box-shadow: #ff5c72cf 0px 1px 4px;
+}
+
 .body {
     width: 100%;
 }
@@ -60,7 +64,7 @@
     font-size: 100%;
     font-weight: 700;
     color: #234C87;
-    padding: 1vh 0;
+    padding: 1.5vh 0;
 }
 
 .projects {

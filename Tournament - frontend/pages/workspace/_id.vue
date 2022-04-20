@@ -64,29 +64,29 @@
         <div class="section">
           <h1>Recent</h1>
           <div class="projects">
+            <!-- <ProjectCard />
             <ProjectCard />
-            <ProjectCard />
-            <ProjectCard />
-            <ProjectCard />
-            <ProjectCard />
-            <ProjectCard />
-            <ProjectCard />
-            <ProjectCard />
-            <ProjectCard />
-            <ProjectCard /> <ProjectCard /> <ProjectCard /> <ProjectCard />
-            <ProjectCard />
+            <ProjectCard /> -->
           </div>
         </div>
         <div class="section">
           <h1>On going</h1>
           <div class="projects">
-            <ProjectCard />
+            <ProjectCard
+              v-for="project in onGoingProjects"
+              :key="project.id"
+              :project="project"
+            />
           </div>
         </div>
         <div class="section">
           <h1>Done</h1>
           <div class="projects">
-            <ProjectCard />
+            <ProjectCard
+              v-for="project in doneProjects"
+              :key="project.id"
+              :project="project"
+            />
           </div>
         </div>
       </div>
@@ -96,15 +96,20 @@
 
 <script>
 import ProjectCard from "../../components/ProjectCard.vue";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {};
   },
   computed: {
-
+    ...mapGetters({
+      onGoingProjects: "projects/getOnGoingProject",
+      doneProjects: "projects/getDoneProject",
+    }),
   },
   components: { ProjectCard },
+  methods: {},
 };
 </script>
 
