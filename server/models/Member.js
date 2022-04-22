@@ -1,5 +1,11 @@
 const mongoose = require("mongoose");
 
+const {
+  BadRequestError,
+  UnauthorizedError,
+  NotFoundError,
+} = require("../errors");
+
 const MemberSchema = mongoose.Schema(
   {
     overallPoint: {
@@ -38,6 +44,50 @@ const MemberSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-// TODO: pre .remove
+MemberSchema.pre("save", async function () {
+  // check for joining same project with same user multiple times
+  const isAlreadyMember = await this.model("Member").findOne({
+    project: this.project,
+    user: this.user,
+  });
+  if (isAlreadyMember) {
+    throw new BadRequestError("User already in project");
+  }
+});
+
+MemberSchema.statics.findUserIsAdmin = async function (userId, projectId) {
+  // authorize user
+  const member = await this.model("Member").findOne({
+    project: projectId,
+    user: userId,
+    role: "admin",
+  });
+  if (!member) {
+    throw new UnauthorizedError();
+  }
+  return member;
+};
+
+// TODO: pre .remove project.lastAccessed
+
+MemberSchema.statics.findUserIsMember = async function (userId, projectId) {
+  // authorize user
+  const member = await this.model("Member").findOne({
+    project: projectId,
+    user: userId,
+  });
+  if (!member) {
+    throw new NotFoundError();
+  }
+  return member;
+};
+
+MemberSchema.statics.findOneExist = async function (queryObject) {
+  const member = await this.model("Member").findOne(queryObject);
+  if (!member) {
+    throw new NotFoundError();
+  }
+  return member;
+};
 
 module.exports = mongoose.model("Member", MemberSchema);

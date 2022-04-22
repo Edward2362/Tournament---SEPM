@@ -18,9 +18,13 @@ const maxUserIndex = 99;
 const startProjectIndex = 0;
 const maxProjectIndex = 199;
 
+const memberMap = {};
+
 const main = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URL);
+
+    createMemberMap();
 
     await deleteUsers();
     await deleteProjects();
@@ -40,61 +44,69 @@ const main = async () => {
   }
 };
 
+const createMemberMap = () => {
+  memberJson.forEach(() => {
+    const projectIndex = crypto.randomInt(startProjectIndex, maxProjectIndex);
+
+    let userIndex;
+    do {
+      // random again if user already in project
+      userIndex = crypto.randomInt(startUserIndex, maxUserIndex);
+    } while (
+      memberMap[projectIndex] &&
+      memberMap[projectIndex].includes(userIndex)
+    );
+
+    if (!memberMap[projectIndex]) {
+      memberMap[projectIndex] = [];
+    }
+
+    memberMap[projectIndex].push(userIndex);
+  });
+};
+
 const deleteUsers = async () => {
   await User.deleteMany({});
+};
+const deleteProjects = async () => {
+  await Project.deleteMany({});
+};
+const deleteMembers = async () => {
+  await Member.deleteMany({});
 };
 
 const createUsers = async () => {
   await User.create(userJson);
 };
 
-const deleteProjects = async () => {
-  await Project.deleteMany({});
-};
-
 const createProjects = async () => {
-  await Project.create(projectJson);
-};
-
-const deleteMembers = async () => {
-  await Member.deleteMany({});
-};
-
-const createMembers = async () => {
   const users = await User.find({}).select("_id");
   const userIDs = users.map((e) => e._id.toString());
 
-  const projects = await Project.find({}).select("_id");
-  const projectIDs = projects.map((e) => e._id.toString());
-
-  const passed = {};
-
-  memberJson.map((e) => {
-    const projectIndex = crypto.randomInt(startProjectIndex, maxProjectIndex);
-    let userIndex;
-    do {
-      // random again if user already in project
-      userIndex = crypto.randomInt(startUserIndex, maxUserIndex);
-
-      if (!(projectIndex in passed) || !(userIndex in passed[projectIndex])) {
-        break;
-      }
-    } while (true);
-
-    e.user = userIDs[userIndex];
-    e.project = projectIDs[projectIndex];
-
-    // if there is no one in the project, make the person admin
-    if (projectIndex in passed) {
-      e.role = "member";
-    } else {
-      e.role = "admin";
+  projectJson.map((p, i) => {
+    if (i in memberMap) {
+      p.lastAccessed = memberMap[i].map((m) => ({ user: userIDs[m] }));
     }
-
-    // put user in project
-    passed[projectIndex] = { ...passed[projectIndex], [userIndex]: true };
-    return e;
   });
+
+  await Project.create(projectJson);
+};
+
+const createMembers = async () => {
+  const projects = await Project.find({}).select("_id lastAccessed");
+
+  const memberLength = memberJson.length;
+
+  let index = 0;
+  for (const p of projects) {
+    for (const [i, la] of p.lastAccessed.entries()) {
+      if (index > memberLength) break;
+      memberJson[index].user = la.user;
+      memberJson[index].project = p._id;
+      memberJson[index].role = i === 0 ? "admin" : "member";
+      index++;
+    }
+  }
 
   await Member.create(memberJson);
 };

@@ -21,7 +21,7 @@ const memberRouter = require("./routes/memberRoute");
 const notFound = require("./middleware/notFound");
 const errorHandler = require("./middleware/errorHandler");
 
-app.use(morgan("tiny"));
+app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
@@ -31,13 +31,12 @@ app.get("/", (req, res) => {
 });
 
 // ? invitation
-app.use("/v1/auth", authRouter);
-app.use("/v1/users", userRouter);
-app.use("/v1/projects", projectRouter);
-app.use("/v1/members", memberRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/projects", projectRouter);
+app.use("/api/v1/members", memberRouter);
 
 app.use(notFound);
-// TODO: handle status code
 app.use(errorHandler);
 
 // start server

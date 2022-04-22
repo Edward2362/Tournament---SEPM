@@ -1,8 +1,10 @@
-const { validateToken } = require("../utils/jwt");
+const User = require("../models/User");
+
+const { validateToken, createTokenPayload } = require("../utils");
 
 const { UnauthenticatedError, UnauthorizedError } = require("../errors");
 
-const authenticateUser = (req, res, next) => {
+const authenticateUser = async (req, res, next) => {
   const { token } = req.signedCookies;
 
   if (!token) {
@@ -10,8 +12,11 @@ const authenticateUser = (req, res, next) => {
   }
 
   try {
-    const { username, email, userId, role } = validateToken(token);
-    req.user = { username, email, userId, role };
+    const { userId } = validateToken(token);
+
+    const user = await User.findOneExist({ _id: userId });
+
+    req.user = { ...createTokenPayload(user), user };
     next();
   } catch (error) {
     throw new UnauthenticatedError();

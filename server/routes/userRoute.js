@@ -9,9 +9,7 @@ const {
   updateUser,
   deleteUser,
 } = require("../controllers/userController");
-
 const { getUserProjects } = require("../controllers/projectController");
-
 const { getUserMembers } = require("../controllers/memberController");
 
 const { authenticateUser } = require("../middleware/authentication");

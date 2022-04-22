@@ -6,7 +6,7 @@ const {
   createMember,
   updateMember,
   deleteMember,
-  getALlMembers,
+  getAllMembers,
 } = require("../controllers/memberController");
 
 const {
@@ -14,15 +14,13 @@ const {
   authorizeUser,
 } = require("../middleware/authentication");
 
-// TODO: search
-router
-  .route("/")
-  .get(authenticateUser, authorizeUser, getALlMembers)
-  .post(authenticateUser, createMember);
+router.use(authenticateUser);
+
+router.route("/").get(authorizeUser, getAllMembers).post(createMember);
 router
   .route("/:id")
-  .get(authenticateUser, getSingleMember)
-  .patch(authenticateUser, updateMember)
-  .delete(authenticateUser, deleteMember);
+  .get(getSingleMember)
+  .patch(updateMember)
+  .delete(deleteMember);
 
 module.exports = router;

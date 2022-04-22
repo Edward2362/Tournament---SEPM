@@ -3,9 +3,13 @@ const { StatusCodes } = require("http-status-codes");
 
 const User = require("../models/User");
 
-const generateSearchQuery = require("../utils/generateSearchQuery");
-const { responseWithToken, createTokenPayload } = require("../utils/jwt");
-const validatePassword = require("../utils/validatePassword");
+const {
+  responseWithToken,
+  createTokenPayload,
+  validatePassword,
+  chainSF,
+  createQueryObject,
+} = require("../utils");
 
 const {
   BadRequestError,
@@ -16,15 +20,14 @@ const {
 const getAllUsers = async (req, res) => {
   const { username, email, sort, fields, page, limit } = req.query;
 
-  const queryObject = {};
+  const queryObject = createQueryObject({}, [
+    { name: "username", value: username, type: "regex" },
+    { name: "email", value: email, type: "regex" },
+  ]);
 
-  const result = generateSearchQuery({
-    queryObject,
-    model: User,
-    objectAttributes: [
-      { name: "username", value: username, type: "regex" },
-      { name: "email", value: email, type: "regex" },
-    ],
+  let users = User.find(queryObject);
+
+  users = chainSF(users, {
     sort,
     fields,
     fieldsDefault: "-password -role -trelloId -trelloToken",
@@ -32,15 +35,15 @@ const getAllUsers = async (req, res) => {
     limit,
   });
 
-  const users = await result;
+  users = await users;
 
   res.status(StatusCodes.OK).json({ data: users });
 };
 
 const getSingleUser = async (req, res) => {
-  const { id: studentId } = req.params;
+  const { id: userId } = req.params;
 
-  const user = await User.findOne({ _id: studentId }).select(
+  const user = await User.findOne({ _id: userId }).select(
     "-password -role -trelloId -trelloToken"
   );
 
@@ -52,14 +55,14 @@ const getSingleUser = async (req, res) => {
 };
 
 const getCurrentUser = async (req, res) => {
-  res.status(StatusCodes.OK).json({ data: req.user });
+  const { user } = req.user;
+  const tokenUser = createTokenPayload(user);
+  res.status(StatusCodes.OK).json({ data: tokenUser });
 };
 
 const updateUser = async (req, res) => {
-  const { userId } = req.user;
+  const { user } = req.user;
   const { email, username } = req.body;
-
-  const user = await User.findOne({ _id: userId });
 
   user.email = email || user.email;
   user.username = username || user.username;
@@ -73,7 +76,7 @@ const updateUser = async (req, res) => {
 };
 
 const updatePassword = async (req, res) => {
-  const { userId } = req.user;
+  const { user } = req.user;
   const { oldPassword, newPassword } = req.body;
 
   if (!oldPassword || !newPassword) {
@@ -81,8 +84,6 @@ const updatePassword = async (req, res) => {
       "Please provide both old password and new password"
     );
   }
-
-  const user = await User.findOne({ _id: userId });
 
   const isPasswordMatch = await validatePassword({
     saved: user.password,
@@ -100,9 +101,7 @@ const updatePassword = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  const { userId } = req.user;
-
-  const user = await User.findOne({ _id: userId });
+  const { user } = req.user;
 
   await user.remove();
 
