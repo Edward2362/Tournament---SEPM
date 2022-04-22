@@ -28,13 +28,6 @@
     "_name": "_d7845976"
   },
   {
-    "name": "dashboard-id",
-    "path": "/dashboard/:id?",
-    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\merge SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\dashboard\\\\_id.vue",
-    "chunkName": "pages/dashboard/_id",
-    "_name": "_50fd5026"
-  },
-  {
     "name": "projects-id",
     "path": "/projects/:id",
     "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\merge SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\index.vue",

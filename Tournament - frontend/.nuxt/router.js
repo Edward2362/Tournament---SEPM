@@ -8,7 +8,6 @@ const _b7fc4b86 = () => interopDefault(import('..\\pages\\about.vue' /* webpackC
 const _094b7178 = () => interopDefault(import('..\\pages\\authentication.vue' /* webpackChunkName: "pages/authentication" */))
 const _b3c3f57a = () => interopDefault(import('..\\pages\\Test_popup\\index.vue' /* webpackChunkName: "pages/Test_popup/index" */))
 const _d7845976 = () => interopDefault(import('..\\pages\\workspace.vue' /* webpackChunkName: "pages/workspace" */))
-const _50fd5026 = () => interopDefault(import('..\\pages\\dashboard\\_id.vue' /* webpackChunkName: "pages/dashboard/_id" */))
 const _f7e4515c = () => interopDefault(import('..\\pages\\projects\\_id\\index.vue' /* webpackChunkName: "pages/projects/_id/index" */))
 const _885d6fd8 = () => interopDefault(import('..\\pages\\projects\\_id\\history.vue' /* webpackChunkName: "pages/projects/_id/history" */))
 const _d0a3c928 = () => interopDefault(import('..\\pages\\projects\\_id\\office.vue' /* webpackChunkName: "pages/projects/_id/office" */))
@@ -41,10 +40,6 @@ export const routerOptions = {
     path: "/workspace",
     component: _d7845976,
     name: "workspace"
-  }, {
-    path: "/dashboard/:id?",
-    component: _50fd5026,
-    name: "dashboard-id"
   }, {
     path: "/projects/:id",
     component: _f7e4515c,
