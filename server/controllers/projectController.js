@@ -51,6 +51,8 @@ const getUserProjects = async (req, res) => {
 
   projects = await projects;
 
+  projects = await Project.populate(projects, "members");
+
   res.status(StatusCodes.OK).json({ data: projects });
 };
 

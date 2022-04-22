@@ -35,6 +35,12 @@ const ProjectSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+ProjectSchema.virtual("members", {
+  ref: "Member",
+  localField: "_id",
+  foreignField: "project",
+});
+
 ProjectSchema.pre("remove", async function () {
   await this.model("Member").deleteMany({ project: this._id });
 });
