@@ -11,6 +11,7 @@ You can directly use them in pages and other components without the need to impo
 - `<Cover>` | `<cover>` (components/Cover.vue)
 - `<CreatePopUp>` | `<create-pop-up>` (components/CreatePopUp.vue)
 - `<LoginForm>` | `<login-form>` (components/LoginForm.vue)
+- `<PopUpCreate>` | `<pop-up-create>` (components/PopUpCreate.vue)
 - `<ProjectCard>` | `<project-card>` (components/ProjectCard.vue)
 - `<RegisterForm>` | `<register-form>` (components/RegisterForm.vue)
 - `<SearchBar>` | `<search-bar>` (components/SearchBar.vue)

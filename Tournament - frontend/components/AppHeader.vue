@@ -42,7 +42,8 @@
     <div class="nav-bar">
       <div class="nav-holder">
         <div class="recent">Recent</div>
-        <div class="create">Create</div>
+        <div class="create" @click="bluring">Create</div>
+        {{ isOverlay }}
       </div>
       <div class="search-holder">
         <div class="header-search"><SearchBar /></div>
@@ -57,10 +58,21 @@
 <script>
 import SearchBar from "../components/SearchBar.vue";
 import User from "../components/User.vue";
+import { mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "AppHeader",
   components: { SearchBar, User },
+  computed: {
+    ...mapGetters({
+      isOverlay: "document/isOverlay",
+    }),
+  },
+  methods: {
+    ...mapMutations({
+      bluring: "document/setOverlay",
+    }),
+  },
 };
 </script>
 

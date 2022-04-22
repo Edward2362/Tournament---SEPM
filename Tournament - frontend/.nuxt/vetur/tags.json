@@ -14,6 +14,9 @@
   "LoginForm": {
     "description": "Auto imported from components/LoginForm.vue"
   },
+  "PopUpCreate": {
+    "description": "Auto imported from components/PopUpCreate.vue"
+  },
   "ProjectCard": {
     "description": "Auto imported from components/ProjectCard.vue"
   },
