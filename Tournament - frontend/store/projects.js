@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const state = () => ({
   projects: [
     {
@@ -41,7 +43,11 @@ export const state = () => ({
 });
 
 export const getters = {
-  getRecentProject(state, user) {},
+  getRecentProject(state) {
+    return state.projects.slice(0, 4).sort(function (a, b) {
+      return (a.updatedAt - b.updatedAt)
+    });
+  },
   getOnGoingProject(state) {
     return state.projects.filter((project) => project.finished === false);
   },
@@ -51,7 +57,31 @@ export const getters = {
 };
 
 export const actions = {
-  fetchProjectByUser({ commit }, userId) {},
+  fetchProjectByUser({ commit }) {
+    axios.get('v1/users/me/projects')
+    .then(response => {
+      console.log(response.data);
+      commit('setProjects', response.data.data)
+    })
+    // console.log(this.recent)
+    // console.log(this.done)
+    // axios.get('v1/users/me/projects')
+    // .then(response => {
+    //   console.log(response.data);
+    //   for(let i = 0; i < response.data.data.length; i++){
+    //     if(response.data.data[i].finished == false){
+    //       this.ongoing.push(response.data.data[i])
+    //     }
+    //     else{
+    //       this.done.push(response.data.data[i])
+    //     }
+    //   }
+    // })
+  },
 };
 
-export const mutations = {};
+export const mutations = {
+  setProjects: (state, projects) => (state.projects = projects),
+  newProjects: (state, project) => state.projects.unshift(project),
+  finishProject: (state, id) => (state.projects.filter(project => project.id == id).finished = true),
+};

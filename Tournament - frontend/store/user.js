@@ -45,3 +45,10 @@ export const getters = {
     return state.id;
   },
 };
+export const actions = {
+  
+};
+
+export const mutations = {
+};
+

@@ -34,7 +34,7 @@
               />
             </svg>
           </div>
-          <input type="text" class="icon" value placeholder="Email" />
+          <input type="text" class="icon" value placeholder="Email" v-model="email" />
         </div>
       </div>
       <div class="form-input">
@@ -55,7 +55,7 @@
               />
             </svg>
           </div>
-          <input type="text" class="icon" value placeholder="Password" />
+          <input type="text" class="icon" value placeholder="Password" v-model = "password" />
         </div>
       </div>
       <div class="form-input">
@@ -76,7 +76,7 @@
               />
             </svg>
           </div>
-          <input type="text" class="icon" value placeholder="Retype Password" />
+          <input type="text" class="icon" value placeholder="Retype Password" v-model = "retypepassword" />
         </div>
       </div>
       <div class="form-input">
@@ -95,7 +95,7 @@
               />
             </svg>
           </div>
-          <input type="text" class="icon" value placeholder="Username" />
+          <input type="text" class="icon" value placeholder="Username" v-model="username"/>
         </div>
       </div>
       <div class="form-submit" @click="authorizeTrello">
@@ -104,7 +104,11 @@
           class="submit_button"
           form="register"
           value="Register"
+          v-on:click="Signup"
         />
+      </div>
+      <div>
+        {{errormessage}}
       </div>
     </form>
   </div>
@@ -113,6 +117,15 @@
 <script>
 export default {
   name: "RegisterForm",
+  data(){
+        return{
+            password: "",
+            retypepassword: "",
+            email: "",
+            username: "",
+            errormessage: ""
+        }
+    },
   methods: {
     authorizeTrello() {
       var authenticationSuccess = function () {
@@ -137,6 +150,24 @@ export default {
         error: authenticationFailure,
       });
     },
+    async Signup(e){
+      e.preventDefault();
+      if( this.password== this.retypepassword){
+        axios.post('v1/auth/register', {
+          username: this.username,
+          email: this.email,
+          password: this.password
+          })
+        .then(function (response) {
+          console.log(response);
+          window.location.replace("Workspace") 
+        })
+        .catch((error)=> {
+          console.log(error);
+          this.errormessage = error.response.data.message
+        });
+      }
+    }
   },
 };
 </script>
