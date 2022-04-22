@@ -1,32 +1,31 @@
 const { StatusCodes } = require("http-status-codes");
 
 const User = require("../models/User");
-const Project = require("../models/Project");
 const Member = require("../models/Member");
+const Project = require("../models/Project");
 
-const generateSearchQuery = require("../utils/generateSearchQuery");
+const { chainSF, createQueryObject } = require("../utils");
 
-const { NotFoundError, BadRequestError } = require("../errors");
+const { NotFoundError } = require("../errors");
 
-const getALlMembers = async (req, res) => {
+const getAllMembers = async (req, res) => {
   const { role, desiredReward, sort, fields, page, limit } = req.query;
 
-  const queryObject = {};
+  const queryObject = createQueryObject({}, [
+    { name: "role", value: role, type: "regex" },
+    { name: "desiredReward", value: desiredReward, type: "regex" },
+  ]);
 
-  const result = generateSearchQuery({
-    queryObject,
-    model: Member,
-    objectAttributes: [
-      { name: "role", value: role, type: "regex" },
-      { name: "desiredReward", value: desiredReward, type: "regex" },
-    ],
+  let members = Member.find(queryObject);
+
+  members = chainSF(members, {
     sort,
     fields,
     page,
     limit,
   });
 
-  const members = await result;
+  members = await members;
 
   res.status(StatusCodes.OK).json({ data: members });
 };
@@ -35,22 +34,21 @@ const getUserMembers = async (req, res) => {
   const { userId } = req.user;
   const { role, desiredReward, sort, fields, page, limit } = req.query;
 
-  const queryObject = { user: userId };
+  const queryObject = createQueryObject({ user: userId }, [
+    { name: "role", value: role, type: "regex" },
+    { name: "desiredReward", value: desiredReward, type: "regex" },
+  ]);
 
-  const result = generateSearchQuery({
-    queryObject,
-    model: Member,
-    objectAttributes: [
-      { name: "role", value: role, type: "regex" },
-      { name: "desiredReward", value: desiredReward, type: "regex" },
-    ],
+  let members = Member.find(queryObject);
+
+  members = chainSF(members, {
     sort,
     fields,
     page,
     limit,
   });
 
-  const members = await result;
+  members = await members;
 
   res.status(StatusCodes.OK).json({ data: members });
 };
@@ -58,28 +56,10 @@ const getUserMembers = async (req, res) => {
 const getProjectMembers = async (req, res) => {
   const { userId } = req.user;
   const { projectId } = req.params;
-  const { role, desiredReward, sort, fields, page, limit } = req.query;
 
-  const queryObject = { project: projectId };
+  await Member.findUserIsMember(userId, projectId);
 
-  const result = generateSearchQuery({
-    queryObject,
-    model: Member,
-    objectAttributes: [
-      { name: "role", value: role, type: "regex" },
-      { name: "desiredReward", value: desiredReward, type: "regex" },
-    ],
-    sort,
-    fields,
-    page,
-    limit,
-  });
-
-  const members = await result;
-  const isUserProject = members.some((m) => m.user.toString() === userId);
-  if (!isUserProject) {
-    throw new NotFoundError("Member");
-  }
+  const members = await Member.find({ project: projectId });
 
   res.status(StatusCodes.OK).json({ data: members });
 };
@@ -88,52 +68,46 @@ const getSingleMember = async (req, res) => {
   const { userId } = req.user;
   const { id: memberId } = req.params;
 
-  const member = await Member.findOne({
-    _id: memberId,
-    user: userId,
-  });
+  // find member in database
+  const member = await Member.findOneExist({ _id: memberId });
 
-  if (!member) {
-    throw new NotFoundError("Member");
-  }
+  // make sure the current user is in the same project with the member requested
+  await Member.findUserIsMember(userId, member.project);
 
   res.status(StatusCodes.OK).json({ data: member });
 };
 
 const createMember = async (req, res) => {
+  const { userId } = req.user;
   const { projectId } = req.params;
-  const { overallPoint, desiredReward, upperBoundary, lowerBoundary, userId } =
-    req.body;
+  const {
+    overallPoint,
+    desiredReward,
+    upperBoundary,
+    lowerBoundary,
+    userId: userIdBody,
+  } = req.body;
 
-  // check for valid user
-  const targetUser = await User.findOne({ _id: userId }).select("_id");
-  if (!targetUser) {
-    throw new NotFoundError("User");
-  }
+  // make sure the current user is an admin of the project
+  await Member.findUserIsAdmin(userId, projectId);
 
-  // check for valid project
-  const targetProject = await Project.findOne({ _id: projectId }).select("_id");
-  if (!targetProject) {
-    throw new NotFoundError("Project");
-  }
+  // check valid user
+  await User.findOneExist({ _id: userIdBody });
 
-  // check for joining same project with same user multiple times
-  const isAlreadyMember = await Member.findOne({
-    project: projectId,
-    user: userId,
-  });
-  if (isAlreadyMember) {
-    throw new BadRequestError("User already in project");
-  }
-
+  // create member/ add member to project
   const member = await Member.create({
     overallPoint,
     desiredReward,
     upperBoundary,
     lowerBoundary,
-    user: targetUser._id,
-    project: targetProject._id,
+    user: userIdBody,
+    project: projectId,
   });
+
+  await Project.updateOne(
+    { _id: projectId },
+    { $push: { lastAccessed: { user: userIdBody } } }
+  );
 
   res.status(StatusCodes.CREATED).json({ data: member });
 };
@@ -144,21 +118,19 @@ const updateMember = async (req, res) => {
   const { overallPoint, desiredReward, upperBoundary, lowerBoundary } =
     req.body;
 
-  // TODO: project admin?
-  const member = await Member.findOne({
-    _id: memberId,
-    user: userId,
-  });
+  // ? project admin
+  const member = await Member.findOneAndUpdate(
+    {
+      _id: memberId,
+      user: userId,
+    },
+    { overallPoint, desiredReward, upperBoundary, lowerBoundary },
+    { new: true, runValidators: true }
+  );
+
   if (!member) {
     throw new NotFoundError("Member");
   }
-
-  member.overallPoint = overallPoint || member.overallPoint;
-  member.desiredReward = desiredReward || member.desiredReward;
-  member.upperBoundary = upperBoundary || member.upperBoundary;
-  member.lowerBoundary = lowerBoundary || member.lowerBoundary;
-
-  await member.save();
 
   res.status(StatusCodes.OK).json({ data: member });
 };
@@ -167,13 +139,10 @@ const deleteMember = async (req, res) => {
   const { userId } = req.user;
   const { id: memberId } = req.params;
 
-  const member = await Member.findOne({
+  const member = await Member.findOneExist({
     _id: memberId,
     user: userId,
   });
-  if (!member) {
-    throw new NotFoundError("Member");
-  }
 
   await member.remove();
 
@@ -187,5 +156,5 @@ module.exports = {
   createMember,
   updateMember,
   deleteMember,
-  getALlMembers,
+  getAllMembers,
 };

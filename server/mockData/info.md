@@ -26,8 +26,7 @@ Site: https://json-generator.com/
   {
     name: "{{firstName()}} {{surname()}} {{lorem(1, 'words').toLowerCase()}} {{company()}}",
     trelloBoardId: "{{guid()}}",
-    lastAccessed:
-      '{{date(new Date(2019, 0, 1), new Date(), "YYYY-MM-ddThh:mm:ss")}}Z',
+    lastAccessed: [],
   },
 ];
 ```

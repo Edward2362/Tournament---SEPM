@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const validator = require("validator");
+const isEmail = require("validator/lib/isEmail");
 const bcrypt = require("bcryptjs");
 
 const UserSchema = new mongoose.Schema(
@@ -15,10 +15,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       unique: true,
       required: [true, "Please provide email"],
-      validate: {
-        validator: validator.isEmail,
-        message: "Please provide valid email",
-      },
+      validate: [isEmail, "Please provide valid email"],
     },
     password: {
       type: String,
@@ -27,7 +24,7 @@ const UserSchema = new mongoose.Schema(
       maxlength: [64, "Password cannot be longer than 64 characters"],
     },
     // ? ...
-    avatar: {
+    avatarUrl: {
       type: String,
       default: "",
     },
@@ -48,6 +45,7 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// TODO: project.lastAccessed
 UserSchema.pre("remove", async function () {
   await this.model("Member").deleteMany({ user: this._id });
 });
@@ -57,5 +55,13 @@ UserSchema.pre("save", async function () {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
+
+UserSchema.statics.findOneExist = async function (queryObject) {
+  const user = await this.model("User").findOne(queryObject);
+  if (!user) {
+    throw new NotFoundError();
+  }
+  return user;
+};
 
 module.exports = mongoose.model("User", UserSchema);

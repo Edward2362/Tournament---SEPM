@@ -2,30 +2,28 @@ const { StatusCodes } = require("http-status-codes");
 
 const User = require("../models/User");
 
-const validatePassword = require("../utils/validatePassword");
-const { responseWithToken, createTokenPayload } = require("../utils/jwt");
+const {
+	responseWithToken,
+	createTokenPayload,
+	validatePassword,
+} = require("../utils");
 
 const { BadRequestError, UnauthenticatedError } = require("../errors");
 
 const register = async (req, res) => {
-	const { username, email, password } = req.body;
+	const { username, email, password, trelloId, trelloToken, avatarUrl } =
+		req.body;
 
-	// check if email is duplicated
-	const isEmailDuplicated = await User.findOne({ email });
-	if (isEmailDuplicated) {
-		throw new BadRequestError("Email already exists");
-	}
-
-	// if this is the first account, make it an admin
-	const isFirstAccount = (await User.countDocuments({})) === 0;
-	const role = isFirstAccount ? "admin" : "user";
+	// email duplication checking is in errorhandler when request fails the unique validation
 
 	// create user
 	const user = await User.create({
 		username,
 		email,
 		password,
-		role,
+		trelloId,
+		trelloToken,
+		avatarUrl,
 	});
 
 	// add cookies to response
@@ -50,10 +48,7 @@ const login = async (req, res) => {
 	}
 
 	// check if password matches
-	const isPasswordMatch = await validatePassword({
-		saved: user.password,
-		toValidate: password,
-	});
+	const isPasswordMatch = await validatePassword(user.password, password);
 	if (!isPasswordMatch) {
 		throw new UnauthenticatedError();
 	}
@@ -61,6 +56,7 @@ const login = async (req, res) => {
 	// add cookies to response
 	const tokenUser = createTokenPayload(user);
 	responseWithToken(res, tokenUser);
+
 	res.status(StatusCodes.OK).json({ data: tokenUser });
 };
 
