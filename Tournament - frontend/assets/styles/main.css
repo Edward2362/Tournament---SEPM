@@ -7,6 +7,21 @@
     padding: 0;
 }
 
+::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #234C87;
+    border-radius: 10px;
+    transition: background-color 2s ease-in-out;
+}
+
 body {
     background-color: #FAFCFF;
     overflow-x: hidden
@@ -27,9 +42,43 @@ a {
 .container {
     padding-top: 9vh;
     width: 100vw;
-    /* max-width: 100%; */
 }
 
 .disappear {
     display: none !important;
+}
+
+.hidden {
+    overflow: hidden;
+}
+
+.blur {
+    position: fixed;
+    top: 0;
+    background-color: #234d8728;
+    z-index: 999;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-in;
+}
+
+.test {
+    background-color: #FAFCFF;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 50vw;
+    height: 50vh;
+    visibility: hidden;
+    transition: all 0.2s ease-in;
+}
+
+.active-pop-up {
+    visibility: visible;
+    opacity: 1;
 }

@@ -55,7 +55,7 @@
               />
             </svg>
           </div>
-          <input type="text" class="icon" value placeholder="Password" v-model="password"/>
+          <input type="password" class="icon" value placeholder="Password" v-model="password"/>
         </div>
       </div>
       <div class="form-submit">
@@ -92,7 +92,7 @@ export default {
             )
             .then(function (response) {
                 console.log(response);
-                window.location.replace("Workspace") 
+                window.location.replace("workspace") 
             })
             .catch((error)=> {
                 console.log(error);

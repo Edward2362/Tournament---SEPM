@@ -14,6 +14,12 @@
     font-size: 200%;
     font-weight: 300;
     color: #234C87;
+    pointer-events: none;
+}
+
+.head p span {
+    font-size: 55%;
+    font-weight: 700;
 }
 
 .categories {
@@ -65,6 +71,7 @@
     font-weight: 700;
     color: #234C87;
     padding: 1.5vh 0;
+    pointer-events: none;
 }
 
 .projects {

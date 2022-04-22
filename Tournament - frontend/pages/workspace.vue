@@ -1,10 +1,30 @@
 <template>
   <div class="container">
     <div class="workspace">
-      <div class="head">
-        <p>All projects</p>
+      <div class="body">
+        <div class="section">
+          <h1>Recent</h1>
+          <div class="projects">
+            <ProjectCard
+              v-for="project in getRecentProject"
+              :key="project._id"
+              :project="project"
+            />
+            <!-- <ProjectCard />
+            <ProjectCard />
+            <ProjectCard /> -->
+          </div>
+        </div>
+              <div class="head">
+        <p>
+          Projects<span> {{ filter === "" ? "" : "as " + filter }}</span>
+        </p>
         <div class="categories">
-          <div class="all active">
+          <div
+            class="all"
+            :class="{ active: filter == '' }"
+            @click="filter = ''"
+          >
             <svg
               width="19"
               height="19"
@@ -30,7 +50,11 @@
               />
             </svg>
           </div>
-          <div class="as-manager">
+          <div
+            class="as-manager"
+            :class="{ active: filter == 'manager' }"
+            @click="filter = 'manager'"
+          >
             <svg
               width="15"
               height="23"
@@ -44,7 +68,11 @@
               />
             </svg>
           </div>
-          <div class="as-member">
+          <div
+            class="as-member"
+            :class="{ active: filter == 'member' }"
+            @click="filter = 'member'"
+          >
             <svg
               width="15"
               height="25"
@@ -60,26 +88,12 @@
           </div>
         </div>
       </div>
-      <div class="body">
-        <div class="section">
-          <h1>Recent</h1>
-          <div class="projects">
-            <ProjectCard
-              v-for="project in recentProjects"
-              :key="project.id"
-              :project="project"
-            />
-            <!-- <ProjectCard />
-            <ProjectCard />
-            <ProjectCard /> -->
-          </div>
-        </div>
         <div class="section">
           <h1>On going</h1>
           <div class="projects">
             <ProjectCard
               v-for="project in onGoingProjects"
-              :key="project.id"
+              :key="project._id"
               :project="project"
             />
           </div>
@@ -89,7 +103,7 @@
           <div class="projects">
             <ProjectCard
               v-for="project in doneProjects"
-              :key="project.id"
+              :key="project._id"
               :project="project"
             />
           </div>
@@ -105,14 +119,41 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
-    return {};
+    return {
+      filter: "",
+    };
   },
   computed: {
     ...mapGetters({
-      recentProjects: "projects/getRecentProject",
-      onGoingProjects: "projects/getOnGoingProject",
-      doneProjects: "projects/getDoneProject",
+      getRecentProject: "projects/getRecentProject",
+      getOnGoingProject: "projects/getOnGoingProject",
+      getDoneProject: "projects/getDoneProject",
+      userId: "user/getUserId",
     }),
+    onGoingProjects() {
+      if (this.filter === "manager") {
+        return this.getOnGoingProject.filter(
+          (project) => project.admin === this.userId
+        );
+      } else if (this.filter === "member") {
+        return this.getOnGoingProject.filter(
+          (project) => project.admin !== this.userId
+        );
+      }
+      return this.getOnGoingProject;
+    },
+    doneProjects() {
+      if (this.filter === "manager") {
+        return this.getDoneProject.filter(
+          (project) => project.admin === this.userId
+        );
+      } else if (this.filter === "member") {
+        return this.getDoneProject.filter(
+          (project) => project.admin !== this.userId
+        );
+      }
+      return this.getDoneProject;
+    },
   },
   components: { ProjectCard },
   methods: {
