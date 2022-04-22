@@ -34,7 +34,13 @@
               />
             </svg>
           </div>
-          <input type="text" class="icon" value placeholder="Email" />
+          <input
+            type="text"
+            class="icon"
+            value
+            placeholder="Email"
+            v-model="email"
+          />
         </div>
       </div>
       <div class="form-input">
@@ -55,7 +61,13 @@
               />
             </svg>
           </div>
-          <input type="text" class="icon" value placeholder="Password" />
+          <input
+            type="password"
+            class="icon"
+            value
+            placeholder="Password"
+            v-model="password"
+          />
         </div>
       </div>
       <div class="form-input">
@@ -76,7 +88,13 @@
               />
             </svg>
           </div>
-          <input type="text" class="icon" value placeholder="Retype Password" />
+          <input
+            type="password"
+            class="icon"
+            value
+            placeholder="Retype Password"
+            v-model="retypepassword"
+          />
         </div>
       </div>
       <div class="form-input">
@@ -95,33 +113,58 @@
               />
             </svg>
           </div>
-          <input type="text" class="icon" value placeholder="Username" />
+          <input
+            type="text"
+            class="icon"
+            value
+            placeholder="Username"
+            v-model="username"
+          />
         </div>
       </div>
+      <div :class="{ 'check-auth': !auth }">Check authorize</div>
       <div class="form-submit" @click="authorizeTrello">
         <input
           type="submit"
           class="submit_button"
           form="register"
           value="Register"
+          v-on:click="Signup"
         />
+      </div>
+      <div>
+        {{ errormessage }}
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "RegisterForm",
+  data() {
+    return {
+      password: "",
+      retypepassword: "",
+      email: "",
+      username: "",
+      errormessage: "",
+      auth: false,
+    };
+  },
+  computed: {
+    
+  },
   methods: {
     authorizeTrello() {
-      var authenticationSuccess = function () {
-        Trello.deauthorize();
+      var authenticationSuccess = () => {
+        this.auth = true;
         console.log("Successful authentication");
       };
 
       var authenticationFailure = function () {
-        Trello.deauthorize();
+        // Trello.deauthorize();
         console.log("Failed authentication");
       };
 
@@ -136,6 +179,25 @@ export default {
         success: authenticationSuccess,
         error: authenticationFailure,
       });
+    },
+    async Signup(e) {
+      e.preventDefault();
+      if (this.password == this.retypepassword) {
+        axios
+          .post("v1/auth/register", {
+            username: this.username,
+            email: this.email,
+            password: this.password,
+          })
+          .then(function (response) {
+            console.log(response);
+            window.location.replace("workspace");
+          })
+          .catch((error) => {
+            console.log(error);
+            this.errormessage = error.response.data.message;
+          });
+      }
     },
   },
 };

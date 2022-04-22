@@ -5,9 +5,11 @@
         <div class="section">
           <h1>Recent</h1>
           <div class="projects">
-            <!-- <ProjectCard />
-            <ProjectCard />
-            <ProjectCard /> -->
+            <ProjectCard
+              v-for="project in getRecentProject"
+              :key="project._id"
+              :project="project"
+            />
           </div>
         </div>
         <div class="head">
@@ -88,7 +90,7 @@
           <div class="projects">
             <ProjectCard
               v-for="project in onGoingProjects"
-              :key="project.id"
+              :key="project._id"
               :project="project"
             />
           </div>
@@ -98,7 +100,7 @@
           <div class="projects">
             <ProjectCard
               v-for="project in doneProjects"
-              :key="project.id"
+              :key="project._id"
               :project="project"
             />
           </div>
@@ -110,7 +112,7 @@
 
 <script>
 import ProjectCard from "../components/ProjectCard.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
@@ -120,6 +122,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      getRecentProject: "projects/getRecentProject",
       getOnGoingProject: "projects/getOnGoingProject",
       getDoneProject: "projects/getDoneProject",
       userId: "user/getUserId",
@@ -150,7 +153,12 @@ export default {
     },
   },
   components: { ProjectCard },
-  methods: {},
+  methods: {
+    ...mapActions({ fetchProjectByUser: "projects/fetchProjectByUser" }),
+  },
+  created() {
+    this.fetchProjectByUser();
+  },
 };
 </script>
 
