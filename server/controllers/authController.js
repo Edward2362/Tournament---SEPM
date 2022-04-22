@@ -11,7 +11,8 @@ const {
 const { BadRequestError, UnauthenticatedError } = require("../errors");
 
 const register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, trelloId, trelloToken, avatarUrl } =
+    req.body;
 
   // email duplication checking is in errorhandler when request fails the unique validation
 
@@ -20,6 +21,9 @@ const register = async (req, res) => {
     username,
     email,
     password,
+    trelloId,
+    trelloToken,
+    avatarUrl,
   });
 
   // add cookies to response
