@@ -1,3 +1,4 @@
 server/node_modules
 server/.env
 Tournament - frontend/node_modules
+Tournament - frontend/.nuxt
