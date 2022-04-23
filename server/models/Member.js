@@ -17,19 +17,6 @@ const MemberSchema = mongoose.Schema(
       maxlength: [100, "Cannot be longer than 100 characters"],
       default: "",
     },
-    upperBoundary: {
-      type: Number,
-      default: 0,
-    },
-    lowerBoundary: {
-      type: Number,
-      default: 0,
-    },
-    role: {
-      type: String,
-      enum: ["admin", "member"],
-      default: "member",
-    },
     user: {
       type: mongoose.Types.ObjectId,
       ref: "User",
@@ -57,10 +44,9 @@ MemberSchema.pre("save", async function () {
 
 MemberSchema.statics.findUserIsAdmin = async function (userId, projectId) {
   // authorize user
-  const member = await this.model("Member").findOne({
-    project: projectId,
-    user: userId,
-    role: "admin",
+  const member = await this.model("Project").findOne({
+    _id: projectId,
+    admin: userId,
   });
   if (!member) {
     throw new UnauthorizedError();

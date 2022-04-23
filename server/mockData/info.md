@@ -10,7 +10,7 @@ Site: https://json-generator.com/
       "{{firstName().toLowerCase()}}{{surname().toLowerCase()}}{{integer(100,999)}}",
     email: "{{email()}}",
     password: "password",
-    avatar: "https://source.unsplash.com/random/100x100",
+    avatarUrl: "https://source.unsplash.com/random/100x100",
     trelloToken: "{{guid()}}",
     trelloId: "{{guid()}}",
     role: "user",
@@ -27,6 +27,8 @@ Site: https://json-generator.com/
     name: "{{firstName()}} {{surname()}} {{lorem(1, 'words').toLowerCase()}} {{company()}}",
     trelloBoardId: "{{guid()}}",
     lastAccessed: [],
+    upperBoundary: "{{integer(80,100)}}",
+    lowerBoundary: "{{integer(10,30)}}",
   },
 ];
 ```
@@ -39,8 +41,6 @@ Site: https://json-generator.com/
   {
     overallPoint: "{{integer(80,100)}}",
     desiredReward: '{{lorem(2, "words")}}',
-    upperBoundary: "{{integer(80,100)}}",
-    lowerBoundary: "{{integer(10,30)}}",
   },
 ];
 ```

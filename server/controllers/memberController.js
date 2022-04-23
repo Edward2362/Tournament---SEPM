@@ -80,13 +80,7 @@ const getSingleMember = async (req, res) => {
 const createMember = async (req, res) => {
   const { userId } = req.user;
   const { projectId } = req.params;
-  const {
-    overallPoint,
-    desiredReward,
-    upperBoundary,
-    lowerBoundary,
-    userId: userIdBody,
-  } = req.body;
+  const { overallPoint, desiredReward, userId: userIdBody } = req.body;
 
   // make sure the current user is an admin of the project
   await Member.findUserIsAdmin(userId, projectId);
@@ -98,8 +92,6 @@ const createMember = async (req, res) => {
   const member = await Member.create({
     overallPoint,
     desiredReward,
-    upperBoundary,
-    lowerBoundary,
     user: userIdBody,
     project: projectId,
   });
@@ -115,8 +107,7 @@ const createMember = async (req, res) => {
 const updateMember = async (req, res) => {
   const { userId } = req.user;
   const { id: memberId } = req.params;
-  const { overallPoint, desiredReward, upperBoundary, lowerBoundary } =
-    req.body;
+  const { overallPoint, desiredReward } = req.body;
 
   // ? project admin
   const member = await Member.findOneAndUpdate(
@@ -124,7 +115,7 @@ const updateMember = async (req, res) => {
       _id: memberId,
       user: userId,
     },
-    { overallPoint, desiredReward, upperBoundary, lowerBoundary },
+    { overallPoint, desiredReward },
     { new: true, runValidators: true }
   );
 
