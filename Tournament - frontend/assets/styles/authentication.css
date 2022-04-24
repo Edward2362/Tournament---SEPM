@@ -145,6 +145,7 @@
     padding: 5%;
     box-shadow: #234d8769 0px 1px 4px;
     border-radius: 50px;
+    position: relative;
 }
 
 .form-input-body input {
@@ -168,7 +169,23 @@
     justify-content: center;
     height: 16%;
     margin: auto;
-    margin-top: 16%;
+    margin-top: 7%;
+    padding: 1% 0;
+    background-color: #FF5C72;
+    border-radius: 50px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    z-index: 1;
+}
+
+.form-submit.register {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    height: 16%;
+    margin: auto;
+    margin-top: 8%;
     padding: 1% 0;
     background-color: #FF5C72;
     border-radius: 50px;
@@ -252,4 +269,140 @@
 
 .check-auth {
     color: red;
+}
+
+.invalid {
+    box-shadow: #FF5C72 0px 1px 4px !important;
+}
+
+.tooltip {
+    position: absolute;
+    visibility: hidden;
+    background-color: #234C87;
+    width: 90%;
+    text-align: center;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    font-size: 80%;
+    color: #FAFCFF;
+    border: solid;
+    border-color: #234C87;
+    padding: 2% 5%;
+    transition: all 0.1s ease-in-out;
+    border-radius: 10px;
+}
+
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: #234C87 transparent transparent transparent;
+}
+
+.form-input-body.invalid:hover .tooltip {
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+    top: -60%;
+}
+
+.form-input-body.invalid:hover .tooltip.pass {
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+    top: -100%;
+}
+
+.form-input-body.invalid:hover .tooltip.retype {
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+    top: -80%;
+}
+
+.trello-authorize {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: auto;
+    padding: 1% 0;
+    /* border: solid #0079BF; */
+    border-radius: 50px;
+    position: relative;
+    cursor: pointer;
+    z-index: 1;
+    color: #0079BF;
+    transition: all 0.1s ease-in-out;
+    box-shadow: #234d8769 0px 1px 4px;
+}
+
+.trello-authorize:hover .tooltip {
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+    top: -72%;
+}
+
+.trello {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 700;
+}
+
+.trello p {
+    padding-left: 4px;
+}
+
+.synchronized {
+    background-color: #0079BF;
+    color: #FAFCFF;
+}
+
+.synchronized .background {
+    fill: #FAFCFF;
+}
+
+.synchronized path {
+    fill: #0079BF;
+}
+
+.trello-authorize.synchronized:hover .tooltip {
+    visibility: hidden;
+}
+
+.disabled {
+    background-color: #234C87 !important;
+}
+
+.form-submit.disabled {
+    cursor: default;
+}
+
+.form-submit.disabled input {
+    cursor: default;
+}
+
+.form-submit.disabled::before {
+    background-color: #234C87;
+    cursor: default;
+}
+
+.form-submit.disabled:hover::before {
+    transition: 0.3s all ease-in-out;
+    background-color: #234C87;
+    cursor: default;
+}
+
+.notification {
+    width: 80%;
+    padding: 0 5%;
+    font-size: 85%;
+    color: #FF5C72;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
 }

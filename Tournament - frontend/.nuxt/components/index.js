@@ -1,7 +1,5 @@
 export { default as AppHeader } from '../..\\components\\AppHeader.vue'
-export { default as ChooseTask } from '../..\\components\\ChooseTask.vue'
 export { default as Cover } from '../..\\components\\Cover.vue'
-export { default as CreatePopUp } from '../..\\components\\CreatePopUp.vue'
 export { default as LoginForm } from '../..\\components\\LoginForm.vue'
 export { default as PopUpCreate } from '../..\\components\\PopUpCreate.vue'
 export { default as ProjectCard } from '../..\\components\\ProjectCard.vue'

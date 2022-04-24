@@ -12,12 +12,6 @@
     "chunkName": "pages/authentication"
   },
   {
-    "name": "Test_popup",
-    "path": "/Test_popup",
-    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\Test_popup\\\\index.vue",
-    "chunkName": "pages/Test_popup/index"
-  },
-  {
     "name": "workspace",
     "path": "/workspace",
     "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\workspace.vue",

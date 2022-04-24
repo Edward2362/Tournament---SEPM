@@ -3,7 +3,7 @@
     <form class="form" action="" method="POST">
       <div class="form-name"><h1>Sign up</h1></div>
       <div class="form-input">
-        <div class="form-input-body">
+        <div class="form-input-body" :class="{ invalid: !email.isValid }">
           <div class="input-icon">
             <svg
               width="23"
@@ -39,12 +39,14 @@
             class="icon"
             value
             placeholder="Email"
-            v-model="email"
+            v-model="email.value"
+            @input="validateEmail"
           />
+          <div class="tooltip">Require valid email</div>
         </div>
       </div>
       <div class="form-input">
-        <div class="form-input-body">
+        <div class="form-input-body" :class="{ invalid: !password.isValid }">
           <div class="input-icon">
             <svg
               width="14"
@@ -66,12 +68,20 @@
             class="icon"
             value
             placeholder="Password"
-            v-model="password"
+            v-model="password.value"
+            @input="validatePass"
           />
+          <div class="tooltip pass">
+            Password must contain at least 8 characters with uppercase,
+            lowercase, number and symbol
+          </div>
         </div>
       </div>
       <div class="form-input">
-        <div class="form-input-body">
+        <div
+          class="form-input-body"
+          :class="{ invalid: !retypePassword.isValid }"
+        >
           <div class="input-icon">
             <svg
               width="14"
@@ -93,12 +103,16 @@
             class="icon"
             value
             placeholder="Retype Password"
-            v-model="retypepassword"
+            v-model="retypePassword.value"
+            @input="validateRePass"
           />
+          <div class="tooltip retype">
+            Retype password must the same with password
+          </div>
         </div>
       </div>
       <div class="form-input">
-        <div class="form-input-body">
+        <div class="form-input-body" :class="{ invalid: username == '' }">
           <div class="input-icon">
             <svg
               width="24"
@@ -120,20 +134,51 @@
             placeholder="Username"
             v-model="username"
           />
+          <div class="tooltip">Require username</div>
         </div>
       </div>
-      <div :class="{ 'check-auth': !auth }">Check authorize</div>
-      <div class="form-submit" @click="authorizeTrello">
+      <div class="form-input">
+        <div
+          class="trello-authorize"
+          :class="{ synchronized: auth }"
+          @click="authorizeTrello"
+        >
+          <div class="trello">
+            <svg
+              width="23"
+              height="23"
+              viewBox="0 0 23 23"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                class="background"
+                d="M22.4388 0H0.00657579C0.00294408 0 0 0.00294408 0 0.00657579V22.4388C0 22.4424 0.00294408 22.4453 0.00657579 22.4453H22.4388C22.4424 22.4453 22.4453 22.4424 22.4453 22.4388V0.00657579C22.4453 0.00294408 22.4424 0 22.4388 0Z"
+                fill="#0079BF"
+              />
+              <path
+                d="M17.2296 4.16455H13.4595C12.9026 4.16455 12.4512 4.61598 12.4512 5.17284V11.3979C12.4512 11.9548 12.9026 12.4062 13.4595 12.4062H17.2296C17.7864 12.4062 18.2379 11.9548 18.2379 11.3979V5.17284C18.2379 4.61598 17.7864 4.16455 17.2296 4.16455Z"
+                fill="#FAFCFF"
+              />
+              <path
+                d="M9.03036 4.16455H5.26024C4.70338 4.16455 4.25195 4.61598 4.25195 5.17284V16.1325C4.25195 16.6893 4.70338 17.1408 5.26024 17.1408H9.03036C9.58722 17.1408 10.0386 16.6893 10.0386 16.1325V5.17284C10.0386 4.61598 9.58722 4.16455 9.03036 4.16455Z"
+                fill="#FAFCFF"
+              />
+            </svg>
+            <p>Trello</p>
+          </div>
+          <div class="tooltip">Require synchronize Trello account</div>
+        </div>
+      </div>
+      <div class="form-submit register" :class="{ disabled: disabledButton }">
         <input
           type="submit"
           class="submit_button"
           form="register"
           value="Register"
-          v-on:click="Signup"
+          @click="Signup"
+          :disabled="disabledButton"
         />
-      </div>
-      <div>
-        {{ errormessage }}
       </div>
     </form>
   </div>
@@ -145,16 +190,37 @@ export default {
   name: "RegisterForm",
   data() {
     return {
-      password: "",
-      retypepassword: "",
-      email: "",
+      password: {
+        value: "",
+        isValid: false,
+      },
+      retypePassword: {
+        value: "",
+        isValid: false,
+      },
+      email: {
+        value: "",
+        isValid: false,
+      },
       username: "",
-      errormessage: "",
       auth: false,
     };
   },
+  watch: {
+    "password.value"(input) {
+      console.log("watcher", input);
+    },
+  },
   computed: {
-    
+    disabledButton() {
+      return !(
+        this.email.isValid &&
+        this.password.isValid &&
+        this.retypePassword.isValid &&
+        this.username != "" &&
+        this.auth
+      );
+    },
   },
   methods: {
     authorizeTrello() {
@@ -170,7 +236,7 @@ export default {
 
       Trello.authorize({
         type: "popup",
-        name: "Getting Started Application",
+        name: "Tournament",
         scope: {
           read: "true",
           write: "true",
@@ -179,6 +245,34 @@ export default {
         success: authenticationSuccess,
         error: authenticationFailure,
       });
+    },
+    validateEmail() {
+      var valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+        this.email.value
+      );
+      if (valid) {
+        this.email.isValid = true;
+      } else {
+        this.email.isValid = false;
+      }
+    },
+    validatePass() {
+      var valid =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&_]){8,}/.test(
+          this.password.value
+        );
+      if (valid) {
+        this.password.isValid = true;
+      } else {
+        this.password.isValid = false;
+      }
+    },
+    validateRePass() {
+      if (this.password.value == this.retypePassword.value) {
+        this.retypePassword.isValid = true;
+      } else {
+        this.retypePassword.isValid = false;
+      }
     },
     async Signup(e) {
       e.preventDefault();

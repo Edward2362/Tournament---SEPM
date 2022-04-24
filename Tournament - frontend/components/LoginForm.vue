@@ -34,7 +34,13 @@
               />
             </svg>
           </div>
-          <input type="text" class="icon" value placeholder="Email" v-model="email"/>
+          <input
+            type="text"
+            class="icon"
+            value
+            placeholder="Email"
+            v-model="email"
+          />
         </div>
       </div>
       <div class="form-input">
@@ -55,52 +61,64 @@
               />
             </svg>
           </div>
-          <input type="password" class="icon" value placeholder="Password" v-model="password"/>
+          <input
+            type="password"
+            class="icon"
+            value
+            placeholder="Password"
+            v-model="password"
+          />
+        </div>
+      </div>
+      <div class="form-input">
+        <div class="notification" :class="{ 'active-pop-up': error }">
+          Email or password is incorrect
         </div>
       </div>
       <div class="form-submit">
-        <input type="submit" class="submit_button" form="login" value="Login" v-on:click="Signin"/>
-      </div>
-      <div>
-        {{errormessage}}
+        <input
+          type="submit"
+          class="submit_button"
+          form="login"
+          value="Login"
+          v-on:click="Signin"
+        />
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   name: "LoginForm",
-  data(){
-        return{
-            password: "",
-            email: "",
-            errormessage: ""
-        }
+  data() {
+    return {
+      password: "",
+      email: "",
+      error: false,
+    };
+  },
+  methods: {
+    async Signin(e) {
+      e.preventDefault();
+      console.log("đã run");
+      axios
+        .post("v1/auth/login", {
+          email: this.email,
+          password: this.password,
+        })
+        .then(function (response) {
+          console.log(response);
+          window.location.replace("workspace");
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errormessage = error.response.data.message;
+        });
     },
-  methods:
-    {
-        async Signin(e){
-            e.preventDefault();
-            console.log("đã run")
-            axios.post('v1/auth/login', {
-            email: this.email,
-            password: this.password,
-            },                
-            )
-            .then(function (response) {
-                console.log(response);
-                window.location.replace("workspace") 
-            })
-            .catch((error)=> {
-                console.log(error);
-                this.errormessage = error.response.data.message
-            });     
-        },
-    },
-
+  },
 };
 </script>
 

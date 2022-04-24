@@ -55,7 +55,7 @@ a {
 .blur {
     position: fixed;
     top: 0;
-    background-color: #234d8728;
+    background-color: rgba(0, 0, 0, 0.467);
     z-index: 999;
     width: 100vw;
     height: 100vh;
@@ -79,6 +79,6 @@ a {
 }
 
 .active-pop-up {
-    visibility: visible;
-    opacity: 1;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
