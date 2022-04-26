@@ -67,5 +67,5 @@ module.exports = {
 
 module.exports.logout = (req, res) => {
 	res.cookie("token", "", { maxAge: 1 });
-	res.redirect("/");
+	res.status(StatusCodes.OK).json({ response: "Logged out" });
 };

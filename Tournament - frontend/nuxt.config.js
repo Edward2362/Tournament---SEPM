@@ -42,5 +42,4 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
-  proxy: {"/v1": {target: "https://tournament.onrender.com",},}
-}
+  proxy: {"/api": {target: "https://tournament.onrender.com",},}}

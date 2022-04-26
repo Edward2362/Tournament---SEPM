@@ -4,13 +4,13 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _36921214 = () => interopDefault(import('..\\pages\\about.vue' /* webpackChunkName: "pages/about" */))
-const _49b71b81 = () => interopDefault(import('..\\pages\\authentication.vue' /* webpackChunkName: "pages/authentication" */))
-const _71b0479c = () => interopDefault(import('..\\pages\\workspace.vue' /* webpackChunkName: "pages/workspace" */))
-const _47aa169b = () => interopDefault(import('..\\pages\\projects\\_id\\index.vue' /* webpackChunkName: "pages/projects/_id/index" */))
-const _095ad91d = () => interopDefault(import('..\\pages\\projects\\_id\\history.vue' /* webpackChunkName: "pages/projects/_id/history" */))
-const _4799c543 = () => interopDefault(import('..\\pages\\projects\\_id\\office.vue' /* webpackChunkName: "pages/projects/_id/office" */))
-const _25d2764e = () => interopDefault(import('..\\pages\\projects\\_id\\setting.vue' /* webpackChunkName: "pages/projects/_id/setting" */))
+const _2a9a8a62 = () => interopDefault(import('..\\pages\\about.vue' /* webpackChunkName: "pages/about" */))
+const _3a161af3 = () => interopDefault(import('..\\pages\\authentication.vue' /* webpackChunkName: "pages/authentication" */))
+const _7df02e2c = () => interopDefault(import('..\\pages\\workspace.vue' /* webpackChunkName: "pages/workspace" */))
+const _45d78ee6 = () => interopDefault(import('..\\pages\\projects\\_id\\index.vue' /* webpackChunkName: "pages/projects/_id/index" */))
+const _267772e2 = () => interopDefault(import('..\\pages\\projects\\_id\\history.vue' /* webpackChunkName: "pages/projects/_id/history" */))
+const _5f73e191 = () => interopDefault(import('..\\pages\\projects\\_id\\office.vue' /* webpackChunkName: "pages/projects/_id/office" */))
+const _5eff9b6a = () => interopDefault(import('..\\pages\\projects\\_id\\setting.vue' /* webpackChunkName: "pages/projects/_id/setting" */))
 
 const emptyFn = () => {}
 
@@ -25,31 +25,31 @@ export const routerOptions = {
 
   routes: [{
     path: "/about",
-    component: _36921214,
+    component: _2a9a8a62,
     name: "about"
   }, {
     path: "/authentication",
-    component: _49b71b81,
+    component: _3a161af3,
     name: "authentication"
   }, {
     path: "/workspace",
-    component: _71b0479c,
+    component: _7df02e2c,
     name: "workspace"
   }, {
     path: "/projects/:id",
-    component: _47aa169b,
+    component: _45d78ee6,
     name: "projects-id"
   }, {
     path: "/projects/:id?/history",
-    component: _095ad91d,
+    component: _267772e2,
     name: "projects-id-history"
   }, {
     path: "/projects/:id?/office",
-    component: _4799c543,
+    component: _5f73e191,
     name: "projects-id-office"
   }, {
     path: "/projects/:id?/setting",
-    component: _25d2764e,
+    component: _5eff9b6a,
     name: "projects-id-setting"
   }],
 

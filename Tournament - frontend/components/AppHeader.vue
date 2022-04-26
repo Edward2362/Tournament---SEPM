@@ -51,6 +51,9 @@
     </div>
     <div class="user-avatar">
       <User />
+      <div>
+        <button @click="logOut"> Logout </button>
+      </div>
     </div>
   </header>
 </template>
@@ -59,6 +62,7 @@
 import SearchBar from "../components/SearchBar.vue";
 import User from "../components/User.vue";
 import { mapMutations, mapGetters } from "vuex";
+import axios from "axios";
 
 export default {
   name: "AppHeader",
@@ -72,6 +76,14 @@ export default {
     ...mapMutations({
       bluring: "document/setOverlay",
     }),
+    logOut(){
+      console.log("HEYhyhyh")
+      axios.get("/api/v1/auth/logout")
+        .then(response => {
+          console.log("HEY")
+          window.location.replace("authentication")})
+        .catch(console.log)     
+    }
   },
 };
 </script>

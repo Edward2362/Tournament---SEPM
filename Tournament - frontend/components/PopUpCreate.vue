@@ -19,14 +19,35 @@ import { mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "PopUpCreate",
+  data() {
+    return {
+      boardfromtrello: {
+        value: null,
+        isValid: false,
+      },
+    }
+  },
   computed: {
     ...mapGetters({
-      isOverlay: "document/isOverlay",
+      getProjectId: "projects/getProjectId",
+      userId: "user/getUserId",
+      isOverlay: "document/isOverlay"
     }),
   },
   methods: {
     ...mapMutations({
-      bluring: "document/setOverlay",
+    bluring: "document/setOverlay",
+    getboardstrello(){
+      this.boardfromtrello = axios.get("https://api.trello.com/1/members/" + {userId} + "/boards")
+      for(Id in getProjectId)
+      {
+        for(board in this.boardfromtrello){
+          if(board.id == Id){
+            this.boardfromtrello.filter()
+          }
+        }
+      }
+    }
     }),
   },
 };

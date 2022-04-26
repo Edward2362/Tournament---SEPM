@@ -44,10 +44,19 @@ export const getters = {
   getUserId(state) {
     return state.id;
   },
+  getUsertrelloId(state) {
+    
+  }
 };
 export const actions = {
-  
+  fetchProjectByUser({ commit }) {
+    axios.get("v1/users/me/projects").then((response) => {
+      console.log(response.data);
+      commit("setProjects", response.data.data);
+    });
+  },
 };
 
 export const mutations = {
+  setProjects: (state, users) => (state.projects = projects),
 };
