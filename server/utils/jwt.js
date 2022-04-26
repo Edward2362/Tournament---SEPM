@@ -13,6 +13,8 @@ const createTokenPayload = (user) => {
     email: user.email,
     role: user.role,
     avatarUrl: user.avatar,
+    trelloId: user.trelloId,
+    trelloToken: user.trelloToken,
   };
 };
 
