@@ -64,20 +64,6 @@ a {
     transition: all 0.2s ease-in;
 }
 
-.test {
-    background-color: #FAFCFF;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    opacity: 0;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    width: 50vw;
-    height: 50vh;
-    visibility: hidden;
-    transition: all 0.2s ease-in;
-}
-
 .active-pop-up {
     visibility: visible !important;
     opacity: 1 !important;

@@ -5,7 +5,7 @@
       :class="{ 'active-pop-up': isOverlay }"
       @click="bluring"
     ></div>
-    <div class="test" :class="{ 'active-pop-up': isOverlay }">
+    <div class="container" :class="{ 'active-pop-up': isOverlay }">
       <div class="container">ádasd ádasdasdasdasd</div>
       <div class="container">ádasd ádasdasdasdasd</div>
       <div class="container">ádasd ádasdasdasdasd</div>
@@ -32,4 +32,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+@import "../assets/styles/pop-up-create.css";
+</style>
