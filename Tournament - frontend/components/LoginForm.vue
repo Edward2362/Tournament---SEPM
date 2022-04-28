@@ -75,14 +75,8 @@
           Email or password is incorrect
         </div>
       </div>
-      <div class="form-submit">
-        <input
-          type="submit"
-          class="submit_button"
-          form="login"
-          value="Login"
-          v-on:click="Signin"
-        />
+      <div class="form-submit" @click="signIn">
+        <input type="submit" class="submit_button" form="login" value="Login" />
       </div>
     </form>
   </div>
@@ -101,11 +95,11 @@ export default {
     };
   },
   methods: {
-    async Signin(e) {
+    async signIn(e) {
       e.preventDefault();
       console.log("đã run");
       axios
-        .post("v1/auth/login", {
+        .post("api/v1/auth/login", {
           email: this.email,
           password: this.password,
         })

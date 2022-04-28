@@ -80,10 +80,13 @@ export const getters = {
   },
   getOnGoingProject(state) {
     return state.projects.filter((project) => project.finished === false);
-  },
+  },  
   getDoneProject(state) {
     return state.projects.filter((project) => project.finished === true);
   },
+  getProjectId(state) {
+    return state.projects.trelloId
+  }
 };
 
 export const actions = {

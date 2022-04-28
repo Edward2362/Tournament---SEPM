@@ -157,6 +157,9 @@ export default {
     ...mapActions({ fetchProjectByUser: "projects/fetchProjectByUser" }),
   },
   created() {
+    // if(Trello.token() != null){
+    //   Trello.deauthorize();
+    // }
     this.fetchProjectByUser();
   },
 };

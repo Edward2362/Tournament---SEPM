@@ -1,5 +1,4 @@
-
-.container {
+.container-popup {
     background-color: #FAFCFF;
     position: fixed;
     top: 50%;
@@ -7,8 +6,59 @@
     opacity: 0;
     transform: translate(-50%, -50%);
     z-index: 1000;
-    width: 50vw;
-    height: 50vh;
+    width: 65vw;
+    height: 95vh;
     visibility: hidden;
     transition: all 0.2s ease-in;
+    padding: 3% 5%;
+    border-radius: 10px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 10%;
+    width: 100%;
+    padding-bottom: 4%;
+}
+
+.header h1 {
+    font-size: 150%;
+    font-weight: 700;
+    color: #FF5C72;
+}
+
+.off {
+    height: 100%;
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.off svg {
+    width: 35%;
+    aspect-ratio: 1;
+    cursor: pointer;
+}
+
+/* 
+.body {
+    width: 100%;
+    height: 90%;
+    background-color: red;
+} */
+
+.trello-projects {
+    width: 100%;
+    padding: 3% 5%;
+}
+
+.test {
+    width: 100%;
+    height: 40%;
+    background-color: blue;
+    padding: 3% 5%;
+    border-radius: 10px;
 }

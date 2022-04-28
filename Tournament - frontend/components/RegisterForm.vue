@@ -170,15 +170,21 @@
           <div class="tooltip">Require synchronize Trello account</div>
         </div>
       </div>
-      <div class="form-submit register" :class="{ disabled: disabledButton }">
+      <div
+        class="form-submit register"
+        :class="{ disabled: disabledButton }"
+        @click="signUp"
+      >
         <input
           type="submit"
           class="submit_button"
           form="register"
           value="Register"
-          @click="Signup"
           :disabled="disabledButton"
         />
+      </div>
+      <div>
+        {{ errormessage }}
       </div>
     </form>
   </div>
@@ -204,6 +210,8 @@ export default {
       },
       username: "",
       auth: false,
+      errormessage: "",
+      user: "",
     };
   },
   watch: {
@@ -274,23 +282,36 @@ export default {
         this.retypePassword.isValid = false;
       }
     },
-    async Signup(e) {
+    async signUp(e) {
       e.preventDefault();
-      if (this.password == this.retypepassword) {
-        axios
-          .post("v1/auth/register", {
+      this.user = await axios.get(
+        "https://api.trello.com/1/members/me?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token=" +
+          Trello.token()
+      );
+      console.log(this.user.data["id"]);
+      console.log("Hey");
+      if (this.password.value == this.retypePassword.value) {
+        console.log("Heyhey");
+        await axios
+          .post("api/v1/auth/register", {
             username: this.username,
-            email: this.email,
-            password: this.password,
+            email: this.email.value,
+            password: this.password.value,
+            // trelloToken: Trello.token(),
+            trelloId: this.user.data["id"],
           })
           .then(function (response) {
             console.log(response);
+            console.log(this.user.data["id"]);
             window.location.replace("workspace");
           })
           .catch((error) => {
             console.log(error);
-            this.errormessage = error.response.data.message;
+            this.errormessage = error.response;
           });
+        console.log(Trello.token());
+        Trello.deauthorize();
+        console.log(Trello.token());
       }
     },
   },
