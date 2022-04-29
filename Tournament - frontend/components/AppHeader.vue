@@ -43,16 +43,17 @@
       <div class="nav-holder">
         <div class="recent">Recent</div>
         <div class="create" @click="bluring">Create</div>
-        {{ isOverlay }}
       </div>
       <div class="search-holder">
         <div class="header-search"><SearchBar /></div>
       </div>
     </div>
     <div class="user-avatar">
-      <User />
-      <div>
-        <button @click="logOut"> Logout </button>
+      <div class="user-avatar-holder" @click="toggleDropdown"><User /></div>
+      <div class="dropdown-user" :class="{ disappear: !dropdownUser }">
+        <div class="log-out" @click="logOut">Logout</div>
+        <div class="horizontal-line"></div>
+        <div class="change-password">Change password</div>
       </div>
     </div>
   </header>
@@ -66,6 +67,11 @@ import axios from "axios";
 
 export default {
   name: "AppHeader",
+  data() {
+    return {
+      dropdownUser: false,
+    };
+  },
   components: { SearchBar, User },
   computed: {
     ...mapGetters({
@@ -76,14 +82,20 @@ export default {
     ...mapMutations({
       bluring: "document/setOverlay",
     }),
-    logOut(){
-      console.log("HEYhyhyh")
-      axios.get("/api/v1/auth/logout")
-        .then(response => {
-          console.log("HEY")
-          window.location.replace("authentication")})
-        .catch(console.log)     
-    }
+    toggleDropdown() {
+      this.dropdownUser = !this.dropdownUser;
+      console.log("dropdown");
+    },
+    logOut() {
+      console.log("HEYhyhyh");
+      axios
+        .get("/api/v1/auth/logout")
+        .then((response) => {
+          console.log("HEY");
+          window.location.replace("authentication");
+        })
+        .catch(console.log);
+    },
   },
 };
 </script>

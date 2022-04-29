@@ -1,4 +1,19 @@
-.container-popup {
+.trello-scroll-body::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+}
+
+.trello-scroll-body::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.trello-scroll-body::-webkit-scrollbar-thumb {
+    background-color: #0079BF;
+    border-radius: 10px;
+    transition: background-color 2s ease-in-out;
+}
+
+.container-pop-up {
     background-color: #FAFCFF;
     position: fixed;
     top: 50%;
@@ -10,11 +25,11 @@
     height: 95vh;
     visibility: hidden;
     transition: all 0.2s ease-in;
-    padding: 3% 5%;
+    padding: 2% 5%;
     border-radius: 10px;
 }
 
-.header {
+.header-pop-up {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,13 +38,13 @@
     padding-bottom: 4%;
 }
 
-.header h1 {
+.header-pop-up h1 {
     font-size: 150%;
     font-weight: 700;
     color: #FF5C72;
 }
 
-.off {
+.off-pop-up {
     height: 100%;
     width: 10%;
     display: flex;
@@ -37,28 +52,187 @@
     justify-content: right;
 }
 
-.off svg {
+.off-pop-up svg {
     width: 35%;
     aspect-ratio: 1;
     cursor: pointer;
 }
 
-/* 
-.body {
+
+.body-pop-up {
     width: 100%;
     height: 90%;
-    background-color: red;
-} */
-
-.trello-projects {
-    width: 100%;
-    padding: 3% 5%;
 }
 
-.test {
+.trello-section {
     width: 100%;
-    height: 40%;
-    background-color: blue;
+    padding: 3% 5%;
+    height: 60%;
+    border-radius: 10px;
+    box-shadow: #234d8769 0px 1px 4px;
+}
+
+.trello-icon-pop-up {
+    display: flex;
+    justify-content: center;
+    height: 10%;
+}
+
+.holder-icon-pop-up {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    color: #0079BF;
+    font-weight: 700;
+}
+
+.holder-icon-pop-up p {
+    margin-left: 2%;
+}
+
+.trello-search-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1%;
+    height: 20%;
+}
+
+.search-holder-pop-up {
+    width: 35%;
+    height: 80%;
+}
+
+.search-holder-pop-up input::placeholder {
+    color: #0079BF !important;
+}
+
+.search-holder-pop-up input:focus {
+    color: #0079BF !important;
+}
+
+.search-holder-pop-up path {
+    fill: #0079BF;
+}
+
+.trello-scroll-body {
+    margin-top: 1%;
+    height: 68%;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.trello-boards {
+    padding: 0 2%;
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    place-items: center;
+    column-gap: 5%;
+}
+
+.transition-icon {
+    height: 8%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2% 0;
+}
+
+.tournament-section {
+    height: 27%;
+    width: 100%;
     padding: 3% 5%;
     border-radius: 10px;
+    box-shadow: #234d8769 0px 1px 4px;
+}
+
+.tour-icon-pop-up {
+    display: flex;
+    justify-content: center;
+    height: 10%;
+}
+
+.tour-icon-pop-up p {
+    color: #234C87;
+}
+
+.tour-body {
+    padding: 1% 2%;
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.tour-project-info {
+    width: 50%;
+    height: 100%;
+    font-weight: 300;
+    color: #234C87;
+    font-size: 90%;
+}
+
+.tour-project-members {
+    width: 50%;
+    height: 100%;
+    padding-left: 5%;
+    font-size: 90%;
+}
+
+.tour-project-members p {
+    padding-top: 2%;
+    color: #234C87;
+}
+
+
+.tour-project-info>p {
+    padding-top: 2%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    height: 32%;
+}
+
+.vertical-line-pop-up {
+    margin: auto 0;
+    border: 0.225vh solid #234C87;
+    height: 90%;
+    background-color: #234C87;
+    border-radius: 1000px;
+}
+
+.boundaries {
+    height: 66%;
+    display: flex;
+}
+
+.boundary {
+    display: flex;
+    align-items: center;
+}
+
+.boundary input {
+    margin-left: 3%;
+    width: 20%;
+    aspect-ratio: 1;
+    border-radius: 1000px;
+    box-shadow: #234d8769 0px 1px 4px;
+    display: flex;
+    justify-content: center;
+    padding-left: 6%;
+    padding-right: 5%;
+    background-color: #FAFCFF;
+}
+
+.project-name {
+    font-weight: 700;
+}
+
+.confirm-btn {
+    height: 5%;
+    width: 100%;
+    background-color: blue;
 }

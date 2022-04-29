@@ -71,4 +71,59 @@ header>a {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+}
+
+.user-avatar-holder {
+    width: 15%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+
+.dropdown-user {
+    position: absolute;
+    background-color: #234C87;
+    bottom: -170%;
+    left: 50%;
+    width: 70%;
+    transform: translate(-50%, -50%);
+    font-size: 80%;
+    border-radius: 10px;
+    border: solid #234C87;
+}
+
+.dropdown-user::after {
+    content: "";
+    position: absolute;
+    top: -30%;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent #234C87 transparent;
+}
+
+.horizontal-line {
+    border: solid #FAFCFF;
+    border-radius: 1000px;
+    width: 80%;
+    margin: auto;
+}
+
+.log-out {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FAFCFF;
+    cursor: pointer;
+    margin: 4%;
+}
+
+.change-password {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FAFCFF;
+    cursor: pointer;
+    margin: 4%;
 }

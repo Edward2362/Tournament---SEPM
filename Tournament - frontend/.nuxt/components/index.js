@@ -5,6 +5,7 @@ export { default as PopUpCreate } from '../..\\components\\PopUpCreate.vue'
 export { default as ProjectCard } from '../..\\components\\ProjectCard.vue'
 export { default as RegisterForm } from '../..\\components\\RegisterForm.vue'
 export { default as SearchBar } from '../..\\components\\SearchBar.vue'
+export { default as TrelloCard } from '../..\\components\\TrelloCard.vue'
 export { default as User } from '../..\\components\\User.vue'
 
 // nuxt/nuxt.js#8607

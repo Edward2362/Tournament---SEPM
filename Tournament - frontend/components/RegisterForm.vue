@@ -297,10 +297,10 @@ export default {
             username: this.username,
             email: this.email.value,
             password: this.password.value,
-            // trelloToken: Trello.token(),
+            trelloToken: Trello.token(),
             trelloId: this.user.data["id"],
           })
-          .then(function (response) {
+          .then((response) => {
             console.log(response);
             console.log(this.user.data["id"]);
             window.location.replace("workspace");

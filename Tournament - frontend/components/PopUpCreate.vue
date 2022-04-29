@@ -5,10 +5,10 @@
       :class="{ 'active-pop-up': isOverlay }"
       @click="bluring"
     ></div>
-    <div class="container-popup" :class="{ 'active-pop-up': isOverlay }">
-      <div class="header">
+    <div class="container-pop-up" :class="{ 'active-pop-up': isOverlay }">
+      <div class="header-pop-up">
         <div class="title"><h1>Create Project</h1></div>
-        <div class="off">
+        <div class="off-pop-up" @click="bluring">
           <svg
             viewBox="0 0 22 22"
             fill="none"
@@ -21,14 +21,141 @@
           </svg>
         </div>
       </div>
-      <div class="body">
-        <div class="trello-projects"></div>
+      <div class="body-pop-up">
+        <div class="trello-section">
+          <div class="trello-icon-pop-up">
+            <div class="holder-icon-pop-up">
+              <svg
+                width="23"
+                height="23"
+                viewBox="0 0 23 23"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  class="background"
+                  d="M22.4388 0H0.00657579C0.00294408 0 0 0.00294408 0 0.00657579V22.4388C0 22.4424 0.00294408 22.4453 0.00657579 22.4453H22.4388C22.4424 22.4453 22.4453 22.4424 22.4453 22.4388V0.00657579C22.4453 0.00294408 22.4424 0 22.4388 0Z"
+                  fill="#0079BF"
+                />
+                <path
+                  d="M17.2296 4.16455H13.4595C12.9026 4.16455 12.4512 4.61598 12.4512 5.17284V11.3979C12.4512 11.9548 12.9026 12.4062 13.4595 12.4062H17.2296C17.7864 12.4062 18.2379 11.9548 18.2379 11.3979V5.17284C18.2379 4.61598 17.7864 4.16455 17.2296 4.16455Z"
+                  fill="#FAFCFF"
+                />
+                <path
+                  d="M9.03036 4.16455H5.26024C4.70338 4.16455 4.25195 4.61598 4.25195 5.17284V16.1325C4.25195 16.6893 4.70338 17.1408 5.26024 17.1408H9.03036C9.58722 17.1408 10.0386 16.6893 10.0386 16.1325V5.17284C10.0386 4.61598 9.58722 4.16455 9.03036 4.16455Z"
+                  fill="#FAFCFF"
+                />
+              </svg>
+              <p>Trello</p>
+            </div>
+          </div>
+          <div class="trello-search-box">
+            <div class="search-holder-pop-up"><SearchBar /></div>
+          </div>
+          <div class="trello-scroll-body">
+            <div class="trello-boards">
+              <TrelloCard />
+              <TrelloCard /><TrelloCard /> <TrelloCard /><TrelloCard />
+              <TrelloCard />
+            </div>
+          </div>
+        </div>
+        <div class="transition-icon">
+          <svg
+            width="27"
+            height="24"
+            viewBox="0 0 27 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M26.6572 3.6824L15.6444 22.7798C14.698 24.4067 12.289 24.4067 11.3428 22.7798L0.32991 3.6824C-0.616413 2.0555 0.588095 0 2.48077 0H24.5922C26.4854 0 27.6035 2.05495 26.6572 3.6824Z"
+              fill="url(#paint0_linear_242_562)"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_242_562"
+                x1="13.5"
+                y1="0"
+                x2="13.5"
+                y2="24"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#0079BF" />
+                <stop offset="0.625" stop-color="#234C87" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="tournament-section">
+          <div class="tour-icon-pop-up">
+            <div class="holder-icon-pop-up">
+              <svg
+                width="26"
+                height="25"
+                viewBox="0 0 26 25"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M21.661 3.34343C21.661 2.60148 21.0595 2 20.3176 2H5.64852C4.90656 2 4.30508 2.60148 4.30508 3.34343H12.2288H13H21.661Z"
+                  fill="#234C87"
+                />
+                <path
+                  d="M13 3.34343V16.7778C13.26 16.7778 13.5142 16.77 13.7627 16.7547V4.10615C13.7627 3.68491 13.4212 3.34343 13 3.34343Z"
+                  fill="#234C87"
+                />
+                <path
+                  d="M13 16.7778V3.34343H12.2288V16.7542C12.4801 16.7698 12.7371 16.7778 13 16.7778Z"
+                  fill="#234C87"
+                />
+                <path
+                  d="M13 23V16.7778C12.7371 16.7778 12.4801 16.7698 12.2288 16.7542V23H13Z"
+                  fill="#234C87"
+                />
+                <path
+                  d="M13 23C13.4212 23 13.7627 22.6585 13.7627 22.2373V16.7547C13.5142 16.77 13.26 16.7778 13 16.7778V23Z"
+                  fill="#234C87"
+                />
+                <path
+                  d="M8.66102 23H12.2288M17.2881 23H13M13 3.34343V16.7778M13 3.34343H21.661M13 3.34343H12.2288M13 3.34343V3.34343C13.4212 3.34343 13.7627 3.68491 13.7627 4.10615V16.7547M13 23V16.7778M13 23H12.2288M13 23V23C13.4212 23 13.7627 22.6585 13.7627 22.2373V16.7547M13 16.7778C12.7371 16.7778 12.4801 16.7698 12.2288 16.7542M13 16.7778C13.26 16.7778 13.5142 16.77 13.7627 16.7547M4.30508 3.34343V3.34343C3.03202 3.34343 1.99168 4.37978 2.16684 5.64073C2.79529 10.1649 5.34474 16.3259 12.2288 16.7542M4.30508 3.34343V3.34343C4.30508 2.60148 4.90656 2 5.64852 2H20.3176C21.0595 2 21.661 2.60148 21.661 3.34343V3.34343M4.30508 3.34343H12.2288M21.661 3.34343V3.34343C22.9528 3.34343 24.0086 4.39471 23.8285 5.67389C23.192 10.1968 20.6364 16.332 13.7627 16.7547M12.2288 3.34343V16.7542M12.2288 23V16.7542"
+                  stroke="#234C87"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <p>Tournament</p>
+            </div>
+          </div>
+          <div class="tour-body">
+            <div class="tour-project-info">
+              <p>Project <span class="project-name">Tournament</span></p>
+              <div class="boundaries">
+                <div class="boundary penalty">
+                  <p>Penalty boundary</p>
+                  <input type="text" />
+                </div>
+                <div class="boundary reward">
+                  <p>Reward boundary</p>
+                  <input type="text" />
+                </div>
+              </div>
+            </div>
+            <div class="vertical-line-pop-up"></div>
+            <div class="tour-project-members">
+              <p>Members</p>
+            </div>
+          </div>
+        </div>
+        <div class="confirm-btn">adsd</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import TrelloCard from "../components/TrelloCard.vue";
+import ProjectCard from "../components/ProjectCard.vue";
 import { mapMutations, mapGetters } from "vuex";
 
 export default {
