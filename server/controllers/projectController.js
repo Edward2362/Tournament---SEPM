@@ -94,22 +94,28 @@ const createProject = async (req, res) => {
   const project = await Project.create({
     name,
     trelloBoardId,
+    admin: userId,
     lastAccessed: [{ user: userId }],
   });
   // create the admin for the project
   await Member.create({
     user: userId,
     project: project._id,
-    role: "admin",
   });
 
-  res.status(StatusCodes.CREATED).json({ data: project });
+  const result = project.toObject();
+  result.lastAccessed = result.lastAccessed.find(
+    (e) => e.user.toString() === userId.toString()
+  ).date;
+
+  res.status(StatusCodes.CREATED).json({ data: result });
 };
 
 const updateProject = async (req, res) => {
   const { userId } = req.user;
   const { id: projectId } = req.params;
-  const { name, trelloBoardId, finished } = req.body;
+  const { name, trelloBoardId, finished, upperBoundary, lowerBoundary } =
+    req.body;
 
   // authorize user
   await Member.findUserIsAdmin(userId, projectId);
@@ -117,7 +123,7 @@ const updateProject = async (req, res) => {
   // update project
   const project = await Project.findOneAndUpdate(
     { _id: projectId },
-    { name, trelloBoardId, finished },
+    { name, trelloBoardId, finished, upperBoundary, lowerBoundary },
     { new: true, runValidators: true }
   );
   if (!project) {

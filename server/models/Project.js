@@ -22,9 +22,22 @@ const ProjectSchema = mongoose.Schema(
       maxLength: [50, "Name cannot be longer than 50 characters"],
       trim: true,
     },
+    upperBoundary: {
+      type: Number,
+      default: 0,
+    },
+    lowerBoundary: {
+      type: Number,
+      default: 0,
+    },
     trelloBoardId: {
       type: String,
       required: [true, "Please provide the ID of your trello board"],
+    },
+    admin: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: [true, "Please provide admin ID"],
     },
     finished: {
       type: Boolean,
