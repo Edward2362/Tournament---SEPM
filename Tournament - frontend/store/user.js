@@ -1,6 +1,9 @@
+import axios from "axios";
+
 export const state = () => ({
   id: 1,
   name: "Quang",
+  trelloId: null,
   lastAccess: [
     {
       id: 2,
@@ -44,19 +47,32 @@ export const getters = {
   getUserId(state) {
     return state.id;
   },
-  getUsertrelloId(state) {
-    
+  getUser(state) {
+    console.log(state)
+    return state;
+  },
+  getUserTrelloId(state) {
+    return state.trelloId
+  },
+  getUserToken(state) {
+    return state.trelloToken
   }
 };
 export const actions = {
-  fetchProjectByUser({ commit }) {
-    axios.get("v1/users/me/projects").then((response) => {
+  fetchUserByCookie({ commit }) {
+    axios.get("api/v1/users/me").then((response) => {
       console.log(response.data);
-      commit("setProjects", response.data.data);
+      console.log("đã run1")
+      commit("setUser", response.data.data);
     });
   },
+  changeTrelloId({ commit }, newtrelloId) {
+    commit("settrelloId", newtrelloId)
+  }
 };
 
 export const mutations = {
-  setProjects: (state, users) => (state.projects = projects),
+  setUser: (state, theUser) => (state = theUser),
+  settrelloId: (state, newtrelloId) => (state.trelloId = newtrelloId)
+
 };

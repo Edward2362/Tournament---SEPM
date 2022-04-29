@@ -126,6 +126,7 @@ export default {
       getOnGoingProject: "projects/getOnGoingProject",
       getDoneProject: "projects/getDoneProject",
       userId: "user/getUserId",
+      getUser: "user/getUser",
     }),
     onGoingProjects() {
       if (this.filter === "manager") {
@@ -154,13 +155,18 @@ export default {
   },
   components: { ProjectCard },
   methods: {
-    ...mapActions({ fetchProjectByUser: "projects/fetchProjectByUser" }),
+    ...mapActions({ fetchProjectByUser: "projects/fetchProjectByUser",
+                    fetchUserByCookie: "user/fetchUserByCookie"
+                    }),
   },
-  created() {
+  async created() {
     // if(Trello.token() != null){
     //   Trello.deauthorize();
     // }
     this.fetchProjectByUser();
+    this.fetchUserByCookie();
+    console.log("Hello")
+    console.log(this.getUser);
   },
 };
 </script>

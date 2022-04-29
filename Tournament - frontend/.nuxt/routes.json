@@ -14,6 +14,13 @@
     "_name": "_49b71b81"
   },
   {
+    "name": "test_popup",
+    "path": "/test_popup",
+    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\test_popup.vue",
+    "chunkName": "pages/test_popup",
+    "_name": "_787080c8"
+  },
+  {
     "name": "workspace",
     "path": "/workspace",
     "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\workspace.vue",

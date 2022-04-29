@@ -6,6 +6,7 @@ import scrollBehavior from './router.scrollBehavior.js'
 
 const _36921214 = () => interopDefault(import('..\\pages\\about.vue' /* webpackChunkName: "pages/about" */))
 const _49b71b81 = () => interopDefault(import('..\\pages\\authentication.vue' /* webpackChunkName: "pages/authentication" */))
+const _787080c8 = () => interopDefault(import('..\\pages\\test_popup.vue' /* webpackChunkName: "pages/test_popup" */))
 const _71b0479c = () => interopDefault(import('..\\pages\\workspace.vue' /* webpackChunkName: "pages/workspace" */))
 const _47aa169b = () => interopDefault(import('..\\pages\\projects\\_id\\index.vue' /* webpackChunkName: "pages/projects/_id/index" */))
 const _095ad91d = () => interopDefault(import('..\\pages\\projects\\_id\\history.vue' /* webpackChunkName: "pages/projects/_id/history" */))
@@ -31,6 +32,10 @@ export const routerOptions = {
     path: "/authentication",
     component: _49b71b81,
     name: "authentication"
+  }, {
+    path: "/test_popup",
+    component: _787080c8,
+    name: "test_popup"
   }, {
     path: "/workspace",
     component: _71b0479c,
