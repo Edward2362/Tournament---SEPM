@@ -85,14 +85,18 @@ export const getters = {
     return state.projects.filter((project) => project.finished === true);
   },
   getProjectId(state) {
-    return state.projects.trelloId
+    const trelloIds = [];
+    for (let i = 0; i < this.state.projects.length; i++){
+      trelloIds.append(state.projects[i]["_id"])
+    }
+    return trelloIds
   }
 };
 
 export const actions = {
   fetchProjectByUser({ commit }) {
-    axios.get("v1/users/me/projects").then((response) => {
-      console.log(response.data);
+    axios.get("/api/v1/users/me/projects").then((response) => {
+      // console.log(response.data);
       commit("setProjects", response.data.data);
     });
     // console.log(this.recent)

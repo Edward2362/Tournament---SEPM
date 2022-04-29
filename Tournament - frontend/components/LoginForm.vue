@@ -111,7 +111,7 @@ export default {
         })
         .then(function (response) {
           console.log(response);
-          // window.location.replace("workspace");
+          window.location.replace("workspace");
         })
         .catch((error) => {
           console.log(error);

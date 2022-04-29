@@ -189,6 +189,8 @@
 
 <script>
 import axios from "axios";
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "RegisterForm",
   data() {
@@ -217,6 +219,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      getUserTrelloId: "users/getUserTrelloId",
+    }),
     disabledButton() {
       return !(
         this.email.isValid &&
@@ -228,6 +233,9 @@ export default {
     },
   },
   methods: {
+    //test
+    ...mapActions({ changeTrelloId: "users/changeTrelloId" }),
+
     authorizeTrello() {
       var authenticationSuccess = () => {
         this.auth = true;
@@ -281,35 +289,30 @@ export default {
     },
     async Signup(e) {
       e.preventDefault();
-      this.user = await axios.get("https://api.trello.com/1/members/me?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token=" + Trello.token())
-      console.log(this.user.data["id"])
-      console.log("Hey")
       if (this.password.value == this.retypePassword.value) {
-        console.log("Heyhey")
+        this.user = await axios.get("https://api.trello.com/1/members/me?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token=" + Trello.token())
         await axios
           .post("api/v1/auth/register", {
             username: this.username,
             email: this.email.value,
             password: this.password.value,
-            // trelloToken: Trello.token(),
+            trelloToken: Trello.token(),
             trelloId: this.user.data["id"]
           })
           .then(function (response) {
             console.log(response);
             console.log(this.user.data["id"])
-            // window.location.replace("workspace");
+            window.location.replace("workspace");
           })
           .catch((error) => {
             console.log(error);
             this.errormessage = error.response;
           });
           console.log(Trello.token())
-          Trello.deauthorize();
+          // Trello.deauthorize();
           console.log(Trello.token())
       }
     },
-    
-    
   },
 };
 </script>
