@@ -13,7 +13,6 @@ Site: https://json-generator.com/
     avatarUrl: "https://source.unsplash.com/random/100x100",
     trelloToken: "{{guid()}}",
     trelloId: "{{guid()}}",
-    role: "user",
   },
 ];
 ```

@@ -85,7 +85,13 @@ const createProjects = async () => {
 
   projectJson.map((p, i) => {
     if (i in memberMap) {
+      // first in the member list to be admin
+      p.admin = userIDs[memberMap[i][0]];
+      // reformat the array to meet the schema
       p.lastAccessed = memberMap[i].map((m) => ({ user: userIDs[m] }));
+    } else {
+      // nonsense id for empty project
+      p.admin = "626938234be9c2846105151e";
     }
   });
 
@@ -99,11 +105,10 @@ const createMembers = async () => {
 
   let index = 0;
   for (const p of projects) {
-    for (const [i, la] of p.lastAccessed.entries()) {
+    for (const la of p.lastAccessed.values()) {
       if (index > memberLength) break;
       memberJson[index].user = la.user;
       memberJson[index].project = p._id;
-      memberJson[index].role = i === 0 ? "admin" : "member";
       index++;
     }
   }
