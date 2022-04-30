@@ -1,4 +1,5 @@
 MONGO_URL=mongodb://ozongl:aUYqxIV3zxNxujmy@cluster0-shard-00-00.m8gos.mongodb.net:27017,cluster0-shard-00-01.m8gos.mongodb.net:27017,cluster0-shard-00-02.m8gos.mongodb.net:27017/Tournament?ssl=true&replicaSet=atlas-r83b82-shard-0&authSource=admin&retryWrites=true&w=majority
+MONGO_URL_TEST=mongodb://ozongl:aUYqxIV3zxNxujmy@cluster0-shard-00-00.m8gos.mongodb.net:27017,cluster0-shard-00-01.m8gos.mongodb.net:27017,cluster0-shard-00-02.m8gos.mongodb.net:27017/TournamentTest?ssl=true&replicaSet=atlas-r83b82-shard-0&authSource=admin&retryWrites=true&w=majority
 JWT_SECRET=supersecret
 JWT_LIFETIME=30d
 NODE_ENV=development
