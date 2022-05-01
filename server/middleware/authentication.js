@@ -6,13 +6,22 @@ const { UnauthenticatedError, UnauthorizedError } = require("../errors");
 
 const authenticateUser = async (req, res, next) => {
   const { token } = req.signedCookies;
+  const authHeader = req?.headers.authorization;
 
-  if (!token) {
+  if (!token && (!authHeader || !authHeader.startsWith("Bearer "))) {
     throw new UnauthenticatedError();
   }
 
+  let toValidate;
+
+  if (token) {
+    toValidate = token;
+  } else {
+    toValidate = authHeader.split(" ")[1];
+  }
+
   try {
-    const { userId } = validateToken(token);
+    const { userId } = validateToken(toValidate);
 
     const user = await User.findOneExist({ _id: userId });
 

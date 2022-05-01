@@ -9,6 +9,7 @@ const {
   validatePassword,
   chainSF,
   createQueryObject,
+  createToken,
 } = require("../utils");
 
 const {
@@ -70,7 +71,8 @@ const updateUser = async (req, res) => {
   await user.save();
 
   const tokenUser = createTokenPayload(user);
-  responseWithToken(res, tokenUser);
+  const token = createToken(tokenUser);
+  responseWithToken(res, token);
 
   res.status(StatusCodes.OK).json({ data: tokenUser });
 };
