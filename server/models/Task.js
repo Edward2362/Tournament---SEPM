@@ -1,7 +1,7 @@
-const mongoose = require("Mongoose");
+const mongoose = require("mongoose");
 
-const TaskSchema = mongoose.schema({
-    trelloProjectId: {
+const TaskSchema = mongoose.Schema({
+    projectId: {
         type: mongoose.Types.ObjectId,
         ref: "Project",
         required: [true, "Please provide project ID"],
@@ -15,34 +15,35 @@ const TaskSchema = mongoose.schema({
         default: "",
     },
     memberIncharged: {
-        type: String,
-    },
-    subTask: [{
-        trelloProjectId: {
         type: mongoose.Types.ObjectId,
-        ref: "Project",
-        },
-        trelloTaskId: {
-            type: String,
-        },
-        taskName: {
-            type: String,
-            default: "",
-        },
-        memberIncharged: {
-            type: String,
-        },
+        ref: "Member",
+        required: [true, "Please provide member ID"],
+    },
+    subTask: [
+        {
+            trelloTaskId: {
+                type: String,
+            },
+            taskName: {
+                type: String,
+                default: "",
+            },
+            memberIncharged: {
+                type: mongoose.Types.ObjectId,
+                ref: "Member",
+            },
             percentage: {
-            type: number,
-            default: 0,
+                type: Number,
+                default: 0,
+            },
+            finished: {
+                type: Boolean,
+                default: null,
+            },
         },
-        finished: {
-            type: Boolean,
-            default: false,
-        },
-    }],
+    ],
     percentage: {
-        type: number,
+        type: Number,
         default: 0,
     },
     finished: {
@@ -51,7 +52,7 @@ const TaskSchema = mongoose.schema({
     },
 });
 
-ProjectSchema.pre("remove", async function () {
+TaskSchema.pre("remove", async function () {
     await this.deleteOne({ trelloTaskId: this._id });
 });
 

@@ -24,7 +24,7 @@ const UserSchema = new mongoose.Schema(
       maxlength: [64, "Password cannot be longer than 64 characters"],
     },
     // ? ...
-    avatarUrl: {
+    avatar: {
       type: String,
       default: "",
     },
@@ -45,7 +45,6 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// TODO: project.lastAccessed
 UserSchema.pre("remove", async function () {
   await this.model("Member").deleteMany({ user: this._id });
 });
