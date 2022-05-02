@@ -1,68 +1,39 @@
 import axios from "axios";
+import createPersistedState from 'vuex-persistedstate';
 
 export const state = () => ({
-  id: 1,
-  name: "Quang",
-  trelloId: null,
-  lastAccess: [
-    {
-      id: 2,
-      title: "BITS",
-      admin: "edward2362@rmit.edu.vn",
-      completed: true,
-      finished: true,
-    },
-    {
-      id: 3,
-      title: "Algorithms",
-      admin: "edward2362@rmit.edu.vn",
-      completed: true,
-      finished: true,
-    },
-    {
-      id: 4,
-      title: "Machine Learning",
-      admin: "edward2362@rmit.edu.vn",
-      completed: true,
-      finished: true,
-    },
-    {
-      id: 5,
-      title: "User Centered design",
-      admin: "edward2362@rmit.edu.vn",
-      completed: true,
-      finished: true,
-    },
-    {
-      id: 6,
-      title: "Machine Learning",
-      admin: "edward2362@rmit.edu.vn",
-      completed: true,
-      finished: true,
-    },
-  ],
+  user: null,
 });
+function getPlugins() {
+  let plugins = []
+
+  if (process.browser) {
+      plugins = createPersistedState({
+        key: "user",
+        storage: window.sessionStorage,
+      })
+  }
+  return plugins;
+};
+export const plugins = getPlugins();
 
 export const getters = {
   getUserId(state) {
     return state.id;
   },
   getUser(state) {
-    console.log(state)
     return state;
   },
   getUserTrelloId(state) {
-    return state.trelloId
+    return state.user.trelloId
   },
   getUserToken(state) {
-    return state.trelloToken
+    return state.user.trelloToken
   }
 };
 export const actions = {
   fetchUserByCookie({ commit }) {
     axios.get("api/v1/users/me").then((response) => {
-      console.log(response.data);
-      console.log("đã run1")
       commit("setUser", response.data.data);
     });
   },
@@ -72,7 +43,7 @@ export const actions = {
 };
 
 export const mutations = {
-  setUser: (state, theUser) => (state = theUser),
+  setUser: (state, theUser) => (state.user = theUser),
   settrelloId: (state, newtrelloId) => (state.trelloId = newtrelloId)
 
 };

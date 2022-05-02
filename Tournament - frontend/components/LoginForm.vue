@@ -103,9 +103,12 @@ export default {
           email: this.email,
           password: this.password,
         })
-        .then(function (response) {
-          console.log(response);
-          window.location.replace("workspace");
+        .then((response) => {
+          // console.log("hey123", response);
+          // this.setUser(response.data.data);
+          // console.log(this.getUser)
+          this.$router.push({ name: 'workspace' });
+          // window.location.replace("workspace");
         })
         .catch((error) => {
           console.log(error);

@@ -155,9 +155,9 @@
 
 <script>
 import TrelloCard from "../components/TrelloCard.vue";
-import ProjectCard from "../components/ProjectCard.vue";
-import { mapMutations, mapGetters, mapActions } from "vuex";
+import { mapMutations, mapGetters} from "vuex";
 import axios from "axios";
+
 
 export default {
   name: "PopUpCreate",
@@ -168,8 +168,10 @@ export default {
         isValid: false,
       },
       //test
-      user: null,
       boards: null,
+      PenaltyBoundary: 0,
+      choosenBoardId: "",
+      RewardBoundary: 0,
     };
   },
   computed: {
@@ -183,38 +185,61 @@ export default {
     }),
   },
   methods: {
-    ...mapActions({ changeTrelloId: "user/changeTrelloId" }),
+    // ...mapActions({ changeTrelloId: "user/changeTrelloId" }),
     ...mapMutations({
       bluring: "document/setOverlay",
     }),
     async getboardstrello() {
-      console.log(this.getUser);
+      console.log("Trello ID", this.getUserTrelloId)
+      console.log("Trello token", this.getUserToken)
+
       this.boards = await axios.get(
         "https://api.trello.com/1/members/" +
           this.getUserTrelloId +
           "/boards?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token=" +
           this.getUserToken
       );
-      // console.log(this.boards)
       for (let i = 0; i < this.boards.data.length; i++) {
-        // console.log(this.boards.data[i]["id"])
-        // for(board in this.boardfromtrello){
-        // }
+        console.log(this.boards.data[i]["id"])
       }
       for (let i = 0; i < this.getProjectId.length; i++) {
-        // console.log(this.getProjectId[i])
+        console.log(this.getProjectId[i])
       }
     },
+    async getoneProject(){
+      this.boards = await axios.get(
+        "https://api.trello.com/1/boards" + 
+        this.choosenBoardId +
+        "?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token=" +
+          this.getUserToken
+      );
+      //make the lower section appear 
+    },
+    async createnewProject(){
+      var index = 0;
+      for (let i = 0; i < this.boards.data.length; i++) {
+
+      }
+      await axios
+        .post("api/v1/projects", {
+          // name: this.boards[],
+          password: this.password,
+        })
+        .then((response) => {
+          // console.log("hey123", response);
+          // this.setUser(response.data.data);
+          // console.log(this.getUser)
+          this.$router.push({ name: 'workspace' });
+          // window.location.replace("workspace");
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errormessage = error.response.data.message;
+        });
+    }
   },
+
   async created() {
-    // test
-    console.log(this.getUser);
-    this.user = await axios.get(
-      "https://api.trello.com/1/members/me?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token=8de85f25dab780dccfb2a24de777b1e00e124567babbc32aec94a96d577917d6"
-    );
-    this.changeTrelloId(this.user.data["id"]);
-    //endtest
-    // console.log(this.getUserTrelloId)
     this.getboardstrello();
   },
 };

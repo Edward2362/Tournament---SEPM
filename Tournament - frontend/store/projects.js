@@ -1,4 +1,19 @@
 import axios from "axios";
+import createPersistedState from 'vuex-persistedstate';
+
+function getPlugins() {
+  let plugins = []
+
+  if (process.browser) {
+    plugins = createPersistedState({
+      key: "projects",
+      storage: window.sessionStorage,
+    })
+  }
+  return plugins;
+};
+export const plugins = getPlugins();
+
 
 export const state = () => ({
   projects: [
