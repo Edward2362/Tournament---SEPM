@@ -2,9 +2,6 @@
   "AppHeader": {
     "description": "Auto imported from components/AppHeader.vue"
   },
-  "Cover": {
-    "description": "Auto imported from components/Cover.vue"
-  },
   "LoginForm": {
     "description": "Auto imported from components/LoginForm.vue"
   },

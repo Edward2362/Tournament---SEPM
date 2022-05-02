@@ -112,7 +112,7 @@
 
 <script>
 import ProjectCard from "../components/ProjectCard.vue";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
   data() {
@@ -128,6 +128,8 @@ export default {
       userId: "user/getUserId",
       getUser: "user/getUser",
     }),
+    // userTest() {return this.$store.user.state},
+
     onGoingProjects() {
       if (this.filter === "manager") {
         return this.getOnGoingProject.filter(
@@ -159,14 +161,16 @@ export default {
                     fetchUserByCookie: "user/fetchUserByCookie"
                     }),
   },
+  ...mapMutations({
+    setUser: "user/setUser",
+  }),
   async created() {
     // if(Trello.token() != null){
     //   Trello.deauthorize();
     // }
     this.fetchProjectByUser();
     this.fetchUserByCookie();
-    console.log("Hello")
-    console.log(this.getUser);
+    console.log("after", this.getUser)
   },
 };
 </script>

@@ -166,6 +166,17 @@
     width: 100%;
 }
 
+.tour-body-inavailable {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    font-weight: 300;
+    font-size: 100%;
+    color: #234C87;
+}
+
 .tour-project-info {
     width: 50%;
     height: 100%;

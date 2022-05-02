@@ -6,13 +6,14 @@
 import AppHeader from "../components/AppHeader";
 import PopUpCreate from "../components/PopUpCreate.vue";
 import axios from "axios";
-
+import {mapActions, mapMutations} from "vuex"
 export default {
   components: {
     AppHeader,
     PopUpCreate,
   },
   methods: {
+
     async checkPage() {
       if (typeof window !== "undefined") {
         await axios
@@ -22,6 +23,7 @@ export default {
             this.$router.push({ name: 'authentication' });
           });
       }
+    
     },
   },
   mounted() {

@@ -91,8 +91,8 @@ export default {
       axios
         .get("/api/v1/auth/logout")
         .then((response) => {
-          console.log("HEY");
-          window.location.replace("authentication");
+          sessionStorage.removeItem("vuex")
+          this.$router.push({ name: 'authentication' });
         })
         .catch(console.log);
     },

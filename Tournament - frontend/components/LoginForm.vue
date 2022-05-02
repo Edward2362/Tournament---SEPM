@@ -72,7 +72,7 @@
       </div>
       <div class="form-input">
         <div class="notification" :class="{ 'active-pop-up': error }">
-          Email or password is incorrect
+          Email or password is incorrect!
         </div>
       </div>
       <div class="form-submit" @click="signIn">
@@ -103,13 +103,12 @@ export default {
           email: this.email,
           password: this.password,
         })
-        .then(function (response) {
-          console.log(response);
-          window.location.replace("workspace");
+        .then((response) => {
+          this.$router.push({ name: "workspace" });
         })
         .catch((error) => {
           console.log(error);
-          this.errormessage = error.response.data.message;
+          this.error = true;
         });
     },
   },
