@@ -16,10 +16,10 @@ export default {
     async checkPage() {
       if (typeof window !== "undefined") {
         await axios
-          .get("api/v1/users/me")
+          .get("/api/v1/users/me")
           .then((response) => {})
           .catch((error) => {
-            window.location.replace("authentication");
+            this.$router.push({ name: 'authentication' });
           });
       }
     },

@@ -33,9 +33,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 10%;
+    height: 8%;
     width: 100%;
-    padding-bottom: 4%;
+    padding-bottom: 2%;
 }
 
 .header-pop-up h1 {
@@ -66,7 +66,7 @@
 
 .trello-section {
     width: 100%;
-    padding: 3% 5%;
+    padding: 2% 5%;
     height: 60%;
     border-radius: 10px;
     box-shadow: #234d8769 0px 1px 4px;
@@ -179,11 +179,15 @@
     height: 100%;
     padding-left: 5%;
     font-size: 90%;
+    display: flex;
+    align-items: center;
 }
 
 .tour-project-members p {
     padding-top: 2%;
     color: #234C87;
+    height: 30%;
+    font-weight: 300;
 }
 
 
@@ -199,7 +203,7 @@
 .vertical-line-pop-up {
     margin: auto 0;
     border: 0.225vh solid #234C87;
-    height: 90%;
+    height: 100%;
     background-color: #234C87;
     border-radius: 1000px;
 }
@@ -231,8 +235,45 @@
     font-weight: 700;
 }
 
-.confirm-btn {
-    height: 5%;
+.member-list {
+    box-shadow: #234d8769 0px 1px 4px;
+    margin-left: 5%;
+    padding: 2% 5%;
+    margin-top: 1%;
+    height: 100%;
     width: 100%;
-    background-color: blue;
+    overflow-y: scroll;
+    border-radius: 10px;
+}
+
+.member {
+    color: #234C87;
+    font-weight: 700;
+    padding: 3% 2% 1% 2%;
+    border-bottom: solid #234C87 2px;
+    font-size: 80%;
+}
+
+.confirm-btn {
+    height: 9%;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+}
+
+.confirm-btn button {
+    margin: 1.25% 0;
+    background-color: #FAFCFF;
+    border: #FF5C72 solid;
+    padding: 0 3%;
+    border-radius: 1000px;
+    color: #FF5C72;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.1s ease-in-out;
+}
+
+.confirm-btn button:hover {
+    background-color: #FF5C72;
+    color: #FAFCFF;
 }

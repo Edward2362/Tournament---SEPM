@@ -144,10 +144,17 @@
             <div class="vertical-line-pop-up"></div>
             <div class="tour-project-members">
               <p>Members</p>
+              <div class="member-list">
+                <div class="member" v-for="member in members" :key="member.id">
+                  {{ member.name }}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="confirm-btn">adsd</div>
+        <div class="confirm-btn">
+          <button>Confirm</button>
+        </div>
       </div>
     </div>
   </div>
@@ -167,9 +174,21 @@ export default {
         value: null,
         isValid: false,
       },
+      // trelloProject {
+      //   id:
+      //   name:
+      // },
       //test
       user: null,
       boards: null,
+      members: [
+        { id: 1, name: "Quang" },
+        { id: 2, name: "Cheng" },
+        { id: 3, name: "Tuan 1" },
+        { id: 4, name: "Minh" },
+        { id: 5, name: "Tuan 2" },
+        { id: 6, name: "Nhat Minh" },
+      ],
     };
   },
   computed: {
