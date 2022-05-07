@@ -73,11 +73,7 @@ export default {
     };
   },
   components: { SearchBar, User },
-  computed: {
-    ...mapGetters({
-      isOverlay: "document/isOverlay",
-    }),
-  },
+  computed: {},
   methods: {
     ...mapMutations({
       bluring: "document/setOverlay",
@@ -87,12 +83,11 @@ export default {
       console.log("dropdown");
     },
     logOut() {
-      console.log("HEYhyhyh");
       axios
         .get("/api/v1/auth/logout")
         .then((response) => {
-          sessionStorage.removeItem("vuex")
-          this.$router.push({ name: 'authentication' });
+          sessionStorage.removeItem("vuex");
+          this.$router.push({ name: "authentication" });
         })
         .catch(console.log);
     },

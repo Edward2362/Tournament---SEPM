@@ -99,7 +99,7 @@ export default {
       e.preventDefault();
       console.log("đã run");
       axios
-        .post("api/v1/auth/login", {
+        .post("/api/v1/auth/login", {
           email: this.email,
           password: this.password,
         })

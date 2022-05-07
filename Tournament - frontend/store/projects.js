@@ -101,16 +101,18 @@ export const getters = {
   },
   getProjectId(state) {
     const trelloIds = [];
-    for (let i = 0; i < this.state.projects.length; i++){
-      trelloIds.append(state.projects[i]["_id"])
+    for (let i = 0; i < state.projects.length; i++){
+      trelloIds.push(state.projects[i]["trelloBoardId"])
     }
+    console.log("projects", trelloIds)
     return trelloIds
+
   }
 };
 
 export const actions = {
   fetchProjectByUser({ commit }) {
-    axios.get("/api/v1/users/me/projects").then((response) => {
+    axios.get("/api/v1/users/me/projects?limit=99").then((response) => {
       // console.log(response.data);
       commit("setProjects", response.data.data);
     });

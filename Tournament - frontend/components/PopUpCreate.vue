@@ -54,9 +54,12 @@
           </div>
           <div class="trello-scroll-body">
             <div class="trello-boards">
-              <TrelloCard />
-              <TrelloCard /><TrelloCard /> <TrelloCard /><TrelloCard />
-              <TrelloCard />
+              <TrelloCard
+                v-for="board in newBoards"
+                :key="board.id"
+                :board="board"
+                @choose-board="chooseBoard"
+              />
             </div>
           </div>
         </div>
@@ -129,15 +132,17 @@
           </div>
           <div v-if="trelloBoard.id != null" class="tour-body">
             <div class="tour-project-info">
-              <p>Project <span class="project-name">Tournament</span></p>
+              <p>
+                Project <span class="project-name">{{ trelloBoard.name }}</span>
+              </p>
               <div class="boundaries">
                 <div class="boundary penalty">
                   <p>Penalty boundary</p>
-                  <input type="text" />
+                  <input type="text" v-model="penaltyBoundary" />
                 </div>
                 <div class="boundary reward">
                   <p>Reward boundary</p>
-                  <input type="text" />
+                  <input type="text" v-model="rewardBoundary" />
                 </div>
               </div>
             </div>
@@ -156,7 +161,7 @@
           </div>
         </div>
         <div class="confirm-btn">
-          <button>Confirm</button>
+          <button v-on:click="createNewProject">Confirm</button>
         </div>
       </div>
     </div>
@@ -183,17 +188,10 @@ export default {
         id: null,
         name: null,
       },
-
+      newProjectId: "",
+      boards: [],
+      members: [],
       //test
-      boards: null,
-      members: [
-        { id: 1, name: "Quang" },
-        { id: 2, name: "Cheng" },
-        { id: 3, name: "Tuan 1" },
-        { id: 4, name: "Minh" },
-        { id: 5, name: "Tuan 2" },
-        { id: 6, name: "Nhat Minh" },
-      ],
     };
   },
   computed: {
@@ -201,66 +199,121 @@ export default {
       isOverlay: "document/isOverlay",
       getProjectId: "projects/getProjectId",
       userId: "user/getUserId",
-      getUserTrelloId: "user/getUserTrelloId",
       getUserToken: "user/getUserToken",
       getUser: "user/getUser",
+      getUserTrelloId: "user/getUserTrelloId",
     }),
+    newBoards() {
+      return this.boards.filter(
+        (board) => !this.getProjectId.includes(board.id)
+      );
+    },
   },
+  // emits: []
   methods: {
     // ...mapActions({ changeTrelloId: "user/changeTrelloId" }),
     ...mapMutations({
       bluring: "document/setOverlay",
     }),
+    async chooseBoard(id) {
+      console.log(id);
+      this.choosenBoardId = id;
+      this.getoneProject();
+      this.getMember();
+    },
     async getTrelloBoards() {
       console.log("Trello ID", this.getUserTrelloId);
       console.log("Trello token", this.getUserToken);
-
-      this.boards = await axios.get(
-        "https://api.trello.com/1/members/" +
-          this.getUserTrelloId +
-          "/boards?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token=" +
-          this.getUserToken
-      );
-      for (let i = 0; i < this.boards.data.length; i++) {
-        console.log(this.boards.data[i]["id"]);
-      }
-      for (let i = 0; i < this.getProjectId.length; i++) {
-        console.log(this.getProjectId[i]);
-      }
+      await axios
+        .get(
+          "https://api.trello.com/1/members/" +
+            this.getUserTrelloId +
+            "/boards?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token=" +
+            this.getUserToken
+        )
+        .then((response) => {
+          this.boards = response.data;
+        });
     },
+
     async getoneProject() {
-      this.boards = await axios.get(
-        "https://api.trello.com/1/boards" +
-          this.choosenBoardId +
-          "?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token=" +
-          this.getUserToken
-      );
+      await axios
+        .get(
+          "https://api.trello.com/1/boards/" +
+            this.choosenBoardId +
+            "?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token=" +
+            this.getUserToken
+        )
+        .then((response) => {
+          this.trelloBoard["id"] = response.data["id"];
+          this.trelloBoard["name"] = response.data["name"];
+        });
+
       //make the lower section appear
     },
     async createNewProject() {
-      var index = 0;
-      for (let i = 0; i < this.boards.data.length; i++) {}
       await axios
-        .post("api/v1/projects", {
-          // name: this.boards[],
-          password: this.password,
+        .post("/api/v1/projects", {
+          name: this.trelloBoard["name"],
+          trelloBoardId: this.trelloBoard["id"],
         })
         .then((response) => {
-          // console.log("hey123", response);
-          // this.setUser(response.data.data);
-          // console.log(this.getUser)
-          this.$router.push({ name: "workspace" });
-          // window.location.replace("workspace");
-        })
-        .catch((error) => {
-          console.log(error);
-          this.errormessage = error.response.data.message;
+          this.newProjectId = response.data.data["_id"];
         });
+      await axios.patch("/api/v1/projects/" + this.newProjectId, {
+        upperBoundary: this.rewardBoundary,
+        lowerBoundary: this.penaltyBoundary,
+      });
+      console.log(this.newProjectId);
+
+      window.location.replace("/projects/" + this.newProjectId);
+      this.bluring();
+      // .then((response) => {
+      //   this.$router.push({ name: "workspace" });
+      // })
+      // .catch((error) => {
+      //   console.log(error);
+      //   this.errormessage = error.response.data.message;
+      // });
+    },
+    async getMember() {
+      var members = [];
+      var memberName = [];
+
+      await axios
+        .get(
+          "https://api.trello.com/1/boards/" +
+            this.choosenBoardId +
+            "/memberships?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token=" +
+            this.getUserToken
+        )
+        .then((response) => {
+          members = response.data;
+        });
+      for (let i = 0; i < members.length; i++) {
+        await axios
+          .get(
+            "https://api.trello.com/1/members/" +
+              members[i].idMember +
+              "?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token=" +
+              this.getUserToken
+          )
+          .then((response) => {
+            let readingMember = {
+              id: response.data.id,
+              name: response.data.fullName,
+            };
+            memberName.push(readingMember);
+          });
+      }
+
+      this.members = memberName;
     },
   },
 
   async created() {
-    this.getTrelloBoards();
+    await this.getTrelloBoards();
+    console.log(this.boards);
   },
 };
 </script>

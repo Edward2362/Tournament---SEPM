@@ -1,11 +1,19 @@
 <template>
-  <div class="trello-board-card">
-    <h2>asdasd</h2>
+  <div class="trello-board-card" @click="chooseBoard(board.id)">
+    <h2>{{ board.name }}</h2>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  name: "TrelloCard",
+  props: ["board"],
+  methods: {
+    chooseBoard(id) {
+      this.$emit("choose-board", id);
+    },
+  },
+};
 </script>
 
 <style>

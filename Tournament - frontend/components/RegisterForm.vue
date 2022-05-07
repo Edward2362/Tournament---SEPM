@@ -234,7 +234,7 @@ export default {
   },
   methods: {
     //test
-    ...mapActions({ changeTrelloId: "users/changeTrelloId" }),
+    // ...mapActions({ changeTrelloId: "users/changeTrelloId" }),
 
     authorizeTrello() {
       var authenticationSuccess = () => {
@@ -302,9 +302,7 @@ export default {
           trelloId: this.user.data["id"],
         })
         .then((response) => {
-          console.log(response);
-          console.log(this.user.data["id"]);
-          window.location.replace("workspace");
+          this.$router.push({ name: "workspace" });
         })
         .catch((error) => {
           console.log(error);
