@@ -87,7 +87,6 @@ export default {
       console.log("dropdown");
     },
     logOut() {
-      console.log("HEYhyhyh");
       axios
         .get("/api/v1/auth/logout")
         .then((response) => {

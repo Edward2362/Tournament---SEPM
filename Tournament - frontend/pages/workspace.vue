@@ -161,15 +161,12 @@ export default {
                     fetchUserByCookie: "user/fetchUserByCookie"
                     }),
   },
-  ...mapMutations({
-    setUser: "user/setUser",
-  }),
   async created() {
     // if(Trello.token() != null){
     //   Trello.deauthorize();
     // }
-    this.fetchProjectByUser();
     this.fetchUserByCookie();
+    this.fetchProjectByUser();
     console.log("after", this.getUser)
   },
 };

@@ -34,15 +34,12 @@ export const getters = {
 export const actions = {
   fetchUserByCookie({ commit }) {
     axios.get("api/v1/users/me").then((response) => {
+      console.log("response", response.data.data)
       commit("setUser", response.data.data);
     });
-  },
-  changeTrelloId({ commit }, newTrelloId) {
-    commit("settrelloId", newTrelloId);
   },
 };
 
 export const mutations = {
-  setUser: (state, theUser) => (state = theUser),
-  setTrelloId: (state, newTrelloId) => (state.trelloId = newTrelloId),
+  setUser: (state, theUser) => (state.user = theUser),
 };
