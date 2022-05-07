@@ -44,9 +44,7 @@ const validateToken = (token) => {
  * @param {Response} res response object from express
  * @param {User} user user object from mongo
  */
-const responseWithToken = (res, user) => {
-  const token = createToken(user);
-
+const responseWithToken = (res, token) => {
   res.cookie("token", token, {
     httpOnly: true,
     expires: dayjs().add(30, "day").toDate(),
