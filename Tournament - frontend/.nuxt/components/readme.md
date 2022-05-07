@@ -10,6 +10,7 @@ You can directly use them in pages and other components without the need to impo
 - `<LoginForm>` | `<login-form>` (components/LoginForm.vue)
 - `<PopUpCreate>` | `<pop-up-create>` (components/PopUpCreate.vue)
 - `<ProjectCard>` | `<project-card>` (components/ProjectCard.vue)
+- `<ProjectMenu>` | `<project-menu>` (components/ProjectMenu.vue)
 - `<RegisterForm>` | `<register-form>` (components/RegisterForm.vue)
 - `<SearchBar>` | `<search-bar>` (components/SearchBar.vue)
 - `<TrelloCard>` | `<trello-card>` (components/TrelloCard.vue)

@@ -35,18 +35,18 @@
     "_name": "_47aa169b"
   },
   {
-    "name": "projects-id-history",
-    "path": "/projects/:id?/history",
-    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\history.vue",
-    "chunkName": "pages/projects/_id/history",
-    "_name": "_095ad91d"
-  },
-  {
     "name": "projects-id-office",
     "path": "/projects/:id?/office",
     "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\office.vue",
     "chunkName": "pages/projects/_id/office",
     "_name": "_4799c543"
+  },
+  {
+    "name": "projects-id-report",
+    "path": "/projects/:id?/report",
+    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\report.vue",
+    "chunkName": "pages/projects/_id/report",
+    "_name": "_1262408a"
   },
   {
     "name": "projects-id-setting",

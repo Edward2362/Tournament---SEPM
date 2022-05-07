@@ -20,8 +20,8 @@
     left: 50%;
     opacity: 0;
     transform: translate(-50%, -50%);
-    z-index: 1000;
-    width: 65vw;
+    z-index: 1001;
+    width: 70vw;
     height: 95vh;
     visibility: hidden;
     transition: all 0.2s ease-in;

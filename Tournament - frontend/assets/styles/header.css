@@ -32,6 +32,7 @@ header>a {
     height: 100%;
     display: flex;
     align-items: center;
+    padding-left: 2.25%;
 }
 
 .nav-holder div {

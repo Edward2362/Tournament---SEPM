@@ -36,7 +36,13 @@ input:focus {
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none !important;
+}
+
+a:visited,
+a:hover,
+a:active {
+    color: black
 }
 
 .container {
@@ -56,7 +62,7 @@ a {
     position: fixed;
     top: 0;
     background-color: rgba(0, 0, 0, 0.467);
-    z-index: 999;
+    z-index: 1000;
     width: 100vw;
     height: 100vh;
     opacity: 0;
@@ -67,4 +73,14 @@ a {
 .active-pop-up {
     visibility: visible !important;
     opacity: 1 !important;
+}
+
+.section-head {
+    color: #234C87;
+    height: 10%;
+}
+
+.section-body {
+    height: 90%;
+    background-color: red;
 }

@@ -9,8 +9,8 @@ const _49b71b81 = () => interopDefault(import('..\\pages\\authentication.vue' /*
 const _787080c8 = () => interopDefault(import('..\\pages\\test_popup.vue' /* webpackChunkName: "pages/test_popup" */))
 const _71b0479c = () => interopDefault(import('..\\pages\\workspace.vue' /* webpackChunkName: "pages/workspace" */))
 const _47aa169b = () => interopDefault(import('..\\pages\\projects\\_id\\index.vue' /* webpackChunkName: "pages/projects/_id/index" */))
-const _095ad91d = () => interopDefault(import('..\\pages\\projects\\_id\\history.vue' /* webpackChunkName: "pages/projects/_id/history" */))
 const _4799c543 = () => interopDefault(import('..\\pages\\projects\\_id\\office.vue' /* webpackChunkName: "pages/projects/_id/office" */))
+const _1262408a = () => interopDefault(import('..\\pages\\projects\\_id\\report.vue' /* webpackChunkName: "pages/projects/_id/report" */))
 const _25d2764e = () => interopDefault(import('..\\pages\\projects\\_id\\setting.vue' /* webpackChunkName: "pages/projects/_id/setting" */))
 
 const emptyFn = () => {}
@@ -45,13 +45,13 @@ export const routerOptions = {
     component: _47aa169b,
     name: "projects-id"
   }, {
-    path: "/projects/:id?/history",
-    component: _095ad91d,
-    name: "projects-id-history"
-  }, {
     path: "/projects/:id?/office",
     component: _4799c543,
     name: "projects-id-office"
+  }, {
+    path: "/projects/:id?/report",
+    component: _1262408a,
+    name: "projects-id-report"
   }, {
     path: "/projects/:id?/setting",
     component: _25d2764e,

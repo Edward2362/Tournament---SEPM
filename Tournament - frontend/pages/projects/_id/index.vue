@@ -1,20 +1,17 @@
 <template>
-  <div>
-    <div>hello {{ this.$route.params.id }}</div>
-    <div>hello {{ this.$route.params.id }}</div>
-    <div>hello {{ this.$route.params.id }}</div>
-    <div>hello {{ this.$route.params.id }}</div>
-    <div>hello {{ this.$route.params.id }}</div>
-    <div>hello {{ this.$route.params.id }}</div>
-    <div>hello {{ this.$route.params.id }}</div>
-    <div>hello {{ this.$route.params.id }}</div>
-    <div>hello {{ this.$route.params.id }}</div>
-    <div>hello {{ this.$route.params.id }}</div>
+  <div class="project-content">
+    <h2 class="section-head">Ranking</h2>
+    <div class="section-body">gi</div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  components: {},
+  layout: "project",
+};
 </script>
 
-<style></style>
+<style>
+@import "../../../assets/styles/dashboard.css";
+</style>

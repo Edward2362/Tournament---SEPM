@@ -23,7 +23,6 @@ export default {
             this.$router.push({ name: 'authentication' });
           });
       }
-    
     },
   },
   mounted() {

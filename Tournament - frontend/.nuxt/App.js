@@ -10,8 +10,9 @@ import '..\\assets\\styles\\main.css'
 
 import _13517024 from '..\\layouts\\authentication.vue'
 import _6f6c098b from '..\\layouts\\default.vue'
+import _00e87e63 from '..\\layouts\\project.vue'
 
-const layouts = { "_authentication": sanitizeComponent(_13517024),"_default": sanitizeComponent(_6f6c098b) }
+const layouts = { "_authentication": sanitizeComponent(_13517024),"_default": sanitizeComponent(_6f6c098b),"_project": sanitizeComponent(_00e87e63) }
 
 export default {
   render (h, props) {

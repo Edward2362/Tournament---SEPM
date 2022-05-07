@@ -1,0 +1,112 @@
+.menu {
+    height: 100vh;
+    width: 17.5%;
+    background-color: #234C87;
+    z-index: 1000;
+    border-radius: 0 10px 10px 0;
+    /* opacity: 0; */
+    /* transform: translateX(-1000px);
+    animation: menuIn 0.5s ease-in-out;
+    animation-fill-mode: forwards; */
+}
+
+@keyframes menuIn {
+    from {
+        transform: translateX(-1000px);
+        /* opacity: 0; */
+    }
+
+    to {
+        transform: translateX(0);
+        /* opacity: 1; */
+    }
+}
+
+.logo-menu {
+    width: 100%;
+    display: flex;
+    height: 9vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-menu svg {
+    width: auto;
+    height: 6vh;
+}
+
+.menu nav {
+    padding-top: 10vh;
+    width: 100%;
+    height: 91vh;
+}
+
+.anchor {
+    margin-left: 20%;
+    padding: 6% 9%;
+    background-color: #234C87;
+    color: #FAFCFF;
+    width: 80%;
+    height: 8%;
+    display: flex;
+    align-items: center;
+    border-radius: 14px 0 0 14px;
+}
+
+.anchor a {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: #FAFCFF;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.anchor svg {
+    width: 10%;
+    height: auto;
+}
+
+.anchor path {
+    fill: #FAFCFF;
+}
+
+.anchor div {
+    padding-left: 7%;
+}
+
+.current {
+    background-color: #FAFCFF;
+    position: relative;
+}
+
+.current a {
+    color: #234C87;
+}
+
+.current path {
+    fill: #234C87;
+}
+
+
+/* .current::before {
+    content: "";
+    background-color: #234C87;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 1000px;
+    border-style: solid;
+    border-color: #234C87 #FAFCFF #FAFCFF #234C87;
+}
+
+.current::after {
+    content: "";
+    background-color: #FAFCFF;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 1000px;
+} */

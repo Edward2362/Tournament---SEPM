@@ -43,6 +43,6 @@ export const actions = {
 };
 
 export const mutations = {
-  setUser: (state, theUser) => (state = theUser),
+  setUser: (state, theUser) => (state.user = theUser),
   setTrelloId: (state, newTrelloId) => (state.trelloId = newTrelloId),
 };
