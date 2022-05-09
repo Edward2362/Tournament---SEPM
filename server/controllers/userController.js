@@ -31,7 +31,7 @@ const getAllUsers = async (req, res) => {
   users = chainSF(users, {
     sort,
     fields,
-    fieldsDefault: "-password -role -trelloId -trelloToken",
+    fieldsDefault: "-password -role -trelloToken",
     page,
     limit,
   });
