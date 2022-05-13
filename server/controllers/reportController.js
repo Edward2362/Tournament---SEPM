@@ -4,11 +4,17 @@ const Task = require("../models/Task");
 const Member = require("../models/Member");
 const User = require("../models/User");
 const Report = require("../models/Report");
-const { createQueryObject, chainSF } = require("../utils");
 const { NotFoundError } = require("../errors");
 
 const createReport = async (req, res) => {
     const { projectId } = req.params;
+
+    function toObjectId(ids) {
+        if (ids.constructor === Array) {
+            return ids.map(mongoose.Types.ObjectId);
+        }
+        return ids.map(mongoose.Types.ObjectId(ids));
+    }
 
     var tasks = await Task.aggregate([
         { $match: { finished: true, checked: false } },
@@ -27,6 +33,7 @@ const createReport = async (req, res) => {
         );
     } else {
         const ObjectId = mongoose.Types.ObjectId;
+
         var finished_task = await Task.find(
             {
                 projectId: ObjectId(projectId),
@@ -36,14 +43,12 @@ const createReport = async (req, res) => {
             "_id"
         );
         var finished_tasks = JSON.stringify(finished_task)
-            .replace('},{"_id":', ",")
             .replace(/[\[\]&\/\\#_+()$~%.'":*?<>{}]/g, "")
-            .replace("id", "")
+            .replaceAll("id", "")
             .split(",");
 
-        let finished_tasks_arr = finished_tasks.map((s) =>
-            mongoose.Types.ObjectId(s)
-        );
+        const finished_tasks_arr = toObjectId(finished_tasks);
+
         var task2 = await Task.updateMany(
             { finished: true, checked: false },
             { checked: true }
@@ -54,17 +59,17 @@ const createReport = async (req, res) => {
             arr[i] = JSON.stringify(tasks[i]);
         }
 
-        const info_arr = [];
-        const userId_arr = [];
-        const user_arr = [];
+        var info_arr = [];
+        var userId_arr = [];
+        var user_arr = [];
         for (let i = 0; i < arr.length; i++) {
-            const edited_arr = arr[i]
+            var edited_arr = arr[i]
                 .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "")
                 .replace("_id", "")
                 .replace("totalPoint[percentage", ",")
                 .replace("percentage", ",")
                 .replace("]", "");
-            const splited_arr = edited_arr.split(",");
+            var splited_arr = edited_arr.split(",");
 
             var percentage_sum = 0;
             for (let i = 1; i < splited_arr.length; i++) {
@@ -77,11 +82,11 @@ const createReport = async (req, res) => {
                 { _id: ObjectId(splited_arr[0]) },
                 "-_id user"
             );
-            const user_id = JSON.stringify(member_user)
+            var user_id = JSON.stringify(member_user)
                 .replace(/[\[\]&\/\\#,+()$~%.'":*?<>{}]/g, "")
                 .replace("user", "");
 
-            const user_username = await User.find(
+            var user_username = await User.find(
                 { _id: ObjectId(user_id) },
                 "-_id username"
             );
@@ -90,7 +95,7 @@ const createReport = async (req, res) => {
                 .replace("username", "");
 
             // 0: memberId, 1: total points of finished task(s)
-            const final_arr = [];
+            var final_arr = [];
             final_arr[0] = username;
             final_arr[1] = percentage_sum;
 
@@ -115,7 +120,7 @@ const createReport = async (req, res) => {
             week: report_week,
         });
 
-        // Update the overallPoint of members
+        //Update the overallPoint of members
         for (let i = 0; i < info_arr.length; i++) {
             const ObjectId = mongoose.Types.ObjectId;
             member_id = user_arr[i];
