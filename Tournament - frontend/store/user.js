@@ -19,7 +19,10 @@ export const plugins = getPlugins();
 
 export const getters = {
   getUserId(state) {
-    return state.id;
+    console.log("fuq", state.user)
+    if(!state.user)
+      return state.user;
+    return state.user.userId
   },
   getUser(state) {
     return state;
@@ -33,7 +36,7 @@ export const getters = {
 };
 export const actions = {
   fetchUserByCookie({ commit }) {
-    axios.get("api/v1/users/me").then((response) => {
+    axios.get("/api/v1/users/me").then((response) => {
       console.log("response", response.data.data);
       commit("setUser", response.data.data);
     });

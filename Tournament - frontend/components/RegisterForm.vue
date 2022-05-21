@@ -294,7 +294,7 @@ export default {
           Trello.token()
       );
       await axios
-        .post("api/v1/auth/register", {
+        .post("/api/v1/auth/register", {
           username: this.username,
           email: this.email.value,
           password: this.password.value,

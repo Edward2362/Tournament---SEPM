@@ -16,75 +16,7 @@ export const plugins = getPlugins();
 
 
 export const state = () => ({
-  projects: [
-    {
-      _id: 1,
-      title: "Tournament",
-      admin: 1,
-      finished: false,
-      //   date: new Date("December 25, 1995"),
-    },
-    {
-      _id: 2,
-      title: "BITS",
-      admin: 1,
-      finished: true,
-    },
-    {
-      _id: 3,
-      title: "Algorithms",
-      admin: 1,
-      finished: false,
-    },
-    {
-      _id: 4,
-      title: "Machine Learning",
-      admin: 2,
-      finished: true,
-    },
-    {
-      _id: 5,
-      title: "User Centered design",
-      admin: 2,
-      finished: false,
-    },
-    {
-      _id: 6,
-      title: "Machine Learning 2",
-      admin: 3,
-      finished: false,
-    },
-    {
-      _id: 6,
-      title: "Machine Learning 2",
-      admin: 3,
-      finished: false,
-    },
-    {
-      _id: 6,
-      title: "Machine Learning 2",
-      admin: 3,
-      finished: false,
-    },
-    {
-      _id: 6,
-      title: "Machine Learning 2",
-      admin: 3,
-      finished: false,
-    },
-    {
-      _id: 6,
-      title: "Machine Learning 2",
-      admin: 3,
-      finished: false,
-    },
-    {
-      _id: 6,
-      title: "Machine Learning 2",
-      admin: 3,
-      finished: false,
-    },
-  ],
+  projects: [],
 });
 
 export const getters = {
@@ -106,7 +38,9 @@ export const getters = {
     }
     console.log("projects", trelloIds)
     return trelloIds
-
+  },
+  getMemberWithProjectId(state, projectId) {
+    return state.projects.find(project => project._id === projectId)
   }
 };
 
@@ -116,26 +50,53 @@ export const actions = {
       // console.log(response.data);
       commit("setProjects", response.data.data);
     });
-    // console.log(this.recent)
-    // console.log(this.done)
-    // axios.get('v1/users/me/projects')
-    // .then(response => {
-    //   console.log(response.data);
-    //   for(let i = 0; i < response.data.data.length; i++){
-    //     if(response.data.data[i].finished == false){
-    //       this.ongoing.push(response.data.data[i])
-    //     }
-    //     else{
-    //       this.done.push(response.data.data[i])
-    //     }
-    //   }
-    // })
+
   },
+  async createNewProject({ commit, rootGetters }, { name, trelloId, rewardBoundary, penaltyBoundary, memberTrelloIds }) {
+    var newProjectId = ""
+    console.log("name", name, "trelloId", trelloId,)
+    await axios
+        .post("/api/v1/projects", {
+          name: name,
+          trelloBoardId: trelloId,
+        })
+        .then((response) => {
+          newProjectId = response.data.data["_id"];
+        });
+      await axios.patch("/api/v1/projects/" + newProjectId, {
+        upperBoundary: rewardBoundary,
+        lowerBoundary: penaltyBoundary,
+      }).then((response) => {
+        window.location.replace("/projects/" + newProjectId);
+        commit("newProject", response.data)
+      })
+    var allMemberTrelloId = []
+    await axios.get("/api/v1/users").then(response => {
+      for(member in response.data.data)
+      allMemberTrelloId.push(member.trelloId)
+    })
+    var memberIds = []
+    for (memberTrelloId in memberTrelloIds) {
+      if (rootGetters["user/getUser"].trelloId.includes(memberTrelloId.id)) {
+        memberIds.push(rootGetters["user/getUser"]._id)
+      }
+      else if (allMemberTrelloId.includes(memberTrelloId.id)) {
+        memberIds.push(memberTrelloId.id)
+      }
+    }
+    const promises = []
+    for (memberId in memberIds) {
+      promises.push( axios.post("/api/v1/projects" + newProjectId + "/members", {
+        userId: memberId
+      }))
+    }
+    await Promise.all(promises)
+  }
 };
 
 export const mutations = {
   setProjects: (state, projects) => (state.projects = projects),
-  newProjects: (state, project) => state.projects.unshift(project),
+  newProject: (state, project) => state.projects.unshift(project),
   finishProject: (state, id) =>
     (state.projects.filter((project) => project.id == id).finished = true),
 };

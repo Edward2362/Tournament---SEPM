@@ -2,49 +2,57 @@
   {
     "name": "about",
     "path": "/about",
-    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\about.vue",
-    "chunkName": "pages/about"
+    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\about.vue",
+    "chunkName": "pages/about",
+    "_name": "_2a9a8a62"
   },
   {
     "name": "authentication",
     "path": "/authentication",
-    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\authentication.vue",
-    "chunkName": "pages/authentication"
+    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\authentication.vue",
+    "chunkName": "pages/authentication",
+    "_name": "_3a161af3"
   },
   {
     "name": "test_popup",
     "path": "/test_popup",
-    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\test_popup.vue",
-    "chunkName": "pages/test_popup"
+    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\test_popup.vue",
+    "chunkName": "pages/test_popup",
+    "_name": "_140d093a"
   },
   {
     "name": "workspace",
     "path": "/workspace",
-    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\workspace.vue",
-    "chunkName": "pages/workspace"
+    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\workspace.vue",
+    "chunkName": "pages/workspace",
+    "_name": "_7df02e2c"
   },
   {
     "name": "projects-id",
     "path": "/projects/:id",
-    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\index.vue",
-    "chunkName": "pages/projects/_id/index"
+    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\index.vue",
+    "chunkName": "pages/projects/_id/index",
+    "_name": "_45d78ee6"
   },
   {
     "name": "projects-id-office",
     "path": "/projects/:id?/office",
-    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\office.vue",
-    "chunkName": "pages/projects/_id/office"
+    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\office.vue",
+    "chunkName": "pages/projects/_id/office",
+    "_name": "_5f73e191"
   },
   {
     "name": "projects-id-report",
     "path": "/projects/:id?/report",
-    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\report.vue",
-    "chunkName": "pages/projects/_id/report"
+    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\report.vue",
+    "chunkName": "pages/projects/_id/report",
+    "_name": "_0ea8fc09"
   },
   {
     "name": "projects-id-setting",
     "path": "/projects/:id?/setting",
-    "component": "C:\\\\Users\\\\ACER\\\\OneDrive\\\\Máy tính\\\\New folder\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\setting.vue",
-    "chunkName": "pages/projects/_id/setting"
+    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\setting.vue",
+    "chunkName": "pages/projects/_id/setting",
+    "_name": "_5eff9b6a"
   }
 ]

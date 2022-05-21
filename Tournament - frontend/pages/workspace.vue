@@ -96,6 +96,8 @@
           </div>
         </div>
         <div class="section">
+          {{userId}}
+
           <h1>Done</h1>
           <div class="projects">
             <ProjectCard
