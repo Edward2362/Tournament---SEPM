@@ -1,0 +1,31 @@
+.trello-board-card {
+    width: 100%;
+    height: 80%;
+    background-color: #0079BF;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    margin: 15% 0;
+}
+
+.trello-board-card:hover {
+    background-color: #0079BF;
+    box-shadow: #234d8731 0px 3px 6px, #234d873f 0px 3px 6px;
+}
+
+.trello-board-card h2 {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 90%;
+    margin: 5% 5% 0 5%;
+    color: #FAFCFF;
+    direction: ltr;
+    font-size: 90%;
+    font-weight: 700;
+}
+.report-card{
+    display: none;
+
+}

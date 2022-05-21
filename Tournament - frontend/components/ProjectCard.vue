@@ -1,7 +1,11 @@
-<template>
+<template>  
   <nuxt-link :to="`/projects/${project._id}`" class="card">
     <h2>{{ project.name }}</h2>
-    <div class="owner" :class="{ disappear: !(userId === project.admin) }">
+    <div
+      class="owner"
+      :class="{ disappear: !(userId === project.admin) }"
+      @click="deleteProject"
+    >
       <svg
         width="99"
         height="106"
@@ -27,6 +31,11 @@ export default {
   name: "ProjectCard",
   props: ["project"],
   computed: { ...mapGetters({ userId: "user/getUserId" }) },
+  methods: {
+    deleteProject() {
+      console.log("deleete ne");
+    },
+  },
 };
 </script>
 

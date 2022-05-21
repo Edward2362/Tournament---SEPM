@@ -12,6 +12,7 @@ You can directly use them in pages and other components without the need to impo
 - `<ProjectCard>` | `<project-card>` (components/ProjectCard.vue)
 - `<ProjectMenu>` | `<project-menu>` (components/ProjectMenu.vue)
 - `<RegisterForm>` | `<register-form>` (components/RegisterForm.vue)
+- `<ReportCard>` | `<report-card>` (components/ReportCard.vue)
 - `<SearchBar>` | `<search-bar>` (components/SearchBar.vue)
 - `<TrelloCard>` | `<trello-card>` (components/TrelloCard.vue)
 - `<User>` | `<user>` (components/User.vue)
