@@ -130,7 +130,12 @@ const updateProject = async (req, res) => {
     throw new NotFoundError("Project");
   }
 
-  res.status(StatusCodes.OK).json({ data: project });
+  const result = project.toObject();
+  result.lastAccessed = result.lastAccessed.find(
+    (e) => e.user.toString() === userId.toString()
+  ).date;
+
+  res.status(StatusCodes.OK).json({ data: result });
 };
 
 const deleteProject = async (req, res) => {
