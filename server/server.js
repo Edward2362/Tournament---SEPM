@@ -8,7 +8,7 @@ const start = async () => {
     await mongoose.connect(process.env.MONGO_URL);
 
     app.listen(port, () => {
-      console.log(`Server is listening on port ${port}...`);
+      console.log(`Listening: http://localhost:${port}`);
     });
   } catch (error) {
     console.log(error);
