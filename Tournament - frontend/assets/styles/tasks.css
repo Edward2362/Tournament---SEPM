@@ -1,0 +1,51 @@
+.tasks-container {
+    width: 100%;
+    background-color: #234C87;
+    border-radius: 10px;
+    padding: 2%;
+}
+
+.tasks-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.member-name {
+    color: #FAFCFF;
+    font-weight: 700;
+}
+
+.tasks-action {
+    display: flex;
+    width: 12%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tasks-action div {
+    width: 40%;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1000px;
+    background-color: #FAFCFF;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+
+.tasks-action div svg {
+    width: 55%;
+    height: auto;
+    transition: all 0.1s ease-in-out;
+
+}
+
+.tasks-action div:hover {
+    background-color: #FF5C72;
+}
+
+.tasks-action div:hover path {
+    fill: #FAFCFF;
+}

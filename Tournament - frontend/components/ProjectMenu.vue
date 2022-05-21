@@ -1,7 +1,7 @@
 <template>
   <div class="menu">
     <div class="logo-menu">
-      <nuxt-link :to="'/'">
+      <nuxt-link :to="'/workspace'">
         <svg
           width="312"
           height="85"

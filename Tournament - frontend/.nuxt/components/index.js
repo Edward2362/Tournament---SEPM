@@ -5,6 +5,8 @@ export { default as ProjectCard } from '../..\\components\\ProjectCard.vue'
 export { default as ProjectMenu } from '../..\\components\\ProjectMenu.vue'
 export { default as RegisterForm } from '../..\\components\\RegisterForm.vue'
 export { default as SearchBar } from '../..\\components\\SearchBar.vue'
+export { default as Task } from '../..\\components\\Task.vue'
+export { default as Tasks } from '../..\\components\\Tasks.vue'
 export { default as TrelloCard } from '../..\\components\\TrelloCard.vue'
 export { default as User } from '../..\\components\\User.vue'
 

@@ -1,22 +1,17 @@
 <template>
   <div class="project-content">
-    <div>this is office</div>
-    <div>this is office</div>
-    <div>this is office</div>
-    <div>this is office</div>
-    <div>this is office</div>
-    <div>this is office</div>
-    <div>this is office</div>
-    <div>hello {{ this.$route.name }}</div>
+    <h2 class="section-head">Team</h2>
+    <div class="section-body"><Tasks /></div>
   </div>
 </template>
 
 <script>
+import Tasks from "../../../components/Tasks.vue";
+
 export default {
-  components: {},
+  components: { Tasks },
   layout: "project",
 };
 </script>
 
 <style></style>
-ue

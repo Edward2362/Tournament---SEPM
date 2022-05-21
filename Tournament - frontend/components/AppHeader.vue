@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nuxt-link :to="'/'">
+    <nuxt-link :to="'/workspace'">
       <svg
         width="312"
         height="85"

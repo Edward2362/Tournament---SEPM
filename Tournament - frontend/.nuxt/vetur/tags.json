@@ -20,6 +20,12 @@
   "SearchBar": {
     "description": "Auto imported from components/SearchBar.vue"
   },
+  "Task": {
+    "description": "Auto imported from components/Task.vue"
+  },
+  "Tasks": {
+    "description": "Auto imported from components/Tasks.vue"
+  },
   "TrelloCard": {
     "description": "Auto imported from components/TrelloCard.vue"
   },
