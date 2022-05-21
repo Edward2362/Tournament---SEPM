@@ -4,11 +4,11 @@ const router = express.Router();
 
 const {
     createTask,
-    getAllTask,
     getTaskOfMember,
     updateTask,
     deleteTask,
     getAllTasks,
+    getFinishedTasks,
 } = require("../controllers/taskController");
 
 const {

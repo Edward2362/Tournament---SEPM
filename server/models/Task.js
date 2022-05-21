@@ -50,6 +50,10 @@ const TaskSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    checked: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 TaskSchema.pre("remove", async function () {

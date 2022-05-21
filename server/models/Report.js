@@ -1,3 +1,4 @@
+const { type } = require("express/lib/response");
 const mongoose = require("mongoose");
 
 const ReportSchema = mongoose.Schema({
@@ -11,6 +12,7 @@ const ReportSchema = mongoose.Schema({
         require: true,
         default: 1,
     },
+    data: [],
     tasks: [
         {
             type: mongoose.Types.ObjectId,
