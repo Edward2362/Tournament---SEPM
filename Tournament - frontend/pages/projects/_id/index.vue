@@ -1,7 +1,7 @@
 <template>
   <div class="project-content">
     <h2 class="section-head">Ranking</h2>
-    <div class="section-body">gi</div>
+    <div class="section-body"></div>
   </div>
 </template>
 
