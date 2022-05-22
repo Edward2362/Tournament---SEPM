@@ -12,7 +12,6 @@ const ReportSchema = mongoose.Schema({
         require: true,
         default: null,
     },
-    data: [],
     tasks: [
         {
             type: mongoose.Types.ObjectId,
