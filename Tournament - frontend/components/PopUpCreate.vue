@@ -161,7 +161,7 @@
           </div>
         </div>
         <div class="confirm-btn">
-          <button v-on:click="createNewProject">Confirm</button>
+          <button v-on:click="AddProjecToDb">Confirm</button>
         </div>
       </div>
     </div>
@@ -170,7 +170,7 @@
 
 <script>
 import TrelloCard from "../components/TrelloCard.vue";
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapGetters, mapActions } from "vuex";
 import axios from "axios";
 
 export default {
@@ -215,6 +215,9 @@ export default {
     ...mapMutations({
       bluring: "document/setOverlay",
     }),
+    ...mapActions({
+      createNewProject:"projects/createNewProject"
+    }),
     async chooseBoard(id) {
       console.log(id);
       this.choosenBoardId = id;
@@ -222,8 +225,6 @@ export default {
       this.getMember();
     },
     async getTrelloBoards() {
-      console.log("Trello ID", this.getUserTrelloId);
-      console.log("Trello token", this.getUserToken);
       await axios
         .get(
           "https://api.trello.com/1/members/" +
@@ -251,30 +252,12 @@ export default {
 
       //make the lower section appear
     },
-    async createNewProject() {
-      await axios
-        .post("/api/v1/projects", {
-          name: this.trelloBoard["name"],
-          trelloBoardId: this.trelloBoard["id"],
-        })
-        .then((response) => {
-          this.newProjectId = response.data.data["_id"];
-        });
-      await axios.patch("/api/v1/projects/" + this.newProjectId, {
-        upperBoundary: this.rewardBoundary,
-        lowerBoundary: this.penaltyBoundary,
-      });
-      console.log(this.newProjectId);
-
-      window.location.replace("/projects/" + this.newProjectId);
+    async AddProjecToDb() {
+      await this.createNewProject({name: this.trelloBoard["name"], 
+      trelloId: this.trelloBoard["id"], rewardBoundary: this.rewardBoundary,
+      penaltyBoundary: this.penaltyBoundary,memberTrelloIds: this.members})
       this.bluring();
-      // .then((response) => {
-      //   this.$router.push({ name: "workspace" });
-      // })
-      // .catch((error) => {
-      //   console.log(error);
-      //   this.errormessage = error.response.data.message;
-      // });
+      
     },
     async getMember() {
       var members = [];
@@ -304,10 +287,12 @@ export default {
               name: response.data.fullName,
             };
             memberName.push(readingMember);
+            
           });
       }
 
       this.members = memberName;
+      console.log(this.members)
     },
   },
 

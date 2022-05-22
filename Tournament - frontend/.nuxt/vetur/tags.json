@@ -1,4 +1,7 @@
 {
+  "Addtask": {
+    "description": "Auto imported from components/Addtask.vue"
+  },
   "AppHeader": {
     "description": "Auto imported from components/AppHeader.vue"
   },
@@ -16,6 +19,9 @@
   },
   "RegisterForm": {
     "description": "Auto imported from components/RegisterForm.vue"
+  },
+  "ReportCard": {
+    "description": "Auto imported from components/ReportCard.vue"
   },
   "SearchBar": {
     "description": "Auto imported from components/SearchBar.vue"
