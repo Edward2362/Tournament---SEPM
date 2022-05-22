@@ -3,6 +3,9 @@
     <h2 class="section-head">Ranking</h2>
     <div class="section-body">gi</div>
     <div>{{this.$route.params.id}}</div>
+    <div>
+      {{allmembers}}
+    </div>
   </div>
 </template>
 
@@ -29,6 +32,7 @@ export default {
       getMemberWithProjectId: "projects/getMemberWithProjectId",
       getUserId: "user/getUserId",
       getTasks: "tasks/getTasks",
+      getCurrentProject: "project/getCurrentProject"
     })
   },
   methods:{
@@ -45,8 +49,21 @@ export default {
         )
         .then((response) => {
           this.currentmember = response.data
-        });        
-    }
+        });
+        // .map(m => new Object({name: o.name, id: o.id}))
+      this.allmembers = this.getCurrentProject.members 
+      this.allmembers.sort(function(a, b){return b.overallPoint - a.overallPoint})
+      // this.allmembers.sort()
+    },
+    // compare( a, b ) {
+    //   if ( a.overallPoint < b.overallPoint ){
+    //     return -1;
+    //   }
+    //   if ( a.overallPoint > b.overallPoint ){
+    //     return 1;
+    //   }
+    //   return 0;
+    //   },
   },
   async created(){
     this.setUpIndexPage()

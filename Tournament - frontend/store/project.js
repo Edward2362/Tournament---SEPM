@@ -23,6 +23,7 @@ export const getters = {
   getCurrentProject(state) {
     return state.project;
   },
+
   // getMembers(state) {
   //   return state.project.members
   // }
@@ -39,7 +40,7 @@ export const actions = {
     await axios
         .get(
           "/api/v1/projects/" + currentProjectId +
-          "/members"
+          "/members?sort=-overallPoint"
         )
         .then(response => {
           console.log("allmember ",response.data.data)

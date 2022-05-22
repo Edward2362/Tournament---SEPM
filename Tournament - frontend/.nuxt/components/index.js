@@ -1,3 +1,4 @@
+export { default as Addtask } from '../..\\components\\Addtask.vue'
 export { default as AppHeader } from '../..\\components\\AppHeader.vue'
 export { default as LoginForm } from '../..\\components\\LoginForm.vue'
 export { default as PopUpCreate } from '../..\\components\\PopUpCreate.vue'

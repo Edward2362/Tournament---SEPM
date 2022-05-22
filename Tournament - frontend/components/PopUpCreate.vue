@@ -287,10 +287,12 @@ export default {
               name: response.data.fullName,
             };
             memberName.push(readingMember);
+            
           });
       }
 
       this.members = memberName;
+      console.log(this.members)
     },
   },
 

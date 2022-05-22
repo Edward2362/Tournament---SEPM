@@ -56,41 +56,51 @@ export const actions = {
     var newProjectId = ""
     console.log("name", name, "trelloId", trelloId,)
     await axios
-        .post("/api/v1/projects", {
-          name: name,
-          trelloBoardId: trelloId,
-        })
-        .then((response) => {
-          newProjectId = response.data.data["_id"];
-        });
-      await axios.patch("/api/v1/projects/" + newProjectId, {
-        upperBoundary: rewardBoundary,
-        lowerBoundary: penaltyBoundary,
-      }).then((response) => {
-        window.location.replace("/projects/" + newProjectId);
-        commit("newProject", response.data)
+      .post("/api/v1/projects", {
+        name: name,
+        trelloBoardId: trelloId,
       })
-    var allMemberTrelloId = []
-    await axios.get("/api/v1/users").then(response => {
-      for(member in response.data.data)
-      allMemberTrelloId.push(member.trelloId)
+      .then((response) => {
+        newProjectId = response.data.data["_id"];
+      });
+    await axios.patch("/api/v1/projects/" + newProjectId, {
+      upperBoundary: rewardBoundary,
+      lowerBoundary: penaltyBoundary,
+    }).then((response) => {
+      commit("newProject", response.data)
     })
+    var allUsers = []
+    await axios.get("/api/v1/users?limit=9999").then(response => {
+      allUsers = response.data.data
+    }
+    )
     var memberIds = []
-    for (memberTrelloId in memberTrelloIds) {
-      if (rootGetters["user/getUser"].trelloId.includes(memberTrelloId.id)) {
-        memberIds.push(rootGetters["user/getUser"]._id)
-      }
-      else if (allMemberTrelloId.includes(memberTrelloId.id)) {
-        memberIds.push(memberTrelloId.id)
+    console.log("membertrelloId : ", memberTrelloIds)
+    
+    var trueMemberTrelloIds = memberTrelloIds.map(m=>m.id)
+    // console.log("allmemTrelloId: ", allMemberTrelloIds)
+    for (let i = 0; i < allUsers.length; i++) {
+      console.log("memberTrelloId:", allUsers[i])
+      // if (rootGetters["user/getUser"].trelloId.includes(memberTrelloIds[i].id)) {
+      //   memberIds.push(rootGetters["user/getUser"]._id)
+      // }
+
+      if (trueMemberTrelloIds.includes(allUsers[i].trelloId)) {
+        memberIds.push(allUsers[i]._id)
       }
     }
     const promises = []
-    for (memberId in memberIds) {
-      promises.push( axios.post("/api/v1/projects" + newProjectId + "/members", {
-        userId: memberId
-      }))
+    console.log("memID: ", memberIds)
+    console.log("heyyy", rootGetters["user/getUserId"])
+    for (let memId of memberIds) {
+      if (memId != rootGetters["user/getUserId"]) {
+        promises.push(axios.post("/api/v1/projects/" + newProjectId + "/members", {
+          userId: memId
+        }))
+      }
     }
     await Promise.all(promises)
+    window.location.replace("/projects/"+ newProjectId)
   }
 };
 

@@ -1,10 +1,12 @@
-<template>  
-  <nuxt-link :to="`/projects/${project._id}`" class="card">
-    <h2>{{ project.name }}</h2>
-    <div
+<template>
+  <div class="card">
+    <nuxt-link :to="`/projects/${project._id}`">
+      <h2>{{ project.name }}</h2>
+    </nuxt-link>
+    <div  
       class="owner"
       :class="{ disappear: !(userId === project.admin) }"
-      @click="deleteProject"
+      @click="deleteProject()"
     >
       <svg
         width="99"
@@ -21,19 +23,21 @@
         />
       </svg>
     </div>
-  </nuxt-link>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import axios from "axios";
 
 export default {
   name: "ProjectCard",
   props: ["project"],
   computed: { ...mapGetters({ userId: "user/getUserId" }) },
   methods: {
-    deleteProject() {
-      console.log("deleete ne");
+    async deleteProject() {
+      await axios.delete("/api/v1/projects/" + this.project._id);
+      location.reload()
     },
   },
 };

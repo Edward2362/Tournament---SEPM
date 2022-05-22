@@ -19,7 +19,6 @@ export const plugins = getPlugins();
 
 export const getters = {
   getUserId(state) {
-    console.log("fuq", state.user)
     if(!state.user)
       return state.user;
     return state.user.userId
@@ -33,6 +32,9 @@ export const getters = {
   getUserToken(state) {
     return state.user.trelloToken;
   },
+  getUsername(state) {
+    return state.user.username
+  }
 };
 export const actions = {
   fetchUserByCookie({ commit }) {

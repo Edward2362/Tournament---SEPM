@@ -18,8 +18,13 @@
       <form>
           Trello task Id: <input type="text" name="TrelloTaskId" placeholder="Trello Task Id" v-model = "trelloTaskId"><br>
           Percentage: <input type="text" name="Percentage" placeholder="Percentage" v-model = "percentage"><br>
-          Submit: <input type="button" @click="createNewTask" value="Submit">
+          Submit: <input type="button" @click="createNewTask()" value="Submit">
       </form>
+    </div>
+    <div>
+      <li v-for="task in activeTasks" :key ="task._id" >
+        {{task._id}}
+      </li>
     </div>
   </div>
 </template>
@@ -37,7 +42,8 @@ export default {
       trelloTaskId: "",
       percentage: "",
       taskName: "",
-      oldtasks: []
+      oldtasks: [],
+      activeTasks: [],
     };
   },
   computed:{
@@ -49,7 +55,7 @@ export default {
       getTasks: "tasks/getTasks",
       getCurrentProject: "project/getCurrentProject",
       getTrelloTaskId: "tasks/getTrelloTaskId",
-
+      getActiveTasks: "tasks/getActiveTasks"
     }),
     newtasks() {
       if(this.alltask.length > 0){
@@ -62,6 +68,15 @@ export default {
         (task) => !this.getTrelloTaskId.includes(task.trelloTaskId)
       );
     },
+    memberActiveTasks(){
+      if(this.activeTasks.length > 0){
+        var remainingActiveTasks = this.activeTasks.filter(
+          (task) => task.memberIncharged == this.getUserId
+        );
+        return remainingActiveTasks   
+      }   
+      return null;
+    }
   },
   methods: {
     async getalltasks(){
@@ -75,6 +90,9 @@ export default {
         this.alltask = response.data
       })
       this.oldtasks = this.getTrelloTaskId
+      this.activeTasks = this.getActiveTasks
+      console.log(this.activeTasks)
+      console.log(this.getActiveTasks)
     },
     async createNewTask(){
       await axios.get("https://api.trello.com/1/boards/"
@@ -94,7 +112,7 @@ export default {
       }).then(response => {
         console.log(response.data.data)
       })
-    }
+    },
   }, 
   async created(){
     await this.getalltasks()

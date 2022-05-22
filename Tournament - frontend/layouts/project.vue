@@ -4,15 +4,15 @@
     <div class="project-page">
       <ProjectMenu />
       <div class="project-body">
-        <div class="project-title"><h1>Tournament</h1></div>
+        <div class="project-title"><h1>{{currentProjectName}}</h1></div>
         <div class="project-sections">
           <nuxt />
           <div class="project-user">
             <div class="project-user-info">
-              <h2>Quang</h2>
+              <h2>{{currentUserName}}</h2>
               <div class="info-contents">
                 <div class="content">
-                  <p class="label">Point</p>
+                  <p class="label">Points</p>
                   <p class="label-data">{{overallPoint}}</p>
                 </div>
                 <div class="content">
@@ -90,7 +90,9 @@ export default {
       // currentmember: {},
       project: {},
       report: {},
-      members: {}
+      members: {},
+      currentUserName:"",
+      currentProjectName: ""
       // allmembers: []
     };
   },
@@ -104,15 +106,14 @@ export default {
       getCurrentProject: "project/getCurrentProject",
       getActiveTask: "tasks/getActiveTasks",
       getFinishedTask: "tasks/getFinishedTasks",
-      // getMembers: "project/getMembers"
-      getCurrentWeekReport: "currentWeekReport/getCurrentWeekReport"
+      getCurrentWeekReport: "currentWeekReport/getCurrentWeekReport",
+      getUsername: "user/getUsername"
     }),
     overallPoint(){
       if(this.project.members != null){
          var currentUserAsMember = this.project.members.filter(
         (member) => this.getUserId == member.user
         );
-
         return currentUserAsMember[0].overallPoint
       }
 
@@ -124,7 +125,7 @@ export default {
       fetchTasksByProject: "tasks/fetchTasksByProject",
       fetchCurrentProject: "project/fetchCurrentProject",
       createReport: "currentWeekReport/createReport",
-      finishTask: "tasks/finishTask"
+      finishTask: "tasks/finishTask",
     }),
     async setUpPage(){
       await this.fetchTasksByProject(this.$route.params.id)
@@ -138,6 +139,7 @@ export default {
         tasks: this.getCurrentWeekReport.task,
         week: this.getCurrentWeekReport.weekNum}).then(response => {
           this.report = response.data.data
+          console.log(response.data.data)
         }),
         this.weekOnProcess = false
     },
@@ -176,6 +178,8 @@ export default {
   },
   async created(){
     await this.setUpPage()
+    this.currentUserName = this.getUsername,
+    this.currentProjectName = this.getCurrentProject.name
     // console.log("new 123", this.getMembers)
   }
 };
