@@ -6,143 +6,157 @@ const User = require("../models/User");
 const Report = require("../models/Report");
 const { NotFoundError } = require("../errors");
 
+// const createReport = async (req, res) => {
+//     const { projectId } = req.params;
+
+//     function toObjectId(ids) {
+//         if (ids.constructor === Array) {
+//             return ids.map(mongoose.Types.ObjectId);
+//         }
+//         return ids.map(mongoose.Types.ObjectId(ids));
+//     }
+
+//     var tasks = await Task.aggregate([
+//         { $match: { finished: true, checked: false } },
+//         {
+//             $group: {
+//                 _id: "$memberIncharged",
+//                 totalPoint: { $push: { percentage: "$percentage" } },
+//             },
+//         },
+//         { $sort: { _id: 1 } },
+//     ]);
+
+//     if (tasks == 0) {
+//         res.status(200).send(
+//             "No finished task(s) that can be used for reporting."
+//         );
+//     } else {
+//         const ObjectId = mongoose.Types.ObjectId;
+
+//         var finished_task = await Task.find(
+//             {
+//                 projectId: ObjectId(projectId),
+//                 finished: true,
+//                 checked: false,
+//             },
+//             "_id"
+//         );
+//         var finished_tasks = JSON.stringify(finished_task)
+//             .replace(/[\[\]&\/\\#_+()$~%.'":*?<>{}]/g, "")
+//             .replaceAll("id", "")
+//             .split(",");
+
+//         const finished_tasks_arr = toObjectId(finished_tasks);
+
+//         var task2 = await Task.updateMany(
+//             { finished: true, checked: false },
+//             { checked: true }
+//         );
+
+//         var arr = [];
+//         for (let i = 0; i < tasks.length; i++) {
+//             arr[i] = JSON.stringify(tasks[i]);
+//         }
+
+//         var info_arr = [];
+//         var userId_arr = [];
+//         var user_arr = [];
+//         for (let i = 0; i < arr.length; i++) {
+//             var edited_arr = arr[i]
+//                 .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "")
+//                 .replace("_id", "")
+//                 .replace("totalPoint[percentage", ",")
+//                 .replace("percentage", ",")
+//                 .replace("]", "");
+//             var splited_arr = edited_arr.split(",");
+
+//             var percentage_sum = 0;
+//             for (let i = 1; i < splited_arr.length; i++) {
+//                 arr_num = parseInt(splited_arr[i]);
+//                 percentage_sum += arr_num;
+//             }
+
+//             const ObjectId = mongoose.Types.ObjectId;
+//             const member_user = await Member.find(
+//                 { _id: ObjectId(splited_arr[0]) },
+//                 "-_id user"
+//             );
+//             var user_id = JSON.stringify(member_user)
+//                 .replace(/[\[\]&\/\\#,+()$~%.'":*?<>{}]/g, "")
+//                 .replace("user", "");
+
+//             var user_username = await User.find(
+//                 { _id: ObjectId(user_id) },
+//                 "-_id username"
+//             );
+//             var username = JSON.stringify(user_username)
+//                 .replace(/[\[\]&\/\\#,+()$~%.'":*?<>{}]/g, "")
+//                 .replace("username", "");
+
+//             // 0: memberId, 1: total points of finished task(s)
+//             var final_arr = [];
+//             final_arr[0] = username;
+//             final_arr[1] = percentage_sum;
+
+//             // 2d array: [[username1, totalPoint1], [username2, totalPoint2], ..]
+//             info_arr.push(final_arr);
+
+//             user_arr[i] = splited_arr[0];
+//             userId_arr.push(user_arr);
+//         }
+
+//         //
+//         var countReport = await Report.where({
+//             projectId: ObjectId(projectId),
+//         }).countDocuments();
+//         report_week = parseInt(countReport) + 1;
+
+//         //Create new Report
+//         const report = await Report.create({
+//             projectId,
+//             data: info_arr,
+//             tasks: finished_tasks_arr,
+//             week: report_week,
+//         });
+
+//         //Update the overallPoint of members
+//         for (let i = 0; i < info_arr.length; i++) {
+//             const ObjectId = mongoose.Types.ObjectId;
+//             member_id = user_arr[i];
+//             num = info_arr[i][1];
+//             const members = await Member.find(
+//                 { _id: ObjectId(member_id) },
+//                 "-_id overallPoint"
+//             );
+
+//             var arr2 = JSON.stringify(members);
+//             var edited_arr2 = arr2
+//                 .replace(/[\[\]&\/\\#,+()$~%.'"*?<>{}]/g, "")
+//                 .split(":");
+//             var arr2_num = parseInt(edited_arr2[1]);
+//             var member = await Member.findOneAndUpdate(
+//                 { _id: ObjectId(member_id) },
+//                 { overallPoint: num + arr2_num }
+//             );
+//         }
+
+//         res.status(StatusCodes.OK).json({ data: report });
+//     }
+// };
+
 const createReport = async (req, res) => {
     const { projectId } = req.params;
+    const { Task, week, data, finished } = req.body;
 
-    function toObjectId(ids) {
-        if (ids.constructor === Array) {
-            return ids.map(mongoose.Types.ObjectId);
-        }
-        return ids.map(mongoose.Types.ObjectId(ids));
-    }
-
-    var tasks = await Task.aggregate([
-        { $match: { finished: true, checked: false } },
-        {
-            $group: {
-                _id: "$memberIncharged",
-                totalPoint: { $push: { percentage: "$percentage" } },
-            },
-        },
-        { $sort: { _id: 1 } },
-    ]);
-
-    if (tasks == 0) {
-        res.status(200).send(
-            "No finished task(s) that can be used for reporting."
-        );
-    } else {
-        const ObjectId = mongoose.Types.ObjectId;
-
-        var finished_task = await Task.find(
-            {
-                projectId: ObjectId(projectId),
-                finished: true,
-                checked: false,
-            },
-            "_id"
-        );
-        var finished_tasks = JSON.stringify(finished_task)
-            .replace(/[\[\]&\/\\#_+()$~%.'":*?<>{}]/g, "")
-            .replaceAll("id", "")
-            .split(",");
-
-        const finished_tasks_arr = toObjectId(finished_tasks);
-
-        var task2 = await Task.updateMany(
-            { finished: true, checked: false },
-            { checked: true }
-        );
-
-        var arr = [];
-        for (let i = 0; i < tasks.length; i++) {
-            arr[i] = JSON.stringify(tasks[i]);
-        }
-
-        var info_arr = [];
-        var userId_arr = [];
-        var user_arr = [];
-        for (let i = 0; i < arr.length; i++) {
-            var edited_arr = arr[i]
-                .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "")
-                .replace("_id", "")
-                .replace("totalPoint[percentage", ",")
-                .replace("percentage", ",")
-                .replace("]", "");
-            var splited_arr = edited_arr.split(",");
-
-            var percentage_sum = 0;
-            for (let i = 1; i < splited_arr.length; i++) {
-                arr_num = parseInt(splited_arr[i]);
-                percentage_sum += arr_num;
-            }
-
-            const ObjectId = mongoose.Types.ObjectId;
-            const member_user = await Member.find(
-                { _id: ObjectId(splited_arr[0]) },
-                "-_id user"
-            );
-            var user_id = JSON.stringify(member_user)
-                .replace(/[\[\]&\/\\#,+()$~%.'":*?<>{}]/g, "")
-                .replace("user", "");
-
-            var user_username = await User.find(
-                { _id: ObjectId(user_id) },
-                "-_id username"
-            );
-            var username = JSON.stringify(user_username)
-                .replace(/[\[\]&\/\\#,+()$~%.'":*?<>{}]/g, "")
-                .replace("username", "");
-
-            // 0: memberId, 1: total points of finished task(s)
-            var final_arr = [];
-            final_arr[0] = username;
-            final_arr[1] = percentage_sum;
-
-            // 2d array: [[username1, totalPoint1], [username2, totalPoint2], ..]
-            info_arr.push(final_arr);
-
-            user_arr[i] = splited_arr[0];
-            userId_arr.push(user_arr);
-        }
-
-        //
-        var countReport = await Report.where({
-            projectId: ObjectId(projectId),
-        }).countDocuments();
-        report_week = parseInt(countReport) + 1;
-
-        //Create new Report
-        const report = await Report.create({
-            projectId,
-            data: info_arr,
-            tasks: finished_tasks_arr,
-            week: report_week,
-        });
-
-        //Update the overallPoint of members
-        for (let i = 0; i < info_arr.length; i++) {
-            const ObjectId = mongoose.Types.ObjectId;
-            member_id = user_arr[i];
-            num = info_arr[i][1];
-            const members = await Member.find(
-                { _id: ObjectId(member_id) },
-                "-_id overallPoint"
-            );
-
-            var arr2 = JSON.stringify(members);
-            var edited_arr2 = arr2
-                .replace(/[\[\]&\/\\#,+()$~%.'"*?<>{}]/g, "")
-                .split(":");
-            var arr2_num = parseInt(edited_arr2[1]);
-            var member = await Member.findOneAndUpdate(
-                { _id: ObjectId(member_id) },
-                { overallPoint: num + arr2_num }
-            );
-        }
-
-        res.status(StatusCodes.OK).json({ data: report });
-    }
+    const report = await Task.create({
+        projectId: projectId,
+        week: week,
+        data: data,
+        tasks: Task,
+        finished: finished,
+    });
+    res.status(StatusCodes.CREATED).json({ data: report });
 };
 
 const getAllReports = async (req, res) => {
