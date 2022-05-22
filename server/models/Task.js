@@ -50,9 +50,13 @@ const TaskSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    checked: {
-        type: Boolean,
-        default: false,
+    // checked: {
+    //     type: Boolean,
+    //     default: false,
+    // },
+    reportId: {
+        type: mongoose.Types.ObjectId,
+        ref: "Report",
     },
 });
 

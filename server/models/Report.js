@@ -10,13 +10,14 @@ const ReportSchema = mongoose.Schema({
     week: {
         type: Number,
         require: true,
-        default: 1,
+        default: null,
     },
     data: [],
     tasks: [
         {
             type: mongoose.Types.ObjectId,
             ref: "Task",
+            default: null,
         },
     ],
     end: {
