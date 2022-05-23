@@ -154,7 +154,7 @@ export default {
         end: false}).then(response => {
           this.report = response.data.data
           console.log(response.data.data)
-        })
+        })  
     },
     async endReport(){
       console.log(this.report)
