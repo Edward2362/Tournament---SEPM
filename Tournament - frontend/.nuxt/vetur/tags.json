@@ -1,15 +1,24 @@
 {
+  "AddTasks": {
+    "description": "Auto imported from components/AddTasks.vue"
+  },
   "AppHeader": {
     "description": "Auto imported from components/AppHeader.vue"
   },
   "ChooseTask": {
     "description": "Auto imported from components/ChooseTask.vue"
   },
+  "CoverCard": {
+    "description": "Auto imported from components/CoverCard.vue"
+  },
   "CoverTask": {
     "description": "Auto imported from components/CoverTask.vue"
   },
   "LoginForm": {
     "description": "Auto imported from components/LoginForm.vue"
+  },
+  "MemberCard": {
+    "description": "Auto imported from components/MemberCard.vue"
   },
   "PopUpCreate": {
     "description": "Auto imported from components/PopUpCreate.vue"
@@ -22,6 +31,9 @@
   },
   "RegisterForm": {
     "description": "Auto imported from components/RegisterForm.vue"
+  },
+  "ReportCard": {
+    "description": "Auto imported from components/ReportCard.vue"
   },
   "SearchBar": {
     "description": "Auto imported from components/SearchBar.vue"

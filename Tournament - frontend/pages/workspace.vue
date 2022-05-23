@@ -157,9 +157,10 @@ export default {
   },
   components: { ProjectCard },
   methods: {
-    ...mapActions({ fetchProjectByUser: "projects/fetchProjectByUser",
-                    fetchUserByCookie: "user/fetchUserByCookie"
-                    }),
+    ...mapActions({
+      fetchProjectByUser: "projects/fetchProjectByUser",
+      fetchUserByCookie: "user/fetchUserByCookie",
+    }),
   },
   async created() {
     // if(Trello.token() != null){
@@ -167,7 +168,7 @@ export default {
     // }
     this.fetchUserByCookie();
     this.fetchProjectByUser();
-    console.log("after", this.getUser)
+    console.log("after", this.getUser);
   },
 };
 </script>

@@ -19,7 +19,9 @@ export const plugins = getPlugins();
 
 export const getters = {
   getUserId(state) {
-    return state.id;
+    if(!state.user)
+      return state.user;
+    return state.user.userId
   },
   getUser(state) {
     return state;
@@ -30,10 +32,13 @@ export const getters = {
   getUserToken(state) {
     return state.user.trelloToken;
   },
+  getUsername(state) {
+    return state.user.username
+  }
 };
 export const actions = {
   fetchUserByCookie({ commit }) {
-    axios.get("api/v1/users/me").then((response) => {
+    axios.get("/api/v1/users/me").then((response) => {
       console.log("response", response.data.data);
       commit("setUser", response.data.data);
     });

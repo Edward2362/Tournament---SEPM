@@ -16,75 +16,7 @@ export const plugins = getPlugins();
 
 
 export const state = () => ({
-  projects: [
-    {
-      _id: 1,
-      title: "Tournament",
-      admin: 1,
-      finished: false,
-      //   date: new Date("December 25, 1995"),
-    },
-    {
-      _id: 2,
-      title: "BITS",
-      admin: 1,
-      finished: true,
-    },
-    {
-      _id: 3,
-      title: "Algorithms",
-      admin: 1,
-      finished: false,
-    },
-    {
-      _id: 4,
-      title: "Machine Learning",
-      admin: 2,
-      finished: true,
-    },
-    {
-      _id: 5,
-      title: "User Centered design",
-      admin: 2,
-      finished: false,
-    },
-    {
-      _id: 6,
-      title: "Machine Learning 2",
-      admin: 3,
-      finished: false,
-    },
-    {
-      _id: 6,
-      title: "Machine Learning 2",
-      admin: 3,
-      finished: false,
-    },
-    {
-      _id: 6,
-      title: "Machine Learning 2",
-      admin: 3,
-      finished: false,
-    },
-    {
-      _id: 6,
-      title: "Machine Learning 2",
-      admin: 3,
-      finished: false,
-    },
-    {
-      _id: 6,
-      title: "Machine Learning 2",
-      admin: 3,
-      finished: false,
-    },
-    {
-      _id: 6,
-      title: "Machine Learning 2",
-      admin: 3,
-      finished: false,
-    },
-  ],
+  projects: [],
 });
 
 export const getters = {
@@ -106,7 +38,9 @@ export const getters = {
     }
     console.log("projects", trelloIds)
     return trelloIds
-
+  },
+  getMemberWithProjectId(state, projectId) {
+    return state.projects.find(project => project._id === projectId)
   }
 };
 
@@ -116,26 +50,63 @@ export const actions = {
       // console.log(response.data);
       commit("setProjects", response.data.data);
     });
-    // console.log(this.recent)
-    // console.log(this.done)
-    // axios.get('v1/users/me/projects')
-    // .then(response => {
-    //   console.log(response.data);
-    //   for(let i = 0; i < response.data.data.length; i++){
-    //     if(response.data.data[i].finished == false){
-    //       this.ongoing.push(response.data.data[i])
-    //     }
-    //     else{
-    //       this.done.push(response.data.data[i])
-    //     }
-    //   }
-    // })
+
   },
+  async createNewProject({ commit, rootGetters }, { name, trelloId, rewardBoundary, penaltyBoundary, memberTrelloIds }) {
+    var newProjectId = ""
+    console.log("name", name, "trelloId", trelloId,)
+    await axios
+      .post("/api/v1/projects", {
+        name: name,
+        trelloBoardId: trelloId,
+      })
+      .then((response) => {
+        newProjectId = response.data.data["_id"];
+      });
+    await axios.patch("/api/v1/projects/" + newProjectId, {
+      upperBoundary: rewardBoundary,
+      lowerBoundary: penaltyBoundary,
+    }).then((response) => {
+      commit("newProject", response.data)
+    })
+    var allUsers = []
+    await axios.get("/api/v1/users?limit=9999").then(response => {
+      allUsers = response.data.data
+    }
+    )
+    var memberIds = []
+    console.log("membertrelloId : ", memberTrelloIds)
+    
+    var trueMemberTrelloIds = memberTrelloIds.map(m=>m.id)
+    // console.log("allmemTrelloId: ", allMemberTrelloIds)
+    for (let i = 0; i < allUsers.length; i++) {
+      console.log("memberTrelloId:", allUsers[i])
+      // if (rootGetters["user/getUser"].trelloId.includes(memberTrelloIds[i].id)) {
+      //   memberIds.push(rootGetters["user/getUser"]._id)
+      // }
+
+      if (trueMemberTrelloIds.includes(allUsers[i].trelloId)) {
+        memberIds.push(allUsers[i]._id)
+      }
+    }
+    const promises = []
+    console.log("memID: ", memberIds)
+    console.log("heyyy", rootGetters["user/getUserId"])
+    for (let memId of memberIds) {
+      if (memId != rootGetters["user/getUserId"]) {
+        promises.push(axios.post("/api/v1/projects/" + newProjectId + "/members", {
+          userId: memId
+        }))
+      }
+    }
+    await Promise.all(promises)
+    window.location.replace("/projects/"+ newProjectId)
+  }
 };
 
 export const mutations = {
   setProjects: (state, projects) => (state.projects = projects),
-  newProjects: (state, project) => state.projects.unshift(project),
+  newProject: (state, project) => state.projects.unshift(project),
   finishProject: (state, id) =>
     (state.projects.filter((project) => project.id == id).finished = true),
 };

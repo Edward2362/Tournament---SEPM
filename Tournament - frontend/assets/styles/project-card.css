@@ -26,6 +26,12 @@
     font-weight: 700;
 }
 
+.card a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
 .owner {
     width: 27px;
     height: 27px;
