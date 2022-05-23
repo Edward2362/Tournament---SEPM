@@ -60,9 +60,11 @@ a:active {
 
 .blur {
     position: fixed;
-    top: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: rgba(0, 0, 0, 0.467);
-    z-index: 1000;
+    z-index: 1001;
     width: 100vw;
     height: 100vh;
     opacity: 0;
@@ -82,4 +84,5 @@ a:active {
 
 .section-body {
     height: 90%;
+    overflow-y: scroll;
 }

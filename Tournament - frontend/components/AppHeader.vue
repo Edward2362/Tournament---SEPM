@@ -76,7 +76,7 @@ export default {
   computed: {},
   methods: {
     ...mapMutations({
-      bluring: "document/setOverlay",
+      bluring: "document/setOverlayCreate",
     }),
     toggleDropdown() {
       this.dropdownUser = !this.dropdownUser;

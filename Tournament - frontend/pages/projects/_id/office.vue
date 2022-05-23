@@ -1,12 +1,16 @@
 <template>
   <div class="project-content">
     <h2 class="section-head">Team</h2>
-    <div class="section-body"><Tasks /></div>
+    <div class="section-body"><Tasks /><Tasks /></div>
+    <ChooseTask />
+    <CoverTask />
   </div>
 </template>
 
 <script>
 import Tasks from "../../../components/Tasks.vue";
+import ChooseTask from "../../../components/ChooseTask.vue";
+import CoverTask from "../../../components/CoverTask.vue";
 
 export default {
   components: { Tasks },

@@ -1,13 +1,5 @@
 <template>
-  <div class="project-content">
-    <div>this is report</div>
-    <div>this is report</div>
-    <div>this is report</div>
-    <div>this is report</div>
-    <div>this is report</div>
-    <div>this is report</div>
-    <div>hello {{ this.$route.name }}</div>
-  </div>
+  <div class="project-content"><h2 class="section-head">Report</h2></div>
 </template>
 
 <script>

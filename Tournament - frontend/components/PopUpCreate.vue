@@ -2,10 +2,10 @@
   <div>
     <div
       class="blur"
-      :class="{ 'active-pop-up': isOverlay }"
+      :class="{ 'active-pop-up': isOverlayCreate }"
       @click="bluring"
     ></div>
-    <div class="container-pop-up" :class="{ 'active-pop-up': isOverlay }">
+    <div class="container-pop-up" :class="{ 'active-pop-up': isOverlayCreate }">
       <div class="header-pop-up">
         <div class="title"><h1>Create Project</h1></div>
         <div class="off-pop-up" @click="bluring">
@@ -196,7 +196,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isOverlay: "document/isOverlay",
+      isOverlayCreate: "document/isOverlayCreate",
       getProjectId: "projects/getProjectId",
       userId: "user/getUserId",
       getUserToken: "user/getUserToken",
@@ -213,7 +213,7 @@ export default {
   methods: {
     // ...mapActions({ changeTrelloId: "user/changeTrelloId" }),
     ...mapMutations({
-      bluring: "document/setOverlay",
+      bluring: "document/setOverlayCreate",
     }),
     async chooseBoard(id) {
       console.log(id);

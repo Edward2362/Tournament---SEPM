@@ -1,1 +1,35 @@
-.task {}
+.task {
+    display: flex;
+    align-items: center;
+    margin: 2% 0;
+}
+
+.task-name {
+    padding-left: 3%;
+    color: #FAFCFF;
+    font-weight: 700;
+    font-size: 120%;
+}
+
+.member-ava-holder {
+    width: 40%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: flex;
+}
+
+.task-info {
+    display: flex;
+    align-items: center;
+    background-color: #FAFCFF;
+    width: 20%;
+    padding: 0.4% 3%;
+    border-radius: 1000px;
+}
+
+.task-info p {
+    color: #234C87;
+    font-size: 150%;
+    padding-left: 10%;
+    font-weight: 700;
+}

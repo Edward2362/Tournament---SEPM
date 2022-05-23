@@ -1,8 +1,9 @@
 .tasks-container {
-    width: 100%;
+    width: 98%;
     background-color: #234C87;
     border-radius: 10px;
     padding: 2%;
+    margin: 2% 1%;
 }
 
 .tasks-head {

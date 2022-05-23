@@ -3,7 +3,7 @@
     <div class="tasks-head">
       <p class="member-name">Edward</p>
       <div class="tasks-action">
-        <div class="cover">
+        <div class="cover" @click="bluringCoverTask">
           <svg
             width="22"
             height="22"
@@ -17,7 +17,7 @@
             />
           </svg>
         </div>
-        <div class="choose-task">
+        <div class="choose-task" @click="bluringChooseTask">
           <svg
             width="21"
             height="21"
@@ -33,14 +33,24 @@
         </div>
       </div>
     </div>
-    <div class="tasks-body"><Task /></div>
+    <div class="tasks-body"><Task /><Task /></div>
   </div>
 </template>
 
 <script>
 import Task from "../components/Task.vue";
+import { mapMutations, mapGetters } from "vuex";
 
-export default { name: "Tasks", components: { Task } };
+export default {
+  name: "Tasks",
+  components: { Task },
+  methods: {
+    ...mapMutations({
+      bluringChooseTask: "document/setOverlayChooseTask",
+      bluringCoverTask: "document/setOverlayCoverTask",
+    }),
+  },
+};
 </script>
 
 <style>
