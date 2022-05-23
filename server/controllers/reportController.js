@@ -147,12 +147,12 @@ const { NotFoundError } = require("../errors");
 
 const createReport = async (req, res) => {
     const { projectId } = req.params;
-    const { Task, week, finished } = req.body;
+    const { tasks, week, finished } = req.body;
 
     const report = await Report.create({
         projectId: projectId,
         week: week,
-        tasks: Task,
+        tasks: tasks,
         finished: finished,
     });
     res.status(StatusCodes.CREATED).json({ data: report });
