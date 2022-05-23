@@ -1,12 +1,18 @@
 <template>
   <div id="profile">
-    <img htmlFor="profile" src="../assets/images/Quang.jpg" />
+    <img htmlFor="profile" :src="avatarurl" />
   </div>
 </template>
 
 <script>
+import {mapGetters} from "vuex"
 export default {
   name: "User",
+  computed:{
+    ...mapGetters({
+      avatarurl : "user/getAvatarUrl"
+    })
+  }
 };
 </script>
 

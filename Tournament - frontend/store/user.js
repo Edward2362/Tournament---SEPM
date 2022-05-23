@@ -34,6 +34,9 @@ export const getters = {
   },
   getUsername(state) {
     return state.user.username
+  },
+  getAvatarUrl(state) {
+    return state.user
   }
 };
 export const actions = {

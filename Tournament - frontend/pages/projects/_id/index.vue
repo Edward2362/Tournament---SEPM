@@ -5,15 +5,12 @@
       {{ allmembers }}
     </div>
     <div>{{ this.$route.params.id }}</div>
-    <div>
-      {{ allmembers }}
-    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex"
 
 export default {
   components: {},

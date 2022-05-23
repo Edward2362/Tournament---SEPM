@@ -14,9 +14,9 @@
     </div>
     <div>
       <ReportCard
-        v-for="report in reports"
+        v-for="report in reportPlusTask"
         :key="report._id"
-        :reportId="report.week"
+        :report="report"
       />
     </div>
   </div>
@@ -32,6 +32,8 @@ export default {
   data() {
     return {
       reports: [],
+      allTasks: [],
+      reportPlusTask: [],
     };
   },
   computed: {
@@ -55,11 +57,33 @@ export default {
           this.reports = response.data.data;
           console.log("report list: ", response.data.data);
         });
+      await axios.get("/api/v1/tasks/"+ this.$route.params.id).then(response =>{
+        this.allTasks = response.data.data
+      })
+      this.reportPlusTask = this.reports.map(report => {
+        return {
+          ...report,
+          tasks: report.tasks.map(taskId => (
+            this.allTasks.find(t => taskId === t._id)
+          
+          ))
+        }
+      })
     },
+    // async fetchallReport(){
+    //   //getall task
+    //   await axios.get("/api/v1/tasks/"+ this.$route.params.id).then(response =>{
+    //     this.allTasks = response.data.data
+    //   })
+    //   console.log("all task, ", this.allTasks)
+
+    // },
   },
   async created() {
     await this.setUpPage();
+    // await this.fetchallReport()
   },
+  
 };
 </script>
 

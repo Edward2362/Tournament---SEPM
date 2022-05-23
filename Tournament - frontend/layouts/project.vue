@@ -134,9 +134,10 @@ export default {
       await this.createReport(this.$route.params.id)
     },
     async newWeek(){
+        console.log(this.getCurrentWeekReport.task)
       await axios.post("/api/v1/reports/" + this.$route.params.id, {
         projectId: this.$route.params.id,
-        task: this.getCurrentWeekReport.task,
+        tasks: this.getCurrentWeekReport.task,
         week: this.getCurrentWeekReport.weekNum,
         end: false}).then(response => {
           this.report = response.data.data
@@ -154,10 +155,10 @@ export default {
         this.weekOnProcess = true
       })
       console.log("report" ,this.report)
-      for(let i = 0; i < this.report.task.length; i++){
+      for(let i = 0; i < this.report.tasks.length; i++){
         var currentOverallPoint = 0
-        this.finishTask({taskId: this.report.task[i], projectId: this.$route.params.id})
-        var choosenTask = this.getTasks.filter((task) => task._id == this.report.task[i])
+        this.finishTask({taskId: this.report.tasks[i], projectId: this.$route.params.id})
+        var choosenTask = this.getTasks.filter((task) => task._id == this.report.tasks[i])
         var memberlist = []
         await axios.get("/api/v1/projects/" + this.$route.params.id + "/members").then(response=> {
           memberlist = response.data.data
