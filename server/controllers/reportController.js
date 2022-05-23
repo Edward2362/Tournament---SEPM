@@ -149,10 +149,9 @@ const createReport = async (req, res) => {
     const { projectId } = req.params;
     const { Task, week, finished } = req.body;
 
-    const report = await Task.create({
+    const report = await Report.create({
         projectId: projectId,
         week: week,
-
         tasks: Task,
         finished: finished,
     });
