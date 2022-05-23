@@ -3,9 +3,33 @@
     <h2 class="section-head">Ranking</h2>
     <div class="section-body">
       <div class="ranking">
-        <div class="rank-position">1</div>
-        <div class="rank-position">1</div>
-        <div class="rank-position">1</div>
+        <div class="rank-position">
+          <div class="rank" id="rank-2">
+            <div class="rank-owner">
+              <div class="owner-name">{{ top3[1].name }}</div>
+              <div class="owner-point">{{ top3[1].point }}</div>
+            </div>
+            <div class="rank-title">2</div>
+          </div>
+        </div>
+        <div class="rank-position">
+          <div class="rank" id="rank-1">
+            <div class="rank-owner">
+              <div class="owner-name">{{ top3[0].name }}</div>
+              <div class="owner-point">{{ top3[0].point }}</div>
+            </div>
+            <div class="rank-title">1</div>
+          </div>
+        </div>
+        <div class="rank-position">
+          <div class="rank" id="rank-3">
+            <div class="rank-owner">
+              <div class="owner-name">{{ top3[2].name }}</div>
+              <div class="owner-point">{{ top3[2].point }}</div>
+            </div>
+            <div class="rank-title">3</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -25,6 +49,11 @@ export default {
       currentmember: {},
       project: {},
       allmembers: [],
+      top3: [
+        { id: 1, name: "Quang", point: 400 },
+        { id: 2, name: "Tuan", point: 200 },
+        { id: 3, name: "Minh", point: 100 },
+      ],
     };
   },
   computed: {

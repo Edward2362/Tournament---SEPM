@@ -1,18 +1,12 @@
 <template>
   <div class="project-content">
-    <div>this is report</div>
-    <div>this is report</div>
-    <div>this is report</div>
-    <div>this is report</div>
-    <div>this is report</div>
-    <div>this is report</div>
-    <div>hello {{ this.$route.params.id }}</div>
-    <div>
+    <!-- <div>
       <li v-for="report in reports" :key="report._id">
         {{ report._id }}
       </li>
-    </div>
-    <div>
+    </div> -->
+    <h2 class="section-head">Reports</h2>
+    <div class="section-body">
       <ReportCard
         v-for="report in reportPlusTask"
         :key="report._id"
@@ -57,18 +51,19 @@ export default {
           this.reports = response.data.data;
           console.log("report list: ", response.data.data);
         });
-      await axios.get("/api/v1/tasks/"+ this.$route.params.id).then(response =>{
-        this.allTasks = response.data.data
-      })
-      this.reportPlusTask = this.reports.map(report => {
+      await axios
+        .get("/api/v1/tasks/" + this.$route.params.id)
+        .then((response) => {
+          this.allTasks = response.data.data;
+        });
+      this.reportPlusTask = this.reports.map((report) => {
         return {
           ...report,
-          tasks: report.tasks.map(taskId => (
-            this.allTasks.find(t => taskId === t._id)
-          
-          ))
-        }
-      })
+          tasks: report.tasks.map((taskId) =>
+            this.allTasks.find((t) => taskId === t._id)
+          ),
+        };
+      });
     },
     // async fetchallReport(){
     //   //getall task
@@ -83,7 +78,6 @@ export default {
     await this.setUpPage();
     // await this.fetchallReport()
   },
-  
 };
 </script>
 
