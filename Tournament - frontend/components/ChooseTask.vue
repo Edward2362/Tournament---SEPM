@@ -29,11 +29,10 @@
           <div class="new-task">Quang</div>
         </div>
         <div class="task-percentage">
-          hi
-          <!-- <div class="percentage-input">
+          <div class="percentage-input">
             <input type="text" />
             <p>%</p>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>

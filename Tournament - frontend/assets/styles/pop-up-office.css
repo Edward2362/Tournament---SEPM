@@ -68,8 +68,14 @@
 }
 
 .task-percentage {
-    width: 20%;
-    padding-left: 2%;
+    width: 30%;
+    margin-left: 2%;
+    box-shadow: #234d8769 0px 1px 4px;
+    padding: 2% 5%;
+    margin-top: 1%;
+    height: 90%;
+    overflow-y: scroll;
+    border-radius: 10px;
 }
 
 .percentage-off {
