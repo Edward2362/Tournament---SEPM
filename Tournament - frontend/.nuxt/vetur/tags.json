@@ -1,12 +1,18 @@
 {
-  "Addtask": {
-    "description": "Auto imported from components/Addtask.vue"
+  "AddTasks": {
+    "description": "Auto imported from components/AddTasks.vue"
   },
   "AppHeader": {
     "description": "Auto imported from components/AppHeader.vue"
   },
+  "CoverCard": {
+    "description": "Auto imported from components/CoverCard.vue"
+  },
   "LoginForm": {
     "description": "Auto imported from components/LoginForm.vue"
+  },
+  "MemberCard": {
+    "description": "Auto imported from components/MemberCard.vue"
   },
   "PopUpCreate": {
     "description": "Auto imported from components/PopUpCreate.vue"

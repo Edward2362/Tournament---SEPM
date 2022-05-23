@@ -1,7 +1,9 @@
 <template>
   <div class="project-content">
     <h2 class="section-head">Ranking</h2>
-    <div class="section-body">gi</div>
+    <div class="section-body">
+      {{allmembers}}
+    </div>
     <div>{{this.$route.params.id}}</div>
     <div>
       {{allmembers}}

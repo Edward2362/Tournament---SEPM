@@ -10,26 +10,33 @@
     <div>hello {{ this.$route.name }}</div>
     <div>hello {{ this.$route.params.id }}</div>
     <div>
-      <li v-for="task in newtasks" :key ="task.id" >
-        {{task.id}}
-      </li>
+        <AddTasks
+        v-for="task in newtasks"
+        :key="task.id"
+        :task="task"
+        @AddTask="createNewTask"
+        />
     </div>
     <div>
-      <form>
-          Trello task Id: <input type="text" name="TrelloTaskId" placeholder="Trello Task Id" v-model = "trelloTaskId"><br>
-          Percentage: <input type="text" name="Percentage" placeholder="Percentage" v-model = "percentage"><br>
-          Submit: <input type="button" @click="createNewTask()" value="Submit">
-      </form>
+        Percentage: <input type="text" name="Percentage" placeholder="Percentage" v-model = "percentage"><br>
     </div>
     <div>
-      <li v-for="task in activeTasks" :key ="task._id" >
+      <CoverCard
+        v-for="task in activeTasks"
+        :key="task.id"
+        :task="task"
+        @CoverTask="Cover"
+        />
+      <!-- <li v-for="task in activeTasks" :key ="task._id" >
         {{task._id}}
-      </li>
+      </li> -->
     </div>
   </div>
 </template>
 
 <script>
+import AddTasks from "../../../components/AddTasks.vue"
+import CoverCard from ".../../../components/CoverCard.vue"
 import axios from "axios";
 import {mapGetters, mapActions} from "vuex";
 
@@ -94,10 +101,11 @@ export default {
       console.log(this.activeTasks)
       console.log(this.getActiveTasks)
     },
-    async createNewTask(){
+    async createNewTask(id){
+      console.log(id)
       await axios.get("https://api.trello.com/1/boards/"
       + this.getCurrentProject.trelloBoardId + "/cards/"
-      + this.trelloTaskId + "?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token="
+      + id + "?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token="
       + this.getUserToken).then(
         response => {
           this.taskName = response.data.name
@@ -105,7 +113,7 @@ export default {
       ),
       await axios.post("/api/v1/tasks/" + this.$route.params.id, {
         projectId: this.$route.params.id,
-        trelloTaskId: this.trelloTaskId,
+        trelloTaskId: id,
         taskName: this.taskName,
         memberIncharged: this.getUserId,
         percentage: this.percentage
@@ -113,10 +121,16 @@ export default {
         console.log(response.data.data)
       })
     },
+    async Cover({taskId, memberId}){
+      await axios.patch("/api/v1/tasks/" + this.$route.params.id + "/" + taskId, {
+        memberIncharged: memberId
+      })
+    }
   }, 
   async created(){
     await this.getalltasks()
     console.log(this.getTrelloTaskId)
+    console.log(this.newtasks)
   }
 }
 

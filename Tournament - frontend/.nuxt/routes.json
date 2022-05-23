@@ -2,57 +2,49 @@
   {
     "name": "about",
     "path": "/about",
-    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\about.vue",
-    "chunkName": "pages/about",
-    "_name": "_2a9a8a62"
+    "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\about.vue",
+    "chunkName": "pages/about"
   },
   {
     "name": "authentication",
     "path": "/authentication",
-    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\authentication.vue",
-    "chunkName": "pages/authentication",
-    "_name": "_3a161af3"
+    "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\authentication.vue",
+    "chunkName": "pages/authentication"
   },
   {
     "name": "test_popup",
     "path": "/test_popup",
-    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\test_popup.vue",
-    "chunkName": "pages/test_popup",
-    "_name": "_140d093a"
+    "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\test_popup.vue",
+    "chunkName": "pages/test_popup"
   },
   {
     "name": "workspace",
     "path": "/workspace",
-    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\workspace.vue",
-    "chunkName": "pages/workspace",
-    "_name": "_7df02e2c"
+    "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\workspace.vue",
+    "chunkName": "pages/workspace"
   },
   {
     "name": "projects-id",
     "path": "/projects/:id",
-    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\index.vue",
-    "chunkName": "pages/projects/_id/index",
-    "_name": "_45d78ee6"
+    "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\index.vue",
+    "chunkName": "pages/projects/_id/index"
   },
   {
     "name": "projects-id-office",
     "path": "/projects/:id?/office",
-    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\office.vue",
-    "chunkName": "pages/projects/_id/office",
-    "_name": "_5f73e191"
+    "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\office.vue",
+    "chunkName": "pages/projects/_id/office"
   },
   {
     "name": "projects-id-report",
     "path": "/projects/:id?/report",
-    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\report.vue",
-    "chunkName": "pages/projects/_id/report",
-    "_name": "_0ea8fc09"
+    "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\report.vue",
+    "chunkName": "pages/projects/_id/report"
   },
   {
     "name": "projects-id-setting",
     "path": "/projects/:id?/setting",
-    "component": "E:\\\\SEPM\\\\assignment-test\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\setting.vue",
-    "chunkName": "pages/projects/_id/setting",
-    "_name": "_5eff9b6a"
+    "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\setting.vue",
+    "chunkName": "pages/projects/_id/setting"
   }
 ]
