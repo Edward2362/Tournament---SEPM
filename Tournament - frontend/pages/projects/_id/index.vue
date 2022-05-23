@@ -2,11 +2,11 @@
   <div class="project-content">
     <h2 class="section-head">Ranking</h2>
     <div class="section-body">
-      {{ allmembers }}
-    </div>
-    <div>{{ this.$route.params.id }}</div>
-    <div>
-      {{ allmembers }}
+      <div class="ranking">
+        <div class="rank-position">1</div>
+        <div class="rank-position">1</div>
+        <div class="rank-position">1</div>
+      </div>
     </div>
   </div>
 </template>

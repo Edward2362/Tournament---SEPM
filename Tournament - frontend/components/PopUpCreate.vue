@@ -216,7 +216,7 @@ export default {
       bluring: "document/setOverlayCreate",
     }),
     ...mapActions({
-      createNewProject:"projects/createNewProject"
+      createNewProject: "projects/createNewProject",
     }),
     async chooseBoard(id) {
       console.log(id);
@@ -253,11 +253,14 @@ export default {
       //make the lower section appear
     },
     async AddProjecToDb() {
-      await this.createNewProject({name: this.trelloBoard["name"], 
-      trelloId: this.trelloBoard["id"], rewardBoundary: this.rewardBoundary,
-      penaltyBoundary: this.penaltyBoundary,memberTrelloIds: this.members})
+      await this.createNewProject({
+        name: this.trelloBoard["name"],
+        trelloId: this.trelloBoard["id"],
+        rewardBoundary: this.rewardBoundary,
+        penaltyBoundary: this.penaltyBoundary,
+        memberTrelloIds: this.members,
+      });
       this.bluring();
-      
     },
     async getMember() {
       var members = [];
@@ -287,12 +290,11 @@ export default {
               name: response.data.fullName,
             };
             memberName.push(readingMember);
-            
           });
       }
 
       this.members = memberName;
-      console.log(this.members)
+      console.log(this.members);
     },
   },
 

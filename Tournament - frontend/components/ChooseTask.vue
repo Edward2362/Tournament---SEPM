@@ -26,14 +26,30 @@
       </div>
       <div class="body-pop-up-office">
         <div class="tasks-list">
-          <div class="new-task">Quang</div>
+          <div
+            class="new-task"
+            :class="{ 'task-chosen': chosenTask == task.id }"
+            v-for="task in tasks"
+            :key="task.id"
+            @click="chooseTask(task.id)"
+          >
+            {{ task.name }}
+          </div>
         </div>
-        <div class="task-percentage">
+        <div
+          class="task-percentage"
+          :class="{ 'percentage-off': chosenTask == '' }"
+        >
           <div class="percentage-input">
-            <input type="text" />
+            <div class="percentage-input-holder">
+              <input type="text" @change="setPercentage" />
+            </div>
             <p>%</p>
           </div>
         </div>
+      </div>
+      <div class="confirm-btn-office">
+        <button>Confirm</button>
       </div>
     </div>
   </div>
@@ -44,6 +60,19 @@ import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "ChooseTask",
+  data() {
+    return {
+      chosenTask: "",
+      percentage: "",
+      //test
+      tasks: [
+        { id: "1", name: "Quang" },
+        { id: "2", name: "Tina" },
+        { id: "3", name: "Foxes" },
+        { id: "4", name: "Ed" },
+      ],
+    };
+  },
   computed: {
     ...mapGetters({
       isOverlayChooseTask: "document/isOverlayChooseTask",
@@ -54,6 +83,12 @@ export default {
     ...mapMutations({
       bluring: "document/setOverlayChooseTask",
     }),
+    chooseTask(id) {
+      this.chosenTask = id;
+    },
+    setPercentage(e) {
+      this.percentage = e.target.value;
+    },
   },
 };
 </script>

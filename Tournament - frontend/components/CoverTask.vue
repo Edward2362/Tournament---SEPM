@@ -10,7 +10,7 @@
       :class="{ 'active-pop-up': isOverlayCoverTask }"
     >
       <div class="header-pop-up-office">
-        <div class="title"><h1>Choose Task</h1></div>
+        <div class="title"><h1>Cover Task</h1></div>
         <div class="off-pop-up-office" @click="bluring">
           <svg
             viewBox="0 0 22 22"
@@ -24,7 +24,40 @@
           </svg>
         </div>
       </div>
-      <div class="body-pop-up-office"></div>
+      <div class="body-pop-up-office">
+        <div class="tasks-list">
+          <div
+            class="cover-task"
+            :class="{ 'task-chosen': chosenTask == task.id }"
+            v-for="task in tasks"
+            :key="task.id"
+            @click="chooseTask(task.id)"
+          >
+            <div class="task-cover-name">{{ task.name }}</div>
+            <div class="task-cover-percentage">{{ task.percentage + "%" }}</div>
+          </div>
+        </div>
+        <div
+          class="members-board"
+          :class="{ 'percentage-off': chosenTask == '' }"
+        >
+          <div class="board-name">Members</div>
+          <div class="members-list">
+            <div
+              class="member-name-office"
+              :class="{ 'task-chosen': chosenMember == member.id }"
+              v-for="member in members"
+              :key="member.id"
+              @click="chooseMember(member.id)"
+            >
+              {{ member.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="confirm-btn-office">
+        <button>Confirm</button>
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +67,25 @@ import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "CoverTask",
+  data() {
+    return {
+      chosenTask: "",
+      chosenMember: "",
+      //test
+      tasks: [
+        { id: "1", name: "Quang", percentage: 90 },
+        { id: "2", name: "Tina", percentage: 20 },
+        { id: "3", name: "Foxes", percentage: 50 },
+        { id: "4", name: "Ed", percentage: 30 },
+      ],
+      members: [
+        { id: "1", name: "Quang" },
+        { id: "2", name: "Tina" },
+        { id: "3", name: "Foxes" },
+        { id: "4", name: "Ed" },
+      ],
+    };
+  },
   computed: {
     ...mapGetters({
       isOverlayCoverTask: "document/isOverlayCoverTask",
@@ -44,6 +96,12 @@ export default {
     ...mapMutations({
       bluring: "document/setOverlayCoverTask",
     }),
+    chooseTask(id) {
+      this.chosenTask = id;
+    },
+    chooseMember(id) {
+      this.chosenMember = id;
+    },
   },
 };
 </script>
