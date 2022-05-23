@@ -13,7 +13,7 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_6a51aaa0 from 'nuxt_plugin_plugin_6a51aaa0' // Source: .\\components\\plugin.js (mode: 'all')
+import nuxt_plugin_plugin_098a1e8e from 'nuxt_plugin_plugin_098a1e8e' // Source: .\\components\\plugin.js (mode: 'all')
 import nuxt_plugin_vuexpersist_13f465a2 from 'nuxt_plugin_vuexpersist_13f465a2' // Source: ..\\plugins\\vuex-persist (mode: 'client')
 
 // Component: <ClientOnly>
@@ -211,8 +211,8 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_6a51aaa0 === 'function') {
-    await nuxt_plugin_plugin_6a51aaa0(app.context, inject)
+  if (typeof nuxt_plugin_plugin_098a1e8e === 'function') {
+    await nuxt_plugin_plugin_098a1e8e(app.context, inject)
   }
 
   if (process.client && typeof nuxt_plugin_vuexpersist_13f465a2 === 'function') {

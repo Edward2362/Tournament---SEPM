@@ -311,8 +311,7 @@ export default {
           avatar: this.user.data["avatarUrl"] + "/50.png",
         })
         .then((response) => {
-          // this.$router.push({ name: "workspace" });
-          console.log("resp ne", response);
+          this.$router.push({ name: "workspace" });
         })
         .catch((error) => {
           console.log(error);

@@ -6,8 +6,8 @@
         <div class="rank-position">
           <div class="rank" id="rank-2">
             <div class="rank-owner">
-              <div class="owner-name">{{ top3[1].name }}</div>
-              <div class="owner-point">{{ top3[1].point }}</div>
+              <div class="owner-name">{{ top3[1].username }}</div>
+              <div class="owner-point">{{ top3[1].OverallPoint }}</div>
             </div>
             <div class="rank-title">2</div>
           </div>
@@ -15,8 +15,8 @@
         <div class="rank-position">
           <div class="rank" id="rank-1">
             <div class="rank-owner">
-              <div class="owner-name">{{ top3[0].name }}</div>
-              <div class="owner-point">{{ top3[0].point }}</div>
+              <div class="owner-name">{{ top3[0].username }}</div>
+              <div class="owner-point">{{ top3[0].overallPoint }}</div>
             </div>
             <div class="rank-title">1</div>
           </div>
@@ -24,11 +24,12 @@
         <div class="rank-position">
           <div class="rank" id="rank-3">
             <div class="rank-owner">
-              <div class="owner-name">{{ top3[2].name }}</div>
-              <div class="owner-point">{{ top3[2].point }}</div>
+              <div class="owner-name">{{ top3[2].username }}</div>
+              <div class="owner-point">{{ top3[2].overallPoint}}</div>
             </div>
             <div class="rank-title">3</div>
           </div>
+          {{getCurrentProject}}
         </div>
       </div>
     </div>
@@ -54,6 +55,7 @@ export default {
         { id: 2, name: "Tuan", point: 200 },
         { id: 3, name: "Minh", point: 100 },
       ],
+      listTop3:[]
     };
   },
   computed: {
@@ -65,28 +67,50 @@ export default {
       getTasks: "tasks/getTasks",
       getCurrentProject: "project/getCurrentProject",
     }),
+    top3maybe(){
+      this.getCurrentProject.members.s
+      // if(!!this.listTop3  &&  this.listTop3.length >0){
+      //   // this.listTop3.sort(function (a, b) {
+      //   //   return b.overallPoint - a.overallPoint;
+      //   // });
+        
+      //   return listTop3
+      //   }
+    }
   },
   methods: {
     ...mapActions({
       fetchTasksByProject: "tasks/fetchTasksByProject",
     }),
     async setUpIndexPage() {
-      await axios
-        .get(
-          "https://api.trello.com/1/members/" +
-            this.getUserTrelloId +
-            "?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token=" +
-            this.getUserToken
-        )
-        .then((response) => {
-          this.currentmember = response.data;
-        });
+      // await axios
+      //   .get(
+      //     "https://api.trello.com/1/members/" +
+      //       this.getUserTrelloId +
+      //       "?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token=" +
+      //       this.getUserToken
+      //   )
+      //   .then((response) => {
+      //     this.currentmember = response.data;
+      //   });
       // .map(m => new Object({name: o.name, id: o.id}))
       this.allmembers = this.getCurrentProject.members;
-      this.allmembers.sort(function (a, b) {
-        return b.overallPoint - a.overallPoint;
-      });
-      // this.allmembers.sort()
+      console.log(typeof this.getCurrentProject.members)
+      console.log(this.allmembers)
+      var member = {}
+      
+        // for(let i =0; i < 3; i++){
+        //   console.log(this.allmembers)
+        //   axios.get("/api/v1/users/" + this.allmembers[i].user).then(response => {
+        //     member.username = response.data.data.username
+        //   })
+        //   member.overallPoint = this.allmembers[i].overallPoint
+        //   this.listTop3.push(member)
+        // }
+      console.log("hey",this.listTop3)
+
+      
+
     },
     // compare( a, b ) {
     //   if ( a.overallPoint < b.overallPoint ){

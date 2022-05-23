@@ -136,6 +136,7 @@ export default {
       await axios.patch("/api/v1/tasks/" + this.$route.params.id + "/" + this.chosenTask, {
         memberIncharged: this.chosenMember
       })
+      location.reload()
     },
   },
   async created(){

@@ -27,6 +27,12 @@
         /><br />
         Submit: <input type="button" @click="changeReward()" value="Submit" />
       </form>
+      <div v-if="projectEnded">
+        <h2>Punished member: </h2>
+        <p v-for="punishedmember in punished" :key="punishedmember">{{punishedmember}}</p>
+        <h2>Rewarded member: </h2>
+        <p v-for="rewardedmember in reward" :key="rewardedmember">{{rewardedmember}}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -43,6 +49,9 @@ export default {
       reward: "",
       memberId: "",
       admin: false,
+      projectEnded: false,
+      punished: [],
+      reward: []
     };
   },
   computed: {
@@ -54,6 +63,7 @@ export default {
       getTasks: "tasks/getTasks",
       getCurrentProject: "project/getCurrentProject",
       getTrelloTaskId: "tasks/getTrelloTaskId",
+      getCurrentWeekReport: "currentWeekReport/getCurrentWeekReport"
     }),
   },
   methods: {
@@ -62,7 +72,11 @@ export default {
         .patch("/api/v1/projects/" + this.$route.params.id, {
           finished: true,
         })
-        .then((response) => console.log(response.data.data));
+        .then(
+          (response) => {console.log(response.data.data)
+          this.projectEnded = true
+          }
+        );
     },
     async changeReward() {
       axios
@@ -81,7 +95,22 @@ export default {
           (this.memberId = currentmemberId._id),
             (this.reward = currentmemberId.desiredReward);
         }
+        if(currentmemberId[i].overallPoint >= ((this.getCurrentWeekReport.weekNum - 1)* 100) + this.getCurrentProject.upperBoundary){
+          axios.get("/api/v1/users/" + currentmemberId[i].user).then(
+            response => {
+              this.reward.push(response.data.data.username)
+            }
+          )
+        }
+        if(currentmemberId[i].overallPoint < ((this.getCurrentWeekReport.weekNum - 1)* 100) + this.getCurrentProject.upperBoundary){
+          axios.get("/api/v1/users/" + currentmemberId[i].user).then(
+            response => {
+              this.punished.push(response.data.data.username)
+            }
+          )
+        }
       }
+      
       if (this.getCurrentProject.admin == this.getUserId) {
         this.admin = true;
       }

@@ -143,7 +143,9 @@ export default {
       }).then(response => {
         console.log(response.data.data)
       })
+      location.reload();
     },
+  
   },
   async created(){
     await this.setUpPopUp()
