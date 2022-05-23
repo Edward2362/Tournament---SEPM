@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nuxt-link :to="'/'">
+    <nuxt-link :to="'/workspace'">
       <svg
         width="312"
         height="85"
@@ -76,7 +76,7 @@ export default {
   computed: {},
   methods: {
     ...mapMutations({
-      bluring: "document/setOverlay",
+      bluring: "document/setOverlayCreate",
     }),
     toggleDropdown() {
       this.dropdownUser = !this.dropdownUser;

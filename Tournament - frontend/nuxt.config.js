@@ -42,5 +42,8 @@ export default {
   modules: ["@nuxtjs/proxy"],
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
-  proxy: { "/api": { target: "https://tournament.onrender.com" } },
+  proxy: {
+    "/api":
+      { target: "https://tournament.onrender.com" }
+  },
 };
