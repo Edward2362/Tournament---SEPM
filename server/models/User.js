@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
 const isEmail = require("validator/lib/isEmail");
 const bcrypt = require("bcryptjs");
+const axios = require("axios");
 
 const { NotFoundError } = require("../errors");
+const trelloConfig = require("../config/trello");
 
 const UserSchema = new mongoose.Schema(
   {
@@ -52,9 +54,16 @@ UserSchema.pre("remove", async function () {
 });
 
 UserSchema.pre("save", async function () {
-  if (!this.isModified("password")) return;
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+  if (this.isModified("password")) {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
+  if (this.isModified("trelloToken")) {
+    const response = await axios.get(
+      `${trelloConfig.baseUrl}/members/me?key=${trelloConfig.appKey}&token=${this.trelloToken}`
+    );
+    this.avatar = response.data.avatarUrl + "/50.png";
+  }
 });
 
 UserSchema.statics.findOneExist = async function (queryObject) {
