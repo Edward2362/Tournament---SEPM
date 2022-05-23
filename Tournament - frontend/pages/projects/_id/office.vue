@@ -1,13 +1,9 @@
 <template>
   <div class="project-content">
     <h2 class="section-head">Team</h2>
-    <div class="section-body"><Tasks /><Tasks /></div>
+    <div class="section-body"><Tasks v-for="List in dividedByList" :key="List.memberId" :listOfTasks ="List"/></div>
     <ChooseTask />
     <CoverTask />
-    <div>
-      heyyy
-      {{dividedByList}}
-    </div>
     <!-- <div>this is office</div>
     <div>this is office</div>
     <div>this is office</div>
@@ -81,17 +77,17 @@ export default {
       getTrelloTaskId: "tasks/getTrelloTaskId",
       getActiveTasks: "tasks/getActiveTasks"
     }),
-    newtasks() {
-      if(this.alltask.length > 0){
-        var remainingTasks = this.alltask.filter(
-          (task) => !this.oldtasks.includes(task.id)
-        );
-        return remainingTasks
-      }
-      return this.alltask.filter(
-        (task) => !this.getTrelloTaskId.includes(task.trelloTaskId)
-      );
-    },
+    // newtasks() {
+    //   if(this.alltask.length > 0){
+    //     var remainingTasks = this.alltask.filter(
+    //       (task) => !this.oldtasks.includes(task.id)
+    //     );
+    //     return remainingTasks
+    //   }
+    //   return this.alltask.filter(
+    //     (task) => !this.getTrelloTaskId.includes(task.trelloTaskId)
+    //   );
+    // },
     memberActiveTasks(){
       if(this.activeTasks.length > 0){
         var remainingActiveTasks = this.activeTasks.filter(
@@ -103,16 +99,23 @@ export default {
     },
     dividedByList(){
       const listOfList = []
-      if(this.currentProject != null){
+      console.log(this.currentProject)
+      if(this.currentProject != null && this.currentProject.members!= null){
         for(let i = 0; i < this.currentProject.members.length; i++){
-          const listByUserId = []
+          // const listByUserId = []
+          const combine = {}
+          const listofTasks = []
           if(this.activeTasks != null){
             for(let task of this.activeTasks){
               if(task.memberIncharged == this.currentProject.members[i].user){
-                listByUserId.push(task)
+                listofTasks.push(task)
               }
             }
-            listOfList.push(listByUserId)
+            combine.task = listofTasks
+            combine.memberId = this.currentProject.members[i].user
+            // listByUserId.push(combine)
+            listOfList.push(combine)
+            console.log("list: ",listOfList)
           }
         }
       }
@@ -121,7 +124,6 @@ export default {
   },
   methods: {
     async getalltasks(){
-      console.log("da run123")
       await axios.get("https://api.trello.com/1/boards/"
       + this.getCurrentProject.trelloBoardId +
       "/cards?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token="
@@ -132,9 +134,6 @@ export default {
       })
       this.oldtasks = this.getTrelloTaskId
       this.activeTasks = this.getActiveTasks
-      console.log(this.activeTasks)
-      console.log(this.getActiveTasks)
-
     },
     async createNewTask(id){
       console.log(id)
@@ -167,17 +166,15 @@ export default {
         memberIncharged: member
       })
     },
-    async divideByUser(){
-      
-    }
+
   },
   async created(){
-    await this.getalltasks()
-    await this.divideByUser()
     this.currentProject = this.getCurrentProject
+    await this.getalltasks()
     console.log("current P: ", this.currentProject)
     console.log(this.getTrelloTaskId)
     console.log(this.newtasks)
+    console.log(this.dividedByList)
   }
 }
 </script>
