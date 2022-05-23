@@ -1,8 +1,8 @@
 <template>
   <div class="tasks-container">
-    <div class="tasks-head">
-      <p class="member-name">Edward</p>
-      <div class="tasks-action">
+    <div class="tasks-head"> 
+      <p class="member-name">{{user.username}}</p>
+      <div class="tasks-action" :class="{'pop-up-disappear': user._id != this.getUserId}">
         <div class="cover" @click="bluringCoverTask">
           <svg
             width="22"
@@ -33,23 +33,45 @@
         </div>
       </div>
     </div>
-    <div class="tasks-body"><Task /><Task /></div>
+    <div class="tasks-body"><Task v-for="task in listOfTasks.task" :key ="task._id" :Task="task" :userAva ="user.avatar"  /></div>
   </div>
 </template>
 
 <script>
 import Task from "../components/Task.vue";
 import { mapMutations, mapGetters } from "vuex";
+import axios from "axios";
 
 export default {
   name: "Tasks",
   components: { Task },
+  data(){
+    return{
+      user: {}
+    }
+  },
+  props:["listOfTasks"],
+  computed:{
+    ...mapGetters({
+      getUserId: "user/getUserId"
+    })
+  },
   methods: {
     ...mapMutations({
       bluringChooseTask: "document/setOverlayChooseTask",
       bluringCoverTask: "document/setOverlayCoverTask",
     }),
+    async setUpPopUp(){
+      await axios.get("/api/v1/users/" + this.listOfTasks.memberId).then(response =>{
+        this.user = response.data.data
+      })
+    }
   },
+  async created(){
+    await this.setUpPopUp()
+    
+  }
+
 };
 </script>
 

@@ -50,3 +50,7 @@
 .tasks-action div:hover path {
     fill: #FAFCFF;
 }
+
+.pop-up-disappear {
+    display: none;
+}

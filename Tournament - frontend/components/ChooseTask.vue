@@ -29,7 +29,7 @@
           <div
             class="new-task"
             :class="{ 'task-chosen': chosenTask == task.id }"
-            v-for="task in tasks"
+            v-for="task in newtasks"
             :key="task.id"
             @click="chooseTask(task.id)"
           >
@@ -42,14 +42,14 @@
         >
           <div class="percentage-input">
             <div class="percentage-input-holder">
-              <input type="text" @change="setPercentage" />
+              <input type="number" @change="setPercentage"  />
             </div>
             <p>%</p>
           </div>
         </div>
       </div>
       <div class="confirm-btn-office">
-        <button>Confirm</button>
+        <button @click="createNewTask">Confirm</button>
       </div>
     </div>
   </div>
@@ -57,39 +57,97 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
+import axios from "axios";
 
 export default {
   name: "ChooseTask",
   data() {
     return {
       chosenTask: "",
-      percentage: "",
+      percentage: 0,
       //test
-      tasks: [
-        { id: "1", name: "Quang" },
-        { id: "2", name: "Tina" },
-        { id: "3", name: "Foxes" },
-        { id: "4", name: "Ed" },
-      ],
+      tasks: [],
+      alltask: [],
+      oldtasks: [],
+      taskName: ""
     };
   },
   computed: {
     ...mapGetters({
       isOverlayChooseTask: "document/isOverlayChooseTask",
+      getTrelloTaskId: "tasks/getTrelloTaskId",
+      getCurrentProject: "project/getCurrentProject",
+      getUserToken: "user/getUserToken",
+      getUserId: "user/getUserId",
     }),
+    newtasks() {
+      if(!!this.alltask && this.alltask.length > 0){
+        var remainingTasks = this.alltask.filter(
+          (task) => !this.oldtasks.includes(task.id)
+        );
+        return remainingTasks
+      }
+      return this.alltask.filter(
+        (task) => !this.getTrelloTaskId.includes(task.trelloTaskId)
+      );
+    },
   },
   methods: {
-    // ...mapActions({ changeTrelloId: "user/changeTrelloId" }),
     ...mapMutations({
       bluring: "document/setOverlayChooseTask",
     }),
+    async setUpPopUp(){
+      await axios.get("https://api.trello.com/1/boards/"
+      + this.getCurrentProject.trelloBoardId +
+      "/cards?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token="
+      + this.getUserToken)
+      .then((response) => {
+        console.log("all task ,", response.data)
+        this.alltask = response.data
+      })
+      this.oldtasks = this.getTrelloTaskId
+    },
+    // ...mapActions({ changeTrelloId: "user/changeTrelloId" }),
     chooseTask(id) {
       this.chosenTask = id;
     },
     setPercentage(e) {
       this.percentage = e.target.value;
     },
+    async createNewTask(){
+      console.log()
+      await axios.get("https://api.trello.com/1/boards/"
+      + this.getCurrentProject.trelloBoardId + "/cards/"
+      + this.chosenTask + "?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token="
+      + this.getUserToken).then(
+        response => {
+          
+          this.taskName = response.data.name
+        }
+      )
+      // const memberIncharged = {}
+      // memberIncharged['_id'] = this.getUserId
+    console.log("task name: ", {
+        projectId: this.$route.params.id,
+        trelloTaskId: this.chosenTask,
+        taskName: this.taskName,
+        memberIncharged: this.getUserId,
+        percentage: this.percentage
+      })
+      await axios.post("/api/v1/tasks/" + this.$route.params.id, {
+        projectId: this.$route.params.id,
+        trelloTaskId: this.chosenTask,
+        taskName: this.taskName,
+        memberIncharged: this.getUserId,
+        percentage: this.percentage
+      }).then(response => {
+        console.log(response.data.data)
+      })
+    },
   },
+  async created(){
+    await this.setUpPopUp()
+  }
 };
 </script>
 

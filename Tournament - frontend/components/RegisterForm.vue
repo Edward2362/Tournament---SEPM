@@ -293,6 +293,14 @@ export default {
         "https://api.trello.com/1/members/me?key=9a7391de8e0ad4c00e667a2e2eaa9c66&token=" +
           Trello.token()
       );
+      console.log("hey", {
+          username: this.username,
+          email: this.email.value,
+          password: this.password.value,
+          trelloToken: Trello.token(),
+          trelloId: this.user.data["id"],
+          avatar: this.user.data["avatarUrl"] + "/50.png",
+        })
       await axios
         .post("/api/v1/auth/register", {
           username: this.username,
@@ -303,7 +311,8 @@ export default {
           avatar: this.user.data["avatarUrl"] + "/50.png",
         })
         .then((response) => {
-          this.$router.push({ name: "workspace" });
+          // this.$router.push({ name: "workspace" });
+          console.log("resp ne", response);
         })
         .catch((error) => {
           console.log(error);

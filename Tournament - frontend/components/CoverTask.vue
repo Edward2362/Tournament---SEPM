@@ -28,12 +28,12 @@
         <div class="tasks-list">
           <div
             class="cover-task"
-            :class="{ 'task-chosen': chosenTask == task.id }"
-            v-for="task in tasks"
-            :key="task.id"
-            @click="chooseTask(task.id)"
+            :class="{ 'task-chosen': chosenTask == task._id }"
+            v-for="task in memberActiveTasks"
+            :key="task._id"
+            @click="chooseTask(task._id)"
           >
-            <div class="task-cover-name">{{ task.name }}</div>
+            <div class="task-cover-name">{{ task.taskName }}</div>
             <div class="task-cover-percentage">{{ task.percentage + "%" }}</div>
           </div>
         </div>
@@ -45,10 +45,10 @@
           <div class="members-list">
             <div
               class="member-name-office"
-              :class="{ 'task-chosen': chosenMember == member.id }"
+              :class="{ 'task-chosen': chosenMember == member.user }"
               v-for="member in members"
-              :key="member.id"
-              @click="chooseMember(member.id)"
+              :key="member._id"
+              @click="chooseMember(member.user)"
             >
               {{ member.name }}
             </div>
@@ -56,7 +56,7 @@
         </div>
       </div>
       <div class="confirm-btn-office">
-        <button>Confirm</button>
+        <button @click="Cover">Confirm</button>
       </div>
     </div>
   </div>
@@ -64,6 +64,7 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
+import axios from "axios";
 
 export default {
   name: "CoverTask",
@@ -71,25 +72,31 @@ export default {
     return {
       chosenTask: "",
       chosenMember: "",
+      activeTasks: [],
+
       //test
-      tasks: [
-        { id: "1", name: "Quang", percentage: 90 },
-        { id: "2", name: "Tina", percentage: 20 },
-        { id: "3", name: "Foxes", percentage: 50 },
-        { id: "4", name: "Ed", percentage: 30 },
-      ],
-      members: [
-        { id: "1", name: "Quang" },
-        { id: "2", name: "Tina" },
-        { id: "3", name: "Foxes" },
-        { id: "4", name: "Ed" },
-      ],
+      members: [],
     };
   },
   computed: {
     ...mapGetters({
       isOverlayCoverTask: "document/isOverlayCoverTask",
+      getTrelloTaskId: "tasks/getTrelloTaskId",
+      getCurrentProject: "project/getCurrentProject",
+      getUserToken: "user/getUserToken",
+      getUserId: "user/getUserId",
+      getActiveTasks: "tasks/getActiveTasks"
+
     }),
+    memberActiveTasks(){
+      if(!!this.activeTasks && this.activeTasks.length > 0){
+        var remainingActiveTasks = this.activeTasks.filter(
+          (task) => task.memberIncharged == this.getUserId
+        );
+        return remainingActiveTasks
+      }
+      return null;
+    },
   },
   methods: {
     // ...mapActions({ changeTrelloId: "user/changeTrelloId" }),
@@ -99,10 +106,41 @@ export default {
     chooseTask(id) {
       this.chosenTask = id;
     },
-    chooseMember(id) {
+    async chooseMember(id) {
       this.chosenMember = id;
+
+    },
+    async setUpPopUp(){
+      this.activeTasks = this.getActiveTasks
+      await axios.get("/api/v1/projects/" + this.$route.params.id + "/members").then(
+        response => {
+          console.log("all members: ", response.data.data)
+          this.members = response.data.data.filter(member => !this.getUserId.includes(member._id))
+        }
+      )
+      console.log("thismember: ", this.members)
+        const promises = []
+          for(let i = 0; i < this.members.length; i++){
+          promises.push(axios.get("/api/v1/users/" + this.members[i].user).then(
+              response=> {
+                  console.log("promises? ", response.data.data)
+                  this.members[i].name = response.data.data.username
+              }
+          ))
+          await Promise.all(promises)
+          }
+    },
+    async Cover(){
+      // const member = {}
+      // member['_id'] = memberId
+      await axios.patch("/api/v1/tasks/" + this.$route.params.id + "/" + this.chosenTask, {
+        memberIncharged: this.chosenMember
+      })
     },
   },
+  async created(){
+    await this.setUpPopUp()
+  }
 };
 </script>
 

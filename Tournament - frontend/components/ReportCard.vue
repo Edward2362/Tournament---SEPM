@@ -56,8 +56,7 @@ export default {
             .get("/api/v1/users/" + this.report.tasks[i].memberIncharged)
             .then((response) => {
               console.log("promises? ", response.data.data);
-              this.report.tasks[i].memberIncharged =
-                response.data.data.username;
+              this.report.tasks[i].memberIncharged = response.data.data.username;
             })
         );
       }
