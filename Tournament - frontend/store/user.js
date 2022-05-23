@@ -26,6 +26,9 @@ export const getters = {
   getUser(state) {
     return state;
   },
+  getAvatarUrl(state) {
+    return state.user.avatar
+  },
   getUserTrelloId(state) {
     return state.user.trelloId;
   },
