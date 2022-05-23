@@ -1,14 +1,6 @@
 <template>
   <div class="project-content">
-    <div>this is setting</div>
-    <div>this is setting</div>
-    <div>this is setting</div>
-    <div>this is setting</div>
-    <div>this is setting</div>
-    <div>this is setting</div>
-    <div>this is setting</div>
-    <div>this is setting</div>
-    <div>hello {{ this.$route.name }}</div>
+    <h2 class="section-head">Setting</h2>
   </div>
 </template>
 

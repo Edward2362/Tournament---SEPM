@@ -2,6 +2,12 @@
   "AppHeader": {
     "description": "Auto imported from components/AppHeader.vue"
   },
+  "ChooseTask": {
+    "description": "Auto imported from components/ChooseTask.vue"
+  },
+  "CoverTask": {
+    "description": "Auto imported from components/CoverTask.vue"
+  },
   "LoginForm": {
     "description": "Auto imported from components/LoginForm.vue"
   },
@@ -19,6 +25,12 @@
   },
   "SearchBar": {
     "description": "Auto imported from components/SearchBar.vue"
+  },
+  "Task": {
+    "description": "Auto imported from components/Task.vue"
+  },
+  "Tasks": {
+    "description": "Auto imported from components/Tasks.vue"
   },
   "TrelloCard": {
     "description": "Auto imported from components/TrelloCard.vue"
