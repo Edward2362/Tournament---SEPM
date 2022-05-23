@@ -300,6 +300,7 @@ export default {
           password: this.password.value,
           trelloToken: Trello.token(),
           trelloId: this.user.data["id"],
+          avatar: this.user.data["avatarUrl"] + "/50.png",
         })
         .then((response) => {
           this.$router.push({ name: "workspace" });

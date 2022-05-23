@@ -1,12 +1,14 @@
 <template>
   <div id="profile">
-    <img htmlFor="profile" src="../assets/images/Quang.jpg" />
+    <img htmlFor="profile" :src="avatar" />
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "User",
+  props: ["avatar"],
 };
 </script>
 

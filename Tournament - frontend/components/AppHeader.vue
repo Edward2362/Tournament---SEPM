@@ -49,7 +49,9 @@
       </div>
     </div>
     <div class="user-avatar">
-      <div class="user-avatar-holder" @click="toggleDropdown"><User /></div>
+      <div class="user-avatar-holder" @click="toggleDropdown">
+        <User :avatar="avatarurl" />
+      </div>
       <div class="dropdown-user" :class="{ disappear: !dropdownUser }">
         <div class="log-out" @click="logOut">Logout</div>
         <div class="horizontal-line"></div>
@@ -62,7 +64,7 @@
 <script>
 import SearchBar from "../components/SearchBar.vue";
 import User from "../components/User.vue";
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapGetters, mapActions } from "vuex";
 import axios from "axios";
 
 export default {
@@ -73,8 +75,15 @@ export default {
     };
   },
   components: { SearchBar, User },
-  computed: {},
+  computed: {
+    ...mapGetters({
+      avatarurl: "user/getAvatarUrl",
+    }),
+  },
   methods: {
+    ...mapActions({
+      fetchUserByCookie: "user/fetchUserByCookie",
+    }),
     ...mapMutations({
       bluring: "document/setOverlayCreate",
     }),
@@ -91,6 +100,9 @@ export default {
         })
         .catch(console.log);
     },
+  },
+  created() {
+    this.fetchUserByCookie();
   },
 };
 </script>
