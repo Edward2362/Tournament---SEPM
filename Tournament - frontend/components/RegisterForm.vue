@@ -112,7 +112,7 @@
         </div>
       </div>
       <div class="form-input">
-        <div class="form-input-body" :class="{ invalid: username == '' }">
+        <div class="form-input-body" :class="{ invalid: username.length < 8 }">
           <div class="input-icon">
             <svg
               width="24"
@@ -134,7 +134,7 @@
             placeholder="Username"
             v-model="username"
           />
-          <div class="tooltip">Require username</div>
+          <div class="tooltip">Require username (8 characters)</div>
         </div>
       </div>
       <div class="form-input">
@@ -227,7 +227,7 @@ export default {
         this.email.isValid &&
         this.password.isValid &&
         this.retypePassword.isValid &&
-        this.username != "" &&
+        this.username.length > 8 &&
         this.auth
       );
     },
@@ -294,13 +294,13 @@ export default {
           Trello.token()
       );
       console.log("hey", {
-          username: this.username,
-          email: this.email.value,
-          password: this.password.value,
-          trelloToken: Trello.token(),
-          trelloId: this.user.data["id"],
-          avatar: this.user.data["avatarUrl"] + "/50.png",
-        })
+        username: this.username,
+        email: this.email.value,
+        password: this.password.value,
+        trelloToken: Trello.token(),
+        trelloId: this.user.data["id"],
+        avatar: this.user.data["avatarUrl"] + "/50.png",
+      });
       await axios
         .post("/api/v1/auth/register", {
           username: this.username,
