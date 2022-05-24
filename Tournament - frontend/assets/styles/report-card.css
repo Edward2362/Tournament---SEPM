@@ -1,3 +1,45 @@
 .report-body {
-    
+    width: 98%;
+    background-color: #234C87;
+    border-radius: 10px;
+    padding: 2%;
+    margin: 2% 1%;
+}
+
+.report-body>h2 {
+    color: #FAFCFF;
+    width: 100%;
+    text-align: center;
+}
+
+.report-task-info {
+    display: flex;
+    height: 6vh;
+    align-items: center;
+    margin: 2% 0;
+}
+
+.report-task {
+    width: 50%;
+    color: #FAFCFF;
+}
+
+.report-task p {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.report-task-member {
+    margin-left: 2%;
+    width: 48%;
+    color: #FF5C72;
+}
+
+.vertical-line-report {
+    margin: auto 0;
+    border: 0.225vh solid #FAFCFF;
+    height: 90%;
+    background-color: #FAFCFF;
+    border-radius: 1000px;
 }
