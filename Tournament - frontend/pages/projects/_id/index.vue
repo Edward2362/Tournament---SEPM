@@ -29,7 +29,6 @@
             </div>
             <div class="rank-title">3</div>
           </div>
-          <!-- {{ top3Member[0] }} -->
         </div>
       </div>
     </div>
