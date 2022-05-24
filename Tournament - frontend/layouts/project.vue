@@ -30,7 +30,7 @@
               </div>
             </div>
             <div class="project-user-control">
-              <h2>Week {{this.getCurrentWeekReport.weekNum}}</h2>
+              <h2>Week {{currentWeek}}</h2>
               <div class="button-control">
                 <div v-if="weekOnProcess" class="button" @click="newWeek">
                   <svg
@@ -93,7 +93,9 @@ export default {
       members: {},
       currentUserName:"",
       currentProjectName: "",
-      reportId: ""
+      reportId: "",
+      currentWeek: 0,
+      reportTasks: []
       // allmembers: []
     };
   },
@@ -133,43 +135,56 @@ export default {
       await this.fetchCurrentProject(this.$route.params.id)
       this.project = this.getCurrentProject
       await this.createReport(this.$route.params.id)
-      axios.get("/api/v1/reports/"+this.$route.params.id+"/"+(this.getCurrentWeekReport.weekNum-1)).then(response => {
+      console.log("this.getcurre", this.getCurrentWeekReport)
+      if(this.getCurrentWeekReport.weekNum > 1 ){
+        console.log("da run")
+      axios.get("/api/v1/reports/"+this.$route.params.id+"/"+((this.getCurrentWeekReport.weekNum)-1)).then(response => {
+        this.reportId = response.data.data._id
         if(response.data.data.end == false){
           //tuần đang tiếp tục (chưa end)
           this.weekOnProcess = false
-          this.reportId = response.data.data._id
+          console.log("shiet" ,response.data.data)
+          this.currentWeek = this.getCurrentWeekReport.weekNum - 1
         }
         else{
           //tuần đã end và sang tuần mới
           this.weekOnProcess = true
+          this.currentWeek = this.getCurrentWeekReport.weekNum
+          this.reportTasks = response.data.data.tasks
         }
       })
+      }
+      else{
+        this.weekOnProcess = true
+        this.currentWeek = 1
+      }
+      console.log(this.weekOnProcess)
+      console.log(this.getCurrentWeekReport.weekNum)
+
     },
     async newWeek(){
         console.log(this.getCurrentWeekReport.task)
+        console.log("hey", this.getCurrentWeekReport.weekNum-1)
       await axios.post("/api/v1/reports/" + this.$route.params.id, {
         projectId: this.$route.params.id,
         tasks: this.getCurrentWeekReport.task,
         week: this.getCurrentWeekReport.weekNum,
-        end: false}).then(response => {
-          this.report = response.data.data
-          console.log(response.data.data)
-        })  
+        end: false})
+        location.reload() 
     },
     async endReport(){
-      console.log(this.report)
       var currentOverallPoint = 0
-      axios.post("/api/v1/reports/" + this.$route.params.id + "/" + this.report._id, {
+      axios.post("/api/v1/reports/" + this.$route.params.id + "/" + this.reportId, {
         end: true
       }).then(response => {
         console.log("report, ", response.data)
         this.weekOnProcess = true
       })
-      console.log("report" ,this.report)
-      for(let i = 0; i < this.report.tasks.length; i++){
+      // console.log("report" ,this.report)
+      for(let i = 0; i < this.reportTasks.length; i++){
         var currentOverallPoint = 0
-        this.finishTask({taskId: this.report.tasks[i], projectId: this.$route.params.id})
-        var choosenTask = this.getTasks.filter((task) => task._id == this.report.tasks[i])
+        this.finishTask({taskId: this.reportTasks[i], projectId: this.$route.params.id})
+        var choosenTask = this.getTasks.filter((task) => task._id == this.reportTasks[i])
         var memberlist = []
         await axios.get("/api/v1/projects/" + this.$route.params.id + "/members").then(response=> {
           memberlist = response.data.data
@@ -186,7 +201,7 @@ export default {
           console.log(response.data.data.overallPoint)
         })
         location.reload()
-        
+
       }
     }
   },

@@ -101,9 +101,9 @@ export default {
       
         // for(let i =0; i < 3; i++){
         //   console.log(this.allmembers)
-        //   axios.get("/api/v1/users/" + this.allmembers[i].user).then(response => {
-        //     member.username = response.data.data.username
-        //   })
+          // axios.get("/api/v1/users/" + this.allmembers[i].user).then(response => {
+          //   member.username = response.data.data.username
+          // })
         //   member.overallPoint = this.allmembers[i].overallPoint
         //   this.listTop3.push(member)
         // }

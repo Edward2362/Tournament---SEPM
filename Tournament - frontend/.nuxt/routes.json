@@ -3,56 +3,48 @@
     "name": "about",
     "path": "/about",
     "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\about.vue",
-    "chunkName": "pages/about",
-    "_name": "_5f198444"
+    "chunkName": "pages/about"
   },
   {
     "name": "authentication",
     "path": "/authentication",
     "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\authentication.vue",
-    "chunkName": "pages/authentication",
-    "_name": "_4b351f51"
+    "chunkName": "pages/authentication"
   },
   {
     "name": "test_popup",
     "path": "/test_popup",
     "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\test_popup.vue",
-    "chunkName": "pages/test_popup",
-    "_name": "_66a8ec98"
+    "chunkName": "pages/test_popup"
   },
   {
     "name": "workspace",
     "path": "/workspace",
     "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\workspace.vue",
-    "chunkName": "pages/workspace",
-    "_name": "_47d321cc"
+    "chunkName": "pages/workspace"
   },
   {
     "name": "projects-id",
     "path": "/projects/:id",
     "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\index.vue",
-    "chunkName": "pages/projects/_id/index",
-    "_name": "_6069fe6b"
+    "chunkName": "pages/projects/_id/index"
   },
   {
     "name": "projects-id-office",
     "path": "/projects/:id?/office",
     "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\office.vue",
-    "chunkName": "pages/projects/_id/office",
-    "_name": "_46d6d773"
+    "chunkName": "pages/projects/_id/office"
   },
   {
     "name": "projects-id-report",
     "path": "/projects/:id?/report",
     "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\report.vue",
-    "chunkName": "pages/projects/_id/report",
-    "_name": "_13e81c2a"
+    "chunkName": "pages/projects/_id/report"
   },
   {
     "name": "projects-id-setting",
     "path": "/projects/:id?/setting",
     "component": "E:\\\\SEPM\\\\Tournament---SEPM\\\\Tournament - frontend\\\\pages\\\\projects\\\\_id\\\\setting.vue",
-    "chunkName": "pages/projects/_id/setting",
-    "_name": "_55080eae"
+    "chunkName": "pages/projects/_id/setting"
   }
 ]
