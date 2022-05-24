@@ -93,7 +93,6 @@ export default {
       //     this.currentMember = response.data;
       //   });
       // .map(m => new Object({name: o.name, id: o.id}))
-
       for (let i = 0; i < this.currentMember.length; i++) {
         let member = {};
         await axios

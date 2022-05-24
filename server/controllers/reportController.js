@@ -146,70 +146,68 @@ const { NotFoundError } = require("../errors");
 // };
 
 const createReport = async (req, res) => {
-    const { projectId } = req.params;
-    const { tasks, week, finished } = req.body;
+  const { projectId } = req.params;
+  const { tasks, week, finished } = req.body;
 
-    const report = await Report.create({
-        projectId: projectId,
-        week: week,
-        tasks: tasks,
-        finished: finished,
-    });
-    res.status(StatusCodes.CREATED).json({ data: report });
+  const report = await Report.create({
+    projectId: projectId,
+    week: week,
+    tasks: tasks,
+    finished: finished,
+  });
+  res.status(StatusCodes.CREATED).json({ data: report });
 };
 
 const getAllReports = async (req, res) => {
-    const { userId } = req.user;
-    const { projectId } = req.params;
+  const { userId } = req.user;
+  const { projectId } = req.params;
 
-    await Member.findUserIsMember(userId, projectId);
-    var reports = await Report.find({ projectId: projectId });
+  await Member.findUserIsMember(userId, projectId);
+  var reports = await Report.find({ projectId: projectId });
 
-    res.status(StatusCodes.OK).json({ data: reports });
+  res.status(StatusCodes.OK).json({ data: reports });
 };
 
 const getWeekReport = async (req, res) => {
-    const { userId } = req.user;
-    const { projectId } = req.params;
-    const { week } = req.params;
+  const { userId } = req.user;
+  const { projectId, week } = req.params;
+//   const { week } = req.params;
 
-    await Member.findUserIsMember(userId, projectId);
-    var report = await Report.findOne(
-        { trelloProjectId: projectId } && { week: week }
-    );
-    res.status(StatusCodes.OK).json({ data: report });
+  await Member.findUserIsMember(userId, projectId);
+    var report = await Report.findOne({ projectId: projectId, week: week });
+  res.status(StatusCodes.OK).json({ data: report });
 };
 
 const updateReport = async (req, res) => {
-    const { userId } = req.user;
-    const { reportId, projectId } = req.params;
-    const { tasks, week, end } = req.body;
+  const { userId } = req.user;
+  const { reportId, projectId } = req.params;
+  const { tasks, week, end } = req.body;
 
-    await Member.findUserIsAdmin(userId, projectId);
-    const reports = await Report.findOneAndUpdate(
-        { _id: reportId, projectId: projectId },
-        { tasks, week, end },
-        { new: true, runValidators: true }
-    );
+  await Member.findUserIsAdmin(userId, projectId);
+  const reports = await Report.findOneAndUpdate(
+    { _id: reportId, projectId: projectId },
+    { tasks, week, end },
+    { new: true, runValidators: true }
+  );
 
-    res.status(StatusCodes.OK).json({ data: reports });
+  res.status(StatusCodes.OK).json({ data: reports });
 };
 
 const deleteReport = async (req, res) => {
-    const { userId } = req.user;
-    const { projectId, reportId } = req.params;
+  const { userId } = req.user;
+  const { projectId, reportId } = req.params;
 
-    await Member.findUserIsAdmin(userId, projectId);
-    const report = await Report.findOne({ _id: reportId });
-    await report.remove();
+  await Member.findUserIsAdmin(userId, projectId);
+  const report = await Report.findOne({ _id: reportId });
+  await report.remove();
 
-    res.status(StatusCodes.OK).json({ message: "Report deleted" });
+  res.status(StatusCodes.OK).json({ message: "Report deleted" });
 };
 
 module.exports = {
-    createReport,
-    getAllReports,
-    getWeekReport,
-    updateReport,
-    deleteReport,
+  createReport,
+  getAllReports,
+  getWeekReport,
+  updateReport,
+  deleteReport,
 };

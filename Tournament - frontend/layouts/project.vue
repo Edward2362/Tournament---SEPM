@@ -32,7 +32,7 @@
               </div>
             </div>
             <div class="project-user-control">
-              <h2>Week {{ this.getCurrentWeekReport.weekNum }}</h2>
+              <h2>Week {{ currentWeek }}</h2>
               <div class="button-control">
                 <div v-if="weekOnProcess" class="button" @click="newWeek">
                   <svg
@@ -96,6 +96,8 @@ export default {
       currentUserName: "",
       currentProjectName: "",
       reportId: "",
+      currentWeek: 0,
+      reportTasks: [],
       // allmembers: []
     };
   },
@@ -129,51 +131,150 @@ export default {
       createReport: "currentWeekReport/createReport",
       finishTask: "tasks/finishTask",
     }),
+    // async setUpPage() {
+    //   await this.fetchTasksByProject(this.$route.params.id);
+    //   await this.fetchCurrentProject(this.$route.params.id);
+    //   this.project = this.getCurrentProject;
+    //   console.log("current project ở layer nè", this.project);
+    //   await this.createReport(this.$route.params.id);
+    //   axios
+    //     .get(
+    //       "/api/v1/reports/" +
+    //         this.$route.params.id +
+    //         "/" +
+    //         (this.getCurrentWeekReport.weekNum - 1)
+    //     )
+    //     .then((response) => {
+    //       console.log("có end chưa ta", response.data.data.end);
+    //       if (response.data.data.end == false) {
+    //         //tuần đang tiếp tục (chưa end)
+    //         this.weekOnProcess = false;
+    //         this.reportId = response.data.data._id;
+    //       } else {
+    //         //tuần đã end và sang tuần mới
+    //         this.weekOnProcess = true;
+    //       }
+    //     });
+    // },
+    // async newWeek() {
+    //   console.log(this.getCurrentWeekReport.task);
+    //   await axios
+    //     .post("/api/v1/reports/" + this.$route.params.id, {
+    //       projectId: this.$route.params.id,
+    //       tasks: this.getCurrentWeekReport.task,
+    //       week: this.getCurrentWeekReport.weekNum,
+    //       end: false,
+    //     })
+    //     .then((response) => {
+    //       this.report = response.data.data;
+    //       console.log(response.data.data);
+    //     });
+    // },
+    // async endReport() {
+    //   console.log(this.report);
+    //   var currentOverallPoint = 0;
+    //   axios
+    //     .post(
+    //       "/api/v1/reports/" + this.$route.params.id + "/" + this.report._id,
+    //       {
+    //         end: true,
+    //       }
+    //     )
+    //     .then((response) => {
+    //       console.log("report, ", response.data);
+    //       this.weekOnProcess = true;
+    //     });
+    //   console.log("report", this.report);
+    //   for (let i = 0; i < this.report.tasks.length; i++) {
+    //     var currentOverallPoint = 0;
+    //     this.finishTask({
+    //       taskId: this.report.tasks[i],
+    //       projectId: this.$route.params.id,
+    //     });
+    //     var choosenTask = this.getTasks.filter(
+    //       (task) => task._id == this.report.tasks[i]
+    //     );
+    //     var memberlist = [];
+    //     await axios
+    //       .get("/api/v1/projects/" + this.$route.params.id + "/members")
+    //       .then((response) => {
+    //         memberlist = response.data.data;
+    //       });
+    //     var choosenMember = [];
+    //     choosenMember = memberlist.filter(
+    //       (member) => member.user == choosenTask[0].memberIncharged
+    //     );
+    //     await axios
+    //       .get("/api/v1/members/" + choosenMember[0]._id)
+    //       .then((response) => {
+    //         currentOverallPoint = response.data.data.overallPoint;
+    //         console.log(currentOverallPoint);
+    //       });
+    //     await axios
+    //       .patch("/api/v1/members/" + choosenMember[0]._id, {
+    //         overallPoint: currentOverallPoint + choosenTask[0].percentage,
+    //       })
+    //       .then((response) => {
+    //         console.log(response.data.data.overallPoint);
+    //       });
+    //     location.reload();
     async setUpPage() {
       await this.fetchTasksByProject(this.$route.params.id);
       await this.fetchCurrentProject(this.$route.params.id);
       this.project = this.getCurrentProject;
-      console.log("current project ở layer nè", this.project);
       await this.createReport(this.$route.params.id);
-      axios
-        .get(
-          "/api/v1/reports/" +
-            this.$route.params.id +
-            "/" +
-            (this.getCurrentWeekReport.weekNum - 1)
-        )
-        .then((response) => {
-          console.log("có end chưa ta", response.data.data.end);
-          if (response.data.data.end == false) {
-            //tuần đang tiếp tục (chưa end)
-            this.weekOnProcess = false;
+      console.log("this.getcurre", this.getCurrentWeekReport);
+      //xài từ đây (e chưa test cái if > 1 :)))
+      if (this.getCurrentWeekReport.weekNum > 1) {
+        console.log("da run");
+        axios
+          .get(
+            "/api/v1/reports/" +
+              this.$route.params.id +
+              "/" +
+              (this.getCurrentWeekReport.weekNum - 1)
+          )
+          .then((response) => {
             this.reportId = response.data.data._id;
-          } else {
-            //tuần đã end và sang tuần mới
-            this.weekOnProcess = true;
-          }
-        });
+            this.reportTasks = response.data.data.tasks;
+            if (response.data.data.end == false) {
+              //tuần đang tiếp tục (chưa end)
+              this.weekOnProcess = false;
+              console.log("shiet", response.data.data);
+              this.currentWeek = this.getCurrentWeekReport.weekNum - 1;
+            } else {
+              //tuần đã end và sang tuần mới
+              this.weekOnProcess = true;
+              this.currentWeek = this.getCurrentWeekReport.weekNum;
+            }
+          });
+      } else {
+        this.weekOnProcess = true;
+        this.currentWeek = 1;
+      }
+      //end
+      console.log(this.reportTasks);
+      console.log(this.weekOnProcess);
+      console.log(this.getCurrentWeekReport.weekNum);
     },
     async newWeek() {
       console.log(this.getCurrentWeekReport.task);
-      await axios
-        .post("/api/v1/reports/" + this.$route.params.id, {
-          projectId: this.$route.params.id,
-          tasks: this.getCurrentWeekReport.task,
-          week: this.getCurrentWeekReport.weekNum,
-          end: false,
-        })
-        .then((response) => {
-          this.report = response.data.data;
-          console.log(response.data.data);
-        });
+      console.log("hey", this.getCurrentWeekReport.weekNum - 1);
+      await axios.post("/api/v1/reports/" + this.$route.params.id, {
+        projectId: this.$route.params.id,
+        tasks: this.getCurrentWeekReport.task,
+        week: this.getCurrentWeekReport.weekNum,
+        end: false,
+      });
+      location.reload();
     },
     async endReport() {
-      console.log(this.report);
+      console.log(this.reportTasks);
+
       var currentOverallPoint = 0;
       axios
-        .post(
-          "/api/v1/reports/" + this.$route.params.id + "/" + this.report._id,
+        .patch(
+          "/api/v1/reports/" + this.$route.params.id + "/" + this.reportId,
           {
             end: true,
           }
@@ -182,15 +283,15 @@ export default {
           console.log("report, ", response.data);
           this.weekOnProcess = true;
         });
-      console.log("report", this.report);
-      for (let i = 0; i < this.report.tasks.length; i++) {
+      // console.log("report" ,this.report)
+      for (let i = 0; i < this.reportTasks.length; i++) {
         var currentOverallPoint = 0;
         this.finishTask({
-          taskId: this.report.tasks[i],
+          taskId: this.reportTasks[i],
           projectId: this.$route.params.id,
         });
         var choosenTask = this.getTasks.filter(
-          (task) => task._id == this.report.tasks[i]
+          (task) => task._id == this.reportTasks[i]
         );
         var memberlist = [];
         await axios
@@ -206,8 +307,9 @@ export default {
           .get("/api/v1/members/" + choosenMember[0]._id)
           .then((response) => {
             currentOverallPoint = response.data.data.overallPoint;
-            console.log(currentOverallPoint);
           });
+        console.log(currentOverallPoint);
+
         await axios
           .patch("/api/v1/members/" + choosenMember[0]._id, {
             overallPoint: currentOverallPoint + choosenTask[0].percentage,
@@ -215,7 +317,6 @@ export default {
           .then((response) => {
             console.log(response.data.data.overallPoint);
           });
-        location.reload();
       }
     },
   },
