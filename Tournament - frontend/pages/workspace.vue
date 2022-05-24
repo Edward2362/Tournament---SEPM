@@ -166,10 +166,9 @@ export default {
     // if(Trello.token() != null){
     //   Trello.deauthorize();
     // }
-    this.fetchUserByCookie();
-    this.fetchProjectByUser();
-    console.log("after", this.getUser);
-  },
+    this.fetchUserByCookie();    this.fetchProjectByUser();
+
+},
 };
 </script>
 

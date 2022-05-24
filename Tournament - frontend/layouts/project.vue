@@ -92,7 +92,8 @@ export default {
       report: {},
       members: {},
       currentUserName:"",
-      currentProjectName: ""
+      currentProjectName: "",
+      reportId: ""
       // allmembers: []
     };
   },
@@ -132,6 +133,17 @@ export default {
       await this.fetchCurrentProject(this.$route.params.id)
       this.project = this.getCurrentProject
       await this.createReport(this.$route.params.id)
+      axios.get("/api/v1/reports/"+this.$route.params.id+"/"+(this.getCurrentWeekReport.weekNum-1)).then(response => {
+        if(response.data.data.end == false){
+          //tuần đang tiếp tục (chưa end)
+          this.weekOnProcess = false
+          this.reportId = response.data.data._id
+        }
+        else{
+          //tuần đã end và sang tuần mới
+          this.weekOnProcess = true
+        }
+      })
     },
     async newWeek(){
         console.log(this.getCurrentWeekReport.task)
@@ -142,8 +154,7 @@ export default {
         end: false}).then(response => {
           this.report = response.data.data
           console.log(response.data.data)
-        }),
-        this.weekOnProcess = false
+        })  
     },
     async endReport(){
       console.log(this.report)
@@ -174,6 +185,7 @@ export default {
         }).then(response => {
           console.log(response.data.data.overallPoint)
         })
+        location.reload()
         
       }
     }
