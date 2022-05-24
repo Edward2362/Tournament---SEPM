@@ -170,11 +170,11 @@ const getAllReports = async (req, res) => {
 
 const getWeekReport = async (req, res) => {
   const { userId } = req.user;
-  const { projectId } = req.params;
-  const { week } = req.params;
+  const { projectId, week } = req.params;
+//   const { week } = req.params;
 
   await Member.findUserIsMember(userId, projectId);
-  var report = await Report.findOne({ projectId: projectId } && { week: week });
+    var report = await Report.findOne({ projectId: projectId, week: week });
   res.status(StatusCodes.OK).json({ data: report });
 };
 

@@ -174,7 +174,7 @@ export default {
     },
     async endReport(){
       var currentOverallPoint = 0
-      axios.post("/api/v1/reports/" + this.$route.params.id + "/" + this.reportId, {
+      axios.patch("/api/v1/reports/" + this.$route.params.id + "/" + this.reportId, {
         end: true
       }).then(response => {
         console.log("report, ", response.data)
