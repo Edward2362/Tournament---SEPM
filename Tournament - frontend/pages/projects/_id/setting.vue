@@ -31,7 +31,7 @@
         <h2>Punished member: </h2>
         <p v-for="punishedmember in punished" :key="punishedmember">{{punishedmember}}</p>
         <h2>Rewarded member: </h2>
-        <p v-for="rewardedmember in reward" :key="rewardedmember">{{rewardedmember}}</p>
+        <p v-for="rewardedmember in rewarded" :key="rewardedmember">{{rewardedmember}}</p>
       </div>
     </div>
   </div>
@@ -51,7 +51,7 @@ export default {
       admin: false,
       projectEnded: false,
       punished: [],
-      reward: []
+      rewarded: []
     };
   },
   computed: {
@@ -95,27 +95,40 @@ export default {
           (this.memberId = currentmemberId._id),
             (this.reward = currentmemberId.desiredReward);
         }
-        if(currentmemberId[i].overallPoint >= ((this.getCurrentWeekReport.weekNum - 1)* 100) + this.getCurrentProject.upperBoundary){
-          axios.get("/api/v1/users/" + currentmemberId[i].user).then(
-            response => {
-              this.reward.push(response.data.data.username)
-            }
-          )
-        }
-        if(currentmemberId[i].overallPoint < ((this.getCurrentWeekReport.weekNum - 1)* 100) + this.getCurrentProject.upperBoundary){
-          axios.get("/api/v1/users/" + currentmemberId[i].user).then(
-            response => {
-              this.punished.push(response.data.data.username)
-            }
-          )
-        }
+        this.getReward(currentmemberId[i])
+        this.getPunished(currentmemberId[i])
+
       }
       
       if (this.getCurrentProject.admin == this.getUserId) {
         this.admin = true;
       }
-      console.log("member Id: ", this.memberId, "reward ", this.reward);
+      console.log("member Id: ", this.memberId, "reward ", this.rewarded);
     },
+    async getReward(currentmemberId){
+      if(currentmemberId.overallPoint >= ((this.getCurrentWeekReport.weekNum - 1)* 100) + this.getCurrentProject.upperBoundary){
+          console.log(((this.getCurrentWeekReport.weekNum - 1)* 100) + this.getCurrentProject.upperBoundary)
+          await axios.get("/api/v1/users/" + currentmemberId.user).then(
+            response => {
+              console.log("1", response.data.data)
+              this.rewarded.push(response.data.data.username)
+            }
+          )
+        }
+    },
+    async getPunished(currentmemberId){
+      if(currentmemberId.overallPoint < ((this.getCurrentWeekReport.weekNum - 1)* 100) - this.getCurrentProject.lowerBoundary){
+          console.log(((this.getCurrentWeekReport.weekNum - 1)* 100) - this.getCurrentProject.lowerBoundary)
+
+          await axios.get("/api/v1/users/" + currentmemberId.user).then(
+            response => {
+              console.log("2", response.data.data)
+
+              this.punished.push(response.data.data.username)
+            }
+          )
+        }
+    }
   },
   async created() {
     await this.setUpSettingPage();

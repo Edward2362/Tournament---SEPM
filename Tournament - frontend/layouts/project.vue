@@ -136,10 +136,12 @@ export default {
       this.project = this.getCurrentProject
       await this.createReport(this.$route.params.id)
       console.log("this.getcurre", this.getCurrentWeekReport)
+      //xài từ đây (e chưa test cái if > 1 :)))
       if(this.getCurrentWeekReport.weekNum > 1 ){
         console.log("da run")
       axios.get("/api/v1/reports/"+this.$route.params.id+"/"+((this.getCurrentWeekReport.weekNum)-1)).then(response => {
         this.reportId = response.data.data._id
+        this.reportTasks = response.data.data.tasks
         if(response.data.data.end == false){
           //tuần đang tiếp tục (chưa end)
           this.weekOnProcess = false
@@ -150,7 +152,6 @@ export default {
           //tuần đã end và sang tuần mới
           this.weekOnProcess = true
           this.currentWeek = this.getCurrentWeekReport.weekNum
-          this.reportTasks = response.data.data.tasks
         }
       })
       }
@@ -158,6 +159,8 @@ export default {
         this.weekOnProcess = true
         this.currentWeek = 1
       }
+      //end
+            console.log(this.reportTasks)
       console.log(this.weekOnProcess)
       console.log(this.getCurrentWeekReport.weekNum)
 
@@ -173,6 +176,8 @@ export default {
         location.reload() 
     },
     async endReport(){
+      console.log(this.reportTasks)
+
       var currentOverallPoint = 0
       axios.patch("/api/v1/reports/" + this.$route.params.id + "/" + this.reportId, {
         end: true
@@ -193,14 +198,14 @@ export default {
         choosenMember = memberlist.filter((member) => member.user == choosenTask[0].memberIncharged)
         await axios.get("/api/v1/members/" + choosenMember[0]._id).then(response => {
           currentOverallPoint = response.data.data.overallPoint
-          console.log(currentOverallPoint)
         })
+        console.log(currentOverallPoint)
+
         await axios.patch("/api/v1/members/" + choosenMember[0]._id, {
-          overallPoint: currentOverallPoint + choosenTask[0].percentage
+          overallPoint: (currentOverallPoint + choosenTask[0].percentage)
         }).then(response => {
           console.log(response.data.data.overallPoint)
         })
-        location.reload()
 
       }
     }
