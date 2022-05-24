@@ -4,24 +4,26 @@
     <div class="project-page">
       <ProjectMenu />
       <div class="project-body">
-        <div class="project-title"><h1>{{currentProjectName}}</h1></div>
+        <div class="project-title">
+          <h1>{{ currentProjectName }}</h1>
+        </div>
         <div class="project-sections">
           <nuxt />
           <div class="project-user">
             <div class="project-user-info">
-              <h2>{{currentUserName}}</h2>
+              <h2>{{ currentUserName }}</h2>
               <div class="info-contents">
                 <div class="content">
                   <p class="label">Points</p>
-                  <p class="label-data">{{overallPoint}}</p>
+                  <p class="label-data">{{ overallPoint }}</p>
                 </div>
                 <div class="content">
                   <p class="label">Active tasks</p>
-                  <p class="label-data">{{getActiveTask.length}}</p>
+                  <p class="label-data">{{ getActiveTask.length }}</p>
                 </div>
                 <div class="content">
                   <p class="label">Finished tasks</p>
-                  <p class="label-data">{{getFinishedTask.length}}</p>
+                  <p class="label-data">{{ getFinishedTask.length }}</p>
                 </div>
                 <div class="content">
                   <p class="label">Status</p>
@@ -30,7 +32,7 @@
               </div>
             </div>
             <div class="project-user-control">
-              <h2>Week {{this.getCurrentWeekReport.weekNum}}</h2>
+              <h2>Week {{ this.getCurrentWeekReport.weekNum }}</h2>
               <div class="button-control">
                 <div v-if="weekOnProcess" class="button" @click="newWeek">
                   <svg
@@ -47,7 +49,7 @@
                   </svg>
                   <p>Start</p>
                 </div>
-                <div v-else class="button" @click = "endReport">
+                <div v-else class="button" @click="endReport">
                   <svg
                     width="50"
                     height="50"
@@ -78,26 +80,26 @@
 import ProjectMenu from "../components/ProjectMenu.vue";
 import AppHeader from "../components/AppHeader";
 import PopUpCreate from "../components/PopUpCreate.vue";
-import axios from "axios"
-import {mapGetters, mapActions} from "vuex"
+import axios from "axios";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   components: { ProjectMenu, AppHeader, PopUpCreate },
   data() {
     return {
-      weekOnProcess: true,      
+      weekOnProcess: true,
       // tasks : [],
       // currentmember: {},
       project: {},
       report: {},
       members: {},
-      currentUserName:"",
+      currentUserName: "",
       currentProjectName: "",
-      reportId: ""
+      reportId: "",
       // allmembers: []
     };
   },
-  computed:{
+  computed: {
     ...mapGetters({
       getUserToken: "user/getUserToken",
       getUserTrelloId: "user/getUserTrelloId",
@@ -108,94 +110,121 @@ export default {
       getActiveTask: "tasks/getActiveTasks",
       getFinishedTask: "tasks/getFinishedTasks",
       getCurrentWeekReport: "currentWeekReport/getCurrentWeekReport",
-      getUsername: "user/getUsername"
+      getUsername: "user/getUsername",
     }),
-    overallPoint(){
-      if(this.project.members != null){
-         var currentUserAsMember = this.project.members.filter(
-        (member) => this.getUserId == member.user
+    overallPoint() {
+      if (this.project.members != null) {
+        var currentUserAsMember = this.project.members.filter(
+          (member) => this.getUserId == member.user
         );
-        return currentUserAsMember[0].overallPoint
+        return currentUserAsMember[0].overallPoint;
       }
-
     },
   },
 
-  methods:{
+  methods: {
     ...mapActions({
       fetchTasksByProject: "tasks/fetchTasksByProject",
       fetchCurrentProject: "project/fetchCurrentProject",
       createReport: "currentWeekReport/createReport",
       finishTask: "tasks/finishTask",
     }),
-    async setUpPage(){
-      await this.fetchTasksByProject(this.$route.params.id)
-      await this.fetchCurrentProject(this.$route.params.id)
-      this.project = this.getCurrentProject
-      await this.createReport(this.$route.params.id)
-      axios.get("/api/v1/reports/"+this.$route.params.id+"/"+(this.getCurrentWeekReport.weekNum-1)).then(response => {
-        if(response.data.data.end == false){
-          //tuần đang tiếp tục (chưa end)
-          this.weekOnProcess = false
-          this.reportId = response.data.data._id
-        }
-        else{
-          //tuần đã end và sang tuần mới
-          this.weekOnProcess = true
-        }
-      })
+    async setUpPage() {
+      await this.fetchTasksByProject(this.$route.params.id);
+      await this.fetchCurrentProject(this.$route.params.id);
+      this.project = this.getCurrentProject;
+      console.log("current project ở layer nè", this.project);
+      await this.createReport(this.$route.params.id);
+      axios
+        .get(
+          "/api/v1/reports/" +
+            this.$route.params.id +
+            "/" +
+            (this.getCurrentWeekReport.weekNum - 1)
+        )
+        .then((response) => {
+          console.log("có end chưa ta", response.data.data.end);
+          if (response.data.data.end == false) {
+            //tuần đang tiếp tục (chưa end)
+            this.weekOnProcess = false;
+            this.reportId = response.data.data._id;
+          } else {
+            //tuần đã end và sang tuần mới
+            this.weekOnProcess = true;
+          }
+        });
     },
-    async newWeek(){
-        console.log(this.getCurrentWeekReport.task)
-      await axios.post("/api/v1/reports/" + this.$route.params.id, {
-        projectId: this.$route.params.id,
-        tasks: this.getCurrentWeekReport.task,
-        week: this.getCurrentWeekReport.weekNum,
-        end: false}).then(response => {
-          this.report = response.data.data
-          console.log(response.data.data)
-        })  
+    async newWeek() {
+      console.log(this.getCurrentWeekReport.task);
+      await axios
+        .post("/api/v1/reports/" + this.$route.params.id, {
+          projectId: this.$route.params.id,
+          tasks: this.getCurrentWeekReport.task,
+          week: this.getCurrentWeekReport.weekNum,
+          end: false,
+        })
+        .then((response) => {
+          this.report = response.data.data;
+          console.log(response.data.data);
+        });
     },
-    async endReport(){
-      console.log(this.report)
-      var currentOverallPoint = 0
-      axios.post("/api/v1/reports/" + this.$route.params.id + "/" + this.report._id, {
-        end: true
-      }).then(response => {
-        console.log("report, ", response.data)
-        this.weekOnProcess = true
-      })
-      console.log("report" ,this.report)
-      for(let i = 0; i < this.report.tasks.length; i++){
-        var currentOverallPoint = 0
-        this.finishTask({taskId: this.report.tasks[i], projectId: this.$route.params.id})
-        var choosenTask = this.getTasks.filter((task) => task._id == this.report.tasks[i])
-        var memberlist = []
-        await axios.get("/api/v1/projects/" + this.$route.params.id + "/members").then(response=> {
-          memberlist = response.data.data
-        })
-        var choosenMember = []
-        choosenMember = memberlist.filter((member) => member.user == choosenTask[0].memberIncharged)
-        await axios.get("/api/v1/members/" + choosenMember[0]._id).then(response => {
-          currentOverallPoint = response.data.data.overallPoint
-          console.log(currentOverallPoint)
-        })
-        await axios.patch("/api/v1/members/" + choosenMember[0]._id, {
-          overallPoint: currentOverallPoint + choosenTask[0].percentage
-        }).then(response => {
-          console.log(response.data.data.overallPoint)
-        })
-        location.reload()
-        
+    async endReport() {
+      console.log(this.report);
+      var currentOverallPoint = 0;
+      axios
+        .post(
+          "/api/v1/reports/" + this.$route.params.id + "/" + this.report._id,
+          {
+            end: true,
+          }
+        )
+        .then((response) => {
+          console.log("report, ", response.data);
+          this.weekOnProcess = true;
+        });
+      console.log("report", this.report);
+      for (let i = 0; i < this.report.tasks.length; i++) {
+        var currentOverallPoint = 0;
+        this.finishTask({
+          taskId: this.report.tasks[i],
+          projectId: this.$route.params.id,
+        });
+        var choosenTask = this.getTasks.filter(
+          (task) => task._id == this.report.tasks[i]
+        );
+        var memberlist = [];
+        await axios
+          .get("/api/v1/projects/" + this.$route.params.id + "/members")
+          .then((response) => {
+            memberlist = response.data.data;
+          });
+        var choosenMember = [];
+        choosenMember = memberlist.filter(
+          (member) => member.user == choosenTask[0].memberIncharged
+        );
+        await axios
+          .get("/api/v1/members/" + choosenMember[0]._id)
+          .then((response) => {
+            currentOverallPoint = response.data.data.overallPoint;
+            console.log(currentOverallPoint);
+          });
+        await axios
+          .patch("/api/v1/members/" + choosenMember[0]._id, {
+            overallPoint: currentOverallPoint + choosenTask[0].percentage,
+          })
+          .then((response) => {
+            console.log(response.data.data.overallPoint);
+          });
+        location.reload();
       }
-    }
+    },
   },
-  async created(){
-    await this.setUpPage()
-    this.currentUserName = this.getUsername,
-    this.currentProjectName = this.getCurrentProject.name
+  async created() {
+    await this.setUpPage();
+    (this.currentUserName = this.getUsername),
+      (this.currentProjectName = this.getCurrentProject.name);
     // console.log("new 123", this.getMembers)
-  }
+  },
 };
 </script>
 

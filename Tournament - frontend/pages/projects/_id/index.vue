@@ -5,31 +5,31 @@
       <div class="ranking">
         <div class="rank-position">
           <div class="rank" id="rank-2">
-            <div class="rank-owner">
-              <div class="owner-name">{{ top3[1].username }}</div>
-              <div class="owner-point">{{ top3[1].OverallPoint }}</div>
+            <div v-if="top3Member[1] != null" class="rank-owner">
+              <div class="owner-name">{{ top3Member[1].username }}</div>
+              <div class="owner-point">{{ top3Member[1].overallPoint }}</div>
             </div>
             <div class="rank-title">2</div>
           </div>
         </div>
         <div class="rank-position">
           <div class="rank" id="rank-1">
-            <div class="rank-owner">
-              <div class="owner-name">{{ top3[0].username }}</div>
-              <div class="owner-point">{{ top3[0].overallPoint }}</div>
+            <div v-if="top3Member[0] != null" class="rank-owner">
+              <div class="owner-name">{{ top3Member[0].username }}</div>
+              <div class="owner-point">{{ top3Member[0].overallPoint }}</div>
             </div>
             <div class="rank-title">1</div>
           </div>
         </div>
         <div class="rank-position">
           <div class="rank" id="rank-3">
-            <div class="rank-owner">
-              <div class="owner-name">{{ top3[2].username }}</div>
-              <div class="owner-point">{{ top3[2].overallPoint}}</div>
+            <div v-if="top3Member[2] != null" class="rank-owner">
+              <div class="owner-name">{{ top3Member[2].username }}</div>
+              <div class="owner-point">{{ top3Member[2].overallPoint }}</div>
             </div>
             <div class="rank-title">3</div>
           </div>
-          {{getCurrentProject}}
+          <!-- {{ top3Member[0] }} -->
         </div>
       </div>
     </div>
@@ -47,15 +47,16 @@ export default {
     return {
       weekOnProcess: true,
       tasks: [],
-      currentmember: {},
+      currentMember: {},
+      currentProject: null,
       project: {},
       allmembers: [],
       top3: [
-        { id: 1, name: "Quang", point: 400 },
-        { id: 2, name: "Tuan", point: 200 },
-        { id: 3, name: "Minh", point: 100 },
+        { id: 1, username: "Quang", overallPoint: 400 },
+        { id: 2, username: "Tuan", overallPoint: 200 },
+        { id: 3, username: "Minh", overallPoint: 100 },
       ],
-      listTop3:[]
+      listTop3: [],
     };
   },
   computed: {
@@ -65,22 +66,21 @@ export default {
       getMemberWithProjectId: "projects/getMemberWithProjectId",
       getUserId: "user/getUserId",
       getTasks: "tasks/getTasks",
+      getMembers: "project/getMembers",
       getCurrentProject: "project/getCurrentProject",
     }),
-    top3maybe(){
-      this.getCurrentProject.members.s
-      // if(!!this.listTop3  &&  this.listTop3.length >0){
-      //   // this.listTop3.sort(function (a, b) {
-      //   //   return b.overallPoint - a.overallPoint;
-      //   // });
-        
-      //   return listTop3
-      //   }
-    }
+    top3Member() {
+      if (this.listTop3 != null) {
+        return this.listTop3;
+      } else {
+        return this.top3;
+      }
+    },
   },
   methods: {
     ...mapActions({
       fetchTasksByProject: "tasks/fetchTasksByProject",
+      fetchCurrentProject: "project/fetchCurrentProject",
     }),
     async setUpIndexPage() {
       // await axios
@@ -91,27 +91,34 @@ export default {
       //       this.getUserToken
       //   )
       //   .then((response) => {
-      //     this.currentmember = response.data;
+      //     this.currentMember = response.data;
       //   });
       // .map(m => new Object({name: o.name, id: o.id}))
-      this.allmembers = this.getCurrentProject.members;
-      console.log(typeof this.getCurrentProject.members)
-      console.log(this.allmembers)
-      var member = {}
-      
-        // for(let i =0; i < 3; i++){
-        //   console.log(this.allmembers)
-        //   axios.get("/api/v1/users/" + this.allmembers[i].user).then(response => {
-        //     member.username = response.data.data.username
-        //   })
-        //   member.overallPoint = this.allmembers[i].overallPoint
-        //   this.listTop3.push(member)
-        // }
-      console.log("hey",this.listTop3)
 
-      
-
+      for (let i = 0; i < this.currentMember.length; i++) {
+        let member = {};
+        await axios
+          .get("/api/v1/users/" + this.currentMember[i].user)
+          .then((response) => {
+            member.username = response.data.data.username;
+          });
+        member.overallPoint = this.currentMember[i].overallPoint;
+        console.log("member day ne", member);
+        this.listTop3.push(member);
+      }
+      console.log("hey", this.top3);
+      console.log("hey 2", this.listTop3);
     },
+
+    async membersOfProject(id) {
+      await axios
+        .get("/api/v1/projects/" + id + "/members?sort=-overallPoint")
+        .then((response) => {
+          console.log("allmember ", response.data.data);
+          this.currentMember = response.data.data;
+        });
+    },
+
     // compare( a, b ) {
     //   if ( a.overallPoint < b.overallPoint ){
     //     return -1;
@@ -123,7 +130,10 @@ export default {
     //   },
   },
   async created() {
-    this.setUpIndexPage();
+    this.currentProject = this.getCurrentProject;
+    await this.membersOfProject(this.$route.params.id);
+    await this.setUpIndexPage();
+    console.log("chac la kiem dc r", this.currentMember);
   },
 };
 </script>

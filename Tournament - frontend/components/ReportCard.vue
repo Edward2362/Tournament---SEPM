@@ -65,6 +65,30 @@ export default {
             })
         );
       }
+      //           console.log("route, ", this.$route.params.id, " report Id, ", this,report)
+      //           //get all task id this week has
+      //               this.thisWeekTasks = this.report.tasks
+      //               console.log("yeah yeah", response.data.data, " hey hey ", this.report)
+      //         console.log("This week task", this.thisWeekTasks , " hey, ", this.report)
+
+      //           //get all task belong to the report
+
+      //             //find a list of choosen task that this week has with task data
+      //             var choosenTask = this.allTasks.filter((task)=> this.thisWeekTasks.includes(task._id))
+      //         console.log("choosentask", choosenTask)
+      //         //if not null => get data to print out
+      //         if(choosenTask[0] != null){
+      //             for(let i = 0; i < choosenTask.length; i++){
+      //                 this.taskNames.push(choosenTask[i].taskName)
+      //                 var memberIncharge = choosenTask[i].memberIncharged
+      //                 this.percentage.push(choosenTask[i].percentage)
+      //                 console.log("MIC", memberIncharge)
+      //                 await axios.get("/api/v1/users/"+ memberIncharge).then(response=>{
+      //                     this.memberIncharge.push(response.data.data.username)
+      //                 })
+      //             }
+      //         }
+      //       }
       await Promise.all(promises);
     },
   },

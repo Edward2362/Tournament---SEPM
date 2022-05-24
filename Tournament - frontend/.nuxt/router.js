@@ -4,14 +4,14 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _5f198444 = () => interopDefault(import('..\\pages\\about.vue' /* webpackChunkName: "pages/about" */))
-const _4b351f51 = () => interopDefault(import('..\\pages\\authentication.vue' /* webpackChunkName: "pages/authentication" */))
-const _66a8ec98 = () => interopDefault(import('..\\pages\\test_popup.vue' /* webpackChunkName: "pages/test_popup" */))
-const _47d321cc = () => interopDefault(import('..\\pages\\workspace.vue' /* webpackChunkName: "pages/workspace" */))
-const _6069fe6b = () => interopDefault(import('..\\pages\\projects\\_id\\index.vue' /* webpackChunkName: "pages/projects/_id/index" */))
-const _46d6d773 = () => interopDefault(import('..\\pages\\projects\\_id\\office.vue' /* webpackChunkName: "pages/projects/_id/office" */))
-const _13e81c2a = () => interopDefault(import('..\\pages\\projects\\_id\\report.vue' /* webpackChunkName: "pages/projects/_id/report" */))
-const _55080eae = () => interopDefault(import('..\\pages\\projects\\_id\\setting.vue' /* webpackChunkName: "pages/projects/_id/setting" */))
+const _36921214 = () => interopDefault(import('..\\pages\\about.vue' /* webpackChunkName: "pages/about" */))
+const _49b71b81 = () => interopDefault(import('..\\pages\\authentication.vue' /* webpackChunkName: "pages/authentication" */))
+const _787080c8 = () => interopDefault(import('..\\pages\\test_popup.vue' /* webpackChunkName: "pages/test_popup" */))
+const _71b0479c = () => interopDefault(import('..\\pages\\workspace.vue' /* webpackChunkName: "pages/workspace" */))
+const _47aa169b = () => interopDefault(import('..\\pages\\projects\\_id\\index.vue' /* webpackChunkName: "pages/projects/_id/index" */))
+const _4799c543 = () => interopDefault(import('..\\pages\\projects\\_id\\office.vue' /* webpackChunkName: "pages/projects/_id/office" */))
+const _1262408a = () => interopDefault(import('..\\pages\\projects\\_id\\report.vue' /* webpackChunkName: "pages/projects/_id/report" */))
+const _25d2764e = () => interopDefault(import('..\\pages\\projects\\_id\\setting.vue' /* webpackChunkName: "pages/projects/_id/setting" */))
 
 const emptyFn = () => {}
 
@@ -26,35 +26,35 @@ export const routerOptions = {
 
   routes: [{
     path: "/about",
-    component: _5f198444,
+    component: _36921214,
     name: "about"
   }, {
     path: "/authentication",
-    component: _4b351f51,
+    component: _49b71b81,
     name: "authentication"
   }, {
     path: "/test_popup",
-    component: _66a8ec98,
+    component: _787080c8,
     name: "test_popup"
   }, {
     path: "/workspace",
-    component: _47d321cc,
+    component: _71b0479c,
     name: "workspace"
   }, {
     path: "/projects/:id",
-    component: _6069fe6b,
+    component: _47aa169b,
     name: "projects-id"
   }, {
     path: "/projects/:id?/office",
-    component: _46d6d773,
+    component: _4799c543,
     name: "projects-id-office"
   }, {
     path: "/projects/:id?/report",
-    component: _13e81c2a,
+    component: _1262408a,
     name: "projects-id-report"
   }, {
     path: "/projects/:id?/setting",
-    component: _55080eae,
+    component: _25d2764e,
     name: "projects-id-setting"
   }],
 

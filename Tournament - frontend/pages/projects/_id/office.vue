@@ -188,10 +188,6 @@ export default {
   async created() {
     this.currentProject = this.getCurrentProject;
     await this.getalltasks();
-    console.log("current P: ", this.currentProject);
-    console.log(this.getTrelloTaskId);
-    console.log(this.newtasks);
-    console.log(this.dividedByList);
   },
 };
 </script>
